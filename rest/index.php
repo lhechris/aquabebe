@@ -1,6 +1,8 @@
 <?php
 
 require 'slim/vendor/autoload.php';
+require 'api/creneaux.php';
+require 'api/auth.php';
 
 session_start();
 
@@ -27,6 +29,9 @@ $settings= [
 
 
 $app = new \Slim\App($settings);
+
+$creneaux = new RestCreneaux($app);
+
 
 // Define app routes
 $app->get('/hello', function () {
@@ -55,6 +60,7 @@ require 'slim/src/middleware.php';
 // Register routes
 require 'slim/src/routes.php';
 
+$auth=new RestAuth($app);
 
 // Run app
 $app->run();
