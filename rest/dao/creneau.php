@@ -44,7 +44,7 @@ class Creneau{
     public function setNaissanceMin($naissance_min) { $this->naissance_min=$naissance_min;}
 
     public function getNaissanceMax() { return $this->naissance_max;}
-    public function setNaissanceMax($naissanceMax) { $this->naissance_max=$naissance_max;}
+    public function setNaissanceMax($naissance_max) { $this->naissance_max=$naissance_max;}
 
     public function getNbMoisMini() { return $this->nb_mois_mini;}
     public function setnbMoisMini($nb_mois_mini) { $this->nb_mois_mini=$nb_mois_mini;}

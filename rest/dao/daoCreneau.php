@@ -37,12 +37,20 @@ class daoCreneau extends daoClass {
 
     public function getForNaissance($naissance)
     {
+        //check date format YYYY-MM-DD
+        $naissance=htmlentities($naissance);
+        list($y,$m,$d)=sscanf($naissance,"%d-%d-%d");
+        if (($y<2001) || ($m<1) || ($m>12) || ($d<1) || ($d>31)) { return array();}
+
+        $naissance="$y-$m-$d";
+
         try {
-            $stmt=$this->pdo->query("SELECT creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,count(*) ".
+            $stmt=$this->pdo->query("SELECT creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,count(*),creneau.naissance_min,creneau.naissance_max ".
                                     "FROM creneau,inscription ".
                                     "WHERE creneau.id=inscription.id_creneau ".
                                           "AND inscription.ID_enfant ".
                                           "AND creneau.saison='2017-2018' ".
+                                          "AND date(creneau.naissance_min)<=date('$naissance') AND date(creneau.naissance_max)>=date('$naissance') ".
                                     "GROUP BY (creneau.id) ORDER BY creneau.id");
             $liste=$stmt->fetchAll();
         }catch(PDOException  $e ){
@@ -59,6 +67,8 @@ class daoCreneau extends daoClass {
             $creneau->setAge($r[4]);
             $creneau->setCapacite($r[5]);
             $creneau->setNbInscrit($r[6]);
+            $creneau->setNaissanceMin($r[7]);
+            $creneau->setNaissanceMax($r[8]);
             array_push($creneaux,$creneau);
         }
         return $creneaux;

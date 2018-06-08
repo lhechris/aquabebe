@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse, AxiosStatic } from 'axios';
+import moment from 'moment'
 
 export class restapi {
     baseurl= 'http://localhost:85/rest';
@@ -7,7 +8,7 @@ export class restapi {
 
     getHome() {
       
-     return axios.get(this.baseurl+'/hello').then(response =>{        
+     return axios.get(this.baseurl+'/home').then(response =>{        
         return response.data;      
      })
     }
@@ -19,10 +20,16 @@ export class restapi {
     }   
 
     getCreneauxForNaissance(naissance){
-        return axios.get(this.baseurl+'/creneaux/naissance='+naissance).then(response =>{        
+        return axios.get(this.baseurl+'/creneaux/naissance='+moment(naissance).format('YYYY-MM-DD')).then(response =>{        
            return response.data;      
         })
     }   
+
+    postInscription(inscription) {
+        return axios.get(this.baseurl+'/inscription',inscription).then(response =>{        
+            return response.data;      
+         })
+     }
 
     postAdmin(){
         return axios.post(this.baseurl+'/token').then(response=>{

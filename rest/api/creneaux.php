@@ -50,7 +50,9 @@ class RestCreneaux {
                             "lieu"=>$creneau->getLieu(),
                             "description"=>$creneau->getAge(),
                             "inscrits"=>$creneau->getNbInscrit(),
-                            "capacite"=>$creneau->getCapacite()
+                            "capacite"=>$creneau->getCapacite(),
+                            "min" =>$creneau->getNaissanceMin(),
+                            "max" =>$creneau->getNaissanceMax(),
                         );
                     array_push($data,$t);
                 }

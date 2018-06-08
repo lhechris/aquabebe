@@ -24,7 +24,7 @@ export default {
       get: function (){
         var api = new restapi();
         var self=this;
-        api.getHome().then(response=>{self.msg=response; })
+        //api.getHome().then(response=>{self.msg=response; })
     }
   }
 

@@ -29,7 +29,6 @@ export default {
         var self=this;
         api.postAdmin().then(response=>{
           self.afficher=response;
-          api.getHello();
         })
     }
   }

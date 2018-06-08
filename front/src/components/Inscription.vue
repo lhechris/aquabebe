@@ -7,7 +7,9 @@
       <table>
       <tr><td>Nom de l'enfant</td><td><input name="nomenfant" type="text" v-model="nomenfant"></input></td></tr>
       <tr><td>Prénom de l'enfant</td><td><input name="prenomenfant" type="text" v-model="prenomenfant"></input></td></tr>
-      <tr><td>Date de naissance</td><td><input name="naissance" type="text" v-model="naissance"></input></td></tr>
+      <tr><td>Date de naissance</td><td>
+          <datepicker v-model="naissance" name="naissance"></datepicker>
+      </td></tr>
       <tr><td>Sexe</td><td align="left"><input type="radio" name="sexe" value="1" v-model="sexe"/>&nbsp;M&nbsp;<input type="radio" name="sexe" value="0" v-model="sexe"/>&nbsp;F</td></tr>
       <tr><td>Votre enfant présente t'il un handicap</td><td align="left"><input type="radio" name="handicap" value="0" />&nbsp;Oui&nbsp;<input type="radio" name="handicap" value="1" />&nbsp;Non</td></tr>
       </table>
@@ -57,11 +59,13 @@
 <script>
 import {restapi} from '../rest';
 import MainLayout from '../layout/Main.vue'
+import DatepickerComponent from 'vuejs-datepicker';
 
 export default {
   name: 'Inscription',
   components: {
-      MainLayout
+      MainLayout,
+      datepicker : DatepickerComponent
   },
   data () {
     return {
@@ -70,7 +74,7 @@ export default {
       nomenfant:"",
       prenomenfant:"",
       sexe:-1,
-      naissance:"",
+      naissance:"2015-02-02",
     }
   },
    methods:{
@@ -80,7 +84,7 @@ export default {
           if (this.etape==3) {
             var api = new restapi();
             var self=this;
-            api.getCreneauxForNaissance().then(response=>{
+            api.getCreneauxForNaissance(this.naissance).then(response=>{
               self.creneaux=response;
               var i;
               for (i in self.creneaux) {
