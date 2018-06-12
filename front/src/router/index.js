@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Creneaux from '@/components/Creneaux'
 import Admin from '@/components/Admin'
 import Inscription from '@/components/Inscription'
+import Tarifs from '@/components/Tarifs'
 
 Vue.use(Router)
 
@@ -19,6 +20,11 @@ export default new Router({
       path: '/Acces',
       name: 'Acces',
       component: Acces
+    },
+    {
+      path: '/tarifs',
+      name: 'Tarifs',
+      component: Tarifs
     },
     {
       path: '/Creneaux',

@@ -14,7 +14,7 @@
         <router-link class="nav-link" to="/acces">Accès</router-link>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Tarifs</a>
+        <router-link class="nav-link" to="/tarifs">Tarifs</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/creneaux">Créneaux</router-link>
