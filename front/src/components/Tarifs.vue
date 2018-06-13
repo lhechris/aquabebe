@@ -67,14 +67,14 @@
     </tbody></table>
     </div>
   </div>
-  <div class="row">
+  <div>
     <h2>Encaissement des chèques</h2>
     <p>Les chèques seront encaissés après la première séance validée et avec le calendrier suivant :</p>
-        <ul>- adhésion 20€ au 15 octobre<br>
-            - 1er chèque au 15 octobre<br>
-            - 2ème chèque au 15 novembre<br>
-            - 3ème chèque au 15 décembre<br>
-        </ul>
+    <ul><li>adhésion 20€ au 15 octobre</li>
+        <li>1er chèque au 15 octobre</li>
+        <li>2ème chèque au 15 novembre</li>
+        <li>3ème chèque au 15 décembre</li>
+    </ul>
   </div>
 </div>
 </template>
@@ -92,6 +92,9 @@ export default {
 </script>
 
 <style scoped>
+div{
+  text-align:left;
+}
 table {
   /*background : linear-gradient( to right,rgba(255,128,128,0.8), rgba(255,128,128,0.3));*/
   /*border-radius : 10px;*/

@@ -6,6 +6,7 @@ import Creneaux from '@/components/Creneaux'
 import Admin from '@/components/Admin'
 import Inscription from '@/components/Inscription'
 import Tarifs from '@/components/Tarifs'
+import Faq from '@/components/Faq'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/Creneaux',
       name: 'Creneaux',
       component: Creneaux
+    },
+    {
+      path: '/Faq',
+      name: 'Faq',
+      component: Faq
     },
     {
       path: '/admin',

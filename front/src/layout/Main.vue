@@ -20,7 +20,7 @@
         <router-link class="nav-link" to="/creneaux">Créneaux</router-link>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Faq</a>
+        <router-link class="nav-link" to="/Faq">FAQ</router-link>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
