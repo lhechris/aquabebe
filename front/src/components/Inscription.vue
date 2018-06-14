@@ -68,8 +68,20 @@
         <div class="col-md-2"><input name="prenomenfant" type="text" v-model="prenomenfant"></input></div>
         <div class="col-md-4 avertissement" v-if="prenomenfant==''">Veuillez inscrire un prénom</div>
       </div><div class="row forminscription">
+        <div class="col-md-4" >Adresse</div>
+        <div class="col-md-3"><textarea name="adresse" v-model="adresse"/></div>
+        <div class="col-md-3 avertissement" v-if="adresse==''">Veuillez inscrire une adresse</div>
+      </div><div class="row forminscription">
+        <div class="col-md-4" >Code Postal</div>
+        <div class="col-md-2"><input name="codepostal" type="text" v-model="codepostal" /></div>
+        <div class="col-md-4 avertissement" v-if="codepostal==''">Veuillez inscrire Le code postal</div>
+      </div><div class="row forminscription">
+        <div class="col-md-4" >Ville</div>
+        <div class="col-md-2"><input name="ville" type="text" v-model="ville" /></div>
+        <div class="col-md-4 avertissement" v-if="ville==''">Veuillez inscrire La ville</div>
+      </div><div class="row forminscription">
         <div class="col-md-4" >Date de naissance</div>
-        <div class="col-md-2"><datepicker v-model="naissance" name="naissance"></datepicker></div>
+        <div class="col-md-2"><datepicker v-model="naissance" name="naissance" format="DD/MM/YYYY"></datepicker></div>
         <div class="col-md-4 avertissement" v-if="naissance==''">Veuillez sélectionner une date</div>
       </div><div class="row forminscription">
         <div class="col-md-4" >Sexe</div>
@@ -118,10 +130,52 @@
         <div class="col-md-4">{{creneau.name}} - {{creneau.lieu}}</div>
         <div class="col-md-4">({{creneau.inscrits}} inscrits sur {{creneau.capacite}})</div>
       </div>
-      </table>
-    </div>
+      <div class="row">
+        <p class="col-md-4">Pour valider l'inscription, le paiement intégral doit être parvenu à l'association dans les 7 jours suivant la validation de ce formulaire. Vous pouvez payer en deux ou plusieurs chèques.</p>
+        <span class="col-md-4">Lu et accepté :&nbsp;*</span>
+        <span class="col-md-4"><input name="lu1" value="true" type="checkbox" /></span>
+      </div>
+      <div class="row">
+          <p class="col-md-4">L'adhésion annuelle à l'association (20€) est à régler spécifiquement et uniquement pour le 1er enfant. La cotisation, elle, est calculée en fonction de la date d'inscription et du nombre d'enfants inscrits. Le montant à payer est indiqué dans la page Tarifs.</p>
+          <p class="col-md-4">Lu :</p>
+          <span class="col-md-4"><input name="lu2" value="true" type="checkbox"></span>
+      </div>
+      <div class="row">
+          <div class="col-md-4">L'accès à la piscine n'est possible qu'après présentation du carnet de vaccination
+                                    à jour, remise du règlement intérieur signé et remise d'un certificat 
+                                    médical de moins de 3 mois attestant qu'il n'y a pas de contre-indication à la pratique de l'activité 
+                                    pour l'enfant.</div>
+          <div class="col-md-4">Lu et accepté :&nbsp;*</div>
+          <div class="col-md-4"><input name="certificat_validite" value="true" type="checkbox" /></div>
+      </div>
+    </div>-
     <div v-if="etape==4">
-      <h2>etape 4:  Autorisations</h2>      
+      <h2>etape 4:  Autorisations</h2> 
+      <div class="row">&nbsp;* Ces informations sont indispensables pour traiter votre demande.</div>
+      <h2 class="row">Demande d'autorisation de diffusion d'image</h2>
+      <div class="row">
+        <div class="col-md-4">Je déclare avoir eu connaissance que toute personne présente lors de l'activité de 
+                                                      l'association Aqua-Bébé ci-dessus identifiée à laquelle nous adhérons puisse être 
+                                                      photographiée. &nbsp;*</div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-1"><input name="image_diffusion" value="1" type="radio"></div>
+            <div class="col-md-8">Je reconnais et accepte que les images puissent être utilisées pour support pouvant assurer 
+                                  la promotion de l'association Aqua-bébé et plus particulièrement sur les plaquettes et le site 
+                                  web de l'association (http://www.aquabebe.fr)</div>
+          </div>
+          <div class="row">
+            <div class="col-md-1"><input name="image_diffusion" value="2" type="radio"></div>
+            <div class="col-md-8">Je refuse que les images puissent être utilisées pour support pouvant assurer la promotion 
+                                  de l'association Aqua-Bébé et le cas échéant, elles seront rendues floues afin que l'identification 
+                                  soit impossible.</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cold-md-4">Fait sur internet, le {{date}} Signature (Prénom Nom)&nbsp;*</div>
+				<div class="cold-md-4"><input size="53" maxlength="150" name="image_signature" value="" type="text"></div>
+      </div>
     </div>
     <div v-if="etape==5">
       <h2>etape 5:  Réglement Intérieur</h2>      
@@ -140,6 +194,8 @@
 import {restapi} from '../rest';
 import MainLayout from '../layout/Main.vue'
 import DatepickerComponent from 'vuejs-datepicker';
+import moment from 'moment';
+import 'moment/locale/fr';
 
 export default {
   name: 'Inscription',
@@ -153,6 +209,9 @@ export default {
       creneaux:{},
       nomenfant:"",
       prenomenfant:"",
+      adresse:"",
+      codepostal:"",
+      ville:"",
       sexe:-1,
       naissance:"",
       handicap:0,
@@ -161,7 +220,8 @@ export default {
       telparent1:"",
       nomparent2:"",
       prenomparent2:"",
-      telparent2:"",
+      telparent2:"",      
+      date:this.getNow(),
     }
   },
    methods:{
@@ -201,7 +261,14 @@ export default {
           if ((this.nomparent1=="") || (this.prenomparent1=="") || (this.telparent1=="") ){ return false;}
         }
         return true;
+      },
+
+      getNow: function() {
+        moment.locale('fr');
+        console.log(moment.locale()); // en
+        return moment().format('DD MMMM YYYY');
       }
+
     }
 
 }
