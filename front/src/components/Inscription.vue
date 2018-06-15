@@ -68,6 +68,10 @@
         <div class="col-md-2"><input name="prenomenfant" type="text" v-model="prenomenfant"></input></div>
         <div class="col-md-4 avertissement" v-if="prenomenfant==''">Veuillez inscrire un prénom</div>
       </div><div class="row forminscription">
+        <div class="col-md-4" >Date de naissance</div>
+        <div class="col-md-2"><datepicker v-model="naissance" name="naissance" format="dd/MM/yyyy"></datepicker></div>
+        <div class="col-md-4 avertissement" v-if="naissance==''">Veuillez sélectionner une date</div>
+      </div><div class="row forminscription">
         <div class="col-md-4" >Adresse</div>
         <div class="col-md-3"><textarea name="adresse" v-model="adresse"/></div>
         <div class="col-md-3 avertissement" v-if="adresse==''">Veuillez inscrire une adresse</div>
@@ -80,9 +84,9 @@
         <div class="col-md-2"><input name="ville" type="text" v-model="ville" /></div>
         <div class="col-md-4 avertissement" v-if="ville==''">Veuillez inscrire La ville</div>
       </div><div class="row forminscription">
-        <div class="col-md-4" >Date de naissance</div>
-        <div class="col-md-2"><datepicker v-model="naissance" name="naissance" format="DD/MM/YYYY"></datepicker></div>
-        <div class="col-md-4 avertissement" v-if="naissance==''">Veuillez sélectionner une date</div>
+        <div class="col-md-4" >Email</div>
+        <div class="col-md-2"><input name="email" type="text" v-model="email" /></div>
+        <div class="col-md-4 avertissement" v-if="email==''">Veuillez inscrire un email</div>
       </div><div class="row forminscription">
         <div class="col-md-4" >Sexe</div>
         <div class="col-md-2" align="left"><input type="radio" name="sexe" value="1" v-model="sexe"/>&nbsp;M&nbsp;<input type="radio" name="sexe" value="0" v-model="sexe"/>&nbsp;F</div>
@@ -120,7 +124,7 @@
 
     </div>
     <div v-if="etape==3">
-      <h2>etape 3:  créneaux {{Object.keys(creneaux).length}}</h2>  
+      <h2>etape 3:  Choix des créneaux </h2>  
       <p>Voici les créneaux auxquels vous pouvez inscrire votre enfant. Indiquez votre créneau préféré (1) puis, à défaut, les autres créneaux (2,3...).</p>
       <p>Si aucune autre demande n'a été validée avant que vous n'ayez terminé votre inscription et si votre créneau préféré a des places libres, alors une place sur ce créneau vous est réservée pendant 7 jours.</p>
       <p>Vous avez donc 7 jours au maximum pour nous faire parvenir votre règlement et confirmer votre inscription.</p>
@@ -130,25 +134,22 @@
         <div class="col-md-4">{{creneau.name}} - {{creneau.lieu}}</div>
         <div class="col-md-4">({{creneau.inscrits}} inscrits sur {{creneau.capacite}})</div>
       </div>
-      <div class="row">
-        <p class="col-md-4">Pour valider l'inscription, le paiement intégral doit être parvenu à l'association dans les 7 jours suivant la validation de ce formulaire. Vous pouvez payer en deux ou plusieurs chèques.</p>
-        <span class="col-md-4">Lu et accepté :&nbsp;*</span>
-        <span class="col-md-4"><input name="lu1" value="true" type="checkbox" /></span>
+      <div class="row forminscription">
+        <div class="col-md-8">Pour valider l'inscription, le paiement intégral doit être parvenu à l'association dans les 7 jours suivant la validation de ce formulaire. Vous pouvez payer en deux ou plusieurs chèques.</div>
+        <div class="cold-md-4"><span>Lu et accepté :&nbsp;*&nbsp;</span><span><input name="lu1" value="true" type="checkbox" /></span></div>
       </div>
-      <div class="row">
-          <p class="col-md-4">L'adhésion annuelle à l'association (20€) est à régler spécifiquement et uniquement pour le 1er enfant. La cotisation, elle, est calculée en fonction de la date d'inscription et du nombre d'enfants inscrits. Le montant à payer est indiqué dans la page Tarifs.</p>
-          <p class="col-md-4">Lu :</p>
-          <span class="col-md-4"><input name="lu2" value="true" type="checkbox"></span>
+      <div class="row forminscription">
+        <div class="col-md-8">L'adhésion annuelle à l'association (20€) est à régler spécifiquement et uniquement pour le 1er enfant. La cotisation, elle, est calculée en fonction de la date d'inscription et du nombre d'enfants inscrits. Le montant à payer est indiqué dans la page Tarifs.</div>
+        <div class="col-md-4">Lu : &nbsp;<input name="lu2" value="true" type="checkbox" /></div>
       </div>
-      <div class="row">
-          <div class="col-md-4">L'accès à la piscine n'est possible qu'après présentation du carnet de vaccination
+      <div class="row forminscription">
+          <div class="col-md-8">L'accès à la piscine n'est possible qu'après présentation du carnet de vaccination
                                     à jour, remise du règlement intérieur signé et remise d'un certificat 
                                     médical de moins de 3 mois attestant qu'il n'y a pas de contre-indication à la pratique de l'activité 
                                     pour l'enfant.</div>
-          <div class="col-md-4">Lu et accepté :&nbsp;*</div>
-          <div class="col-md-4"><input name="certificat_validite" value="true" type="checkbox" /></div>
+          <div class="cold-md-4"><span>Lu et accepté :&nbsp;*&nbsp;</span><span><input name="lu3" value="true" type="checkbox" /></span></div>
       </div>
-    </div>-
+    </div>
     <div v-if="etape==4">
       <h2>etape 4:  Autorisations</h2> 
       <div class="row">&nbsp;* Ces informations sont indispensables pour traiter votre demande.</div>
@@ -158,35 +159,86 @@
                                                       l'association Aqua-Bébé ci-dessus identifiée à laquelle nous adhérons puisse être 
                                                       photographiée. &nbsp;*</div>
         <div class="col-md-8">
-          <div class="row">
+          <div class="row forminscription">
             <div class="col-md-1"><input name="image_diffusion" value="1" type="radio"></div>
-            <div class="col-md-8">Je reconnais et accepte que les images puissent être utilisées pour support pouvant assurer 
+            <div class="col-md-11">Je reconnais et accepte que les images puissent être utilisées pour support pouvant assurer 
                                   la promotion de l'association Aqua-bébé et plus particulièrement sur les plaquettes et le site 
                                   web de l'association (http://www.aquabebe.fr)</div>
           </div>
-          <div class="row">
+          <div class="row forminscription">
             <div class="col-md-1"><input name="image_diffusion" value="2" type="radio"></div>
-            <div class="col-md-8">Je refuse que les images puissent être utilisées pour support pouvant assurer la promotion 
+            <div class="col-md-11">Je refuse que les images puissent être utilisées pour support pouvant assurer la promotion 
                                   de l'association Aqua-Bébé et le cas échéant, elles seront rendues floues afin que l'identification 
                                   soit impossible.</div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="cold-md-4">Fait sur internet, le {{date}} Signature (Prénom Nom)&nbsp;*</div>
-				<div class="cold-md-4"><input size="53" maxlength="150" name="image_signature" value="" type="text"></div>
-      </div>
     </div>
     <div v-if="etape==5">
-      <h2>etape 5:  Réglement Intérieur</h2>      
+      <h2>etape 5:  Réglement Intérieur</h2>
+      <div class="row">
+        <div class="col-md-12">&nbsp;*Ces informations sont indispensables pour traiter votre demande.</div>
+      </div><div>
+          <h2>Règlement intérieur</h2><h2>Aqua-Bébé</h2><h2>Saison 2017-2018</h2>
+          <h3>Adhésion - Cotisation</h3>
+          <p>L'adhésion à l'association est obligatoire. La somme de 20€ non remboursable aprés validation de la séance d'essai, doit être acquittée par famille pour accéder 
+									aux activités de l'Association.<br>La cotisation, dont le montant est voté en assemblée générale, permet à l'enfant et à son accompagnateur 
+									déclaré d'accéder aux activités. Celle-ci est valable du 13 septembre 2017 au 23 juin 2018 et sera recalculée 
+									au nombre de mois d'activité restants pour les inscriptions en cours d'année.<br>Une réduction est accordée aux fratries.</p><br><h3>Activité</h3><p>L'activité des bébés nageurs est encadrée par un maitre-nageur diplômé. Elle est dispensée à la piscine du <u>Centre René Bouscairol</u> à Villeneuve Tolosane et <u>au Centre Rosine BET</u> à Saint Lys.<br><br><b>La remise d'un certificat médical de moins de 3&nbsp;mois attestant qu'il n'y a pas de contre-indication 
+										à la pratique de la baignade pour l'enfant ainsi que le justificatif précisant que l'enfant est 
+										à jour de ses vaccins <u>sont obligatoires dès le premier bain.</u></b><br><br>L'enfant et son accompagnateur déclaré s'engagent à respecter le Règlement Intérieur 
+                                 de la piscine du centre dont notamment :<br>- le port par l'enfant d'une couche (s'il n'est pas totalement propre) ou d'un maillot étanche spécial piscine; <br>- le port d'un maillot de bain par l'accompagnant (éviter le short de bain pour les Messieurs);<br>- le passage sous la douche avant la baignade;<br>- n'abandonner ni couches, ni cotons, ni lingettes ou tout autre chose usagée dans les 
+                                  locaux mais utiliser les poubelles mises à disposition;<br>- se déchausser avant l'accès aux vestiaires.<br><br>L'enfant et son accompagnateur déclaré <u>s'engagent à prendre part</u> à la vie de l'association (participation à l'accueil, passage de la raclette, rangement des cabines, 
+									rangement des jeux à disposition des enfants...).</p><br><h3>Horaires</h3><p>Le jour et l'horaire de l'activité sont attribués pour l'année lors de l'inscription. L'enfant et son accompagnateur 
+                                  s'engagent à respecter le créneau attitré. Un planning des séances sur la saison est établi et affiché. L'association s'engage sur 30 séances par créneau pour une année complète.<br><br>L'enfant et son accompagnateur déclaré  <u>s'engagent à prévenir</u> le maître-nageur sauveteur (MNS) de leur absence via l'e-mail spécifique  à son maitre-nageur fourni en bas du planning.</p><h3>Communication</h3><p>L'association Aqua bébé communique par mail sauf en cas d'urgence par SMS. Elle décline toute responsabilité en cas de non réception des messages.</p><h3>Arrêt d'activité</h3><p>Un remboursement de la cotisation pourra être considéré en cas d'arrêt d'activité 
+                                sur présentation d'un justificatif (problème de santé de l'enfant, changement de situation 
+                                familiale, mutation...). Les demandes seront étudiées par le Conseil d'Administration qui 
+                                s'engage à les traiter confidentiellement.</p>
+      </div><div class="row forminscription">
+          <div class="col-md-6">J'ai lu et j'accepte d'appliquer le règlement intérieur.&nbsp;*</div>
+          <div class="col-md-2"><input name="reglement" value="true" type="checkbox" /></div>
+      </div>
     </div>
     <div v-if="etape==6">
-      <h2>etape 6:  Paiement</h2>      
+      <h2>etape 6:  Paiement</h2>
+      <p>* Ces informations sont indispensables pour traiter votre demande.</p>
+      <p>Choisissez votre moyen de paiement puis validez ce formulaire.
+         A la validation, votre inscription sera en attente de paiement. Vous serez informés par mél
+         de la réception de votre paiement, puis de l'attribution de votre créneau.</p>
+      <div class="row">
+        <div class="col-md-2">Choix du paiement :&nbsp;*</div>
+        <div class="col-md-10">
+            <input name="paiement_moyen" value="1" type="radio"></input>
+            <span><strong>Je choisis de payer par chèque.</strong><br>
+										Après avoir validé ce formulaire, le paiement intégral (participation + adhésion) devra parvenir 
+										à l'association dans les 7 jours pour confirmer l'inscription de lulu. 
+										<br><br>
+										Le montant annuel du paiement  
+                                        (cotisation + adhésion) est 200€(180€ + 20€) pour un enfant et 360€ (340€ + 20€) pour 2 enfants.
+                                        <p class="avertissement">Le montant de l'adhésion de 20€ est à acquitter via un chèque à part.</p>
+										<br><br>
+										Si vous faites une inscription en cours d'année, 
+										merci de consulter la page Tarifs pour connaître le montant de l'inscription. 
+										<br>Si besoin, vous pouvez contacter AquaBébé (<a href="mailto:contact@aquabebe.fr">contact@aquabebe.fr</a>) pour confirmer le montant de votre cotisation. <br><br>
+										Les chèques sont à établir à l'ordre de AQUA-BEBE et à envoyer à 
+										<address>AQUA-BEBE<br>chez Florence Michel-Jerolon<br>1 rue Berlioz<br>31880 La Salvetat-Saint-Gilles</address><br><strong>Important : </strong>
+										Un des chèques doit être de 20€, montant correspondant à l'adhésion annuelle à l'association.   
+										Le détail des chèques à envoyer se trouve sur la page Tarifs.
+										<br><br>
+            </span>
+        </div>
+      </div>
     </div>
+    <div v-if="etape==7">
+      <h2>Confirmation</h2>
+      <p>Votre demande a été prise en compte vous recevrez d'ici quelques minute un email de confirmation.</p>    
+    </div>
+
   </form>
 </p>
-  <button v-if="etape>1" class="btn-info" v-on:click="precedentclick">Précédent</button>
-  <button v-if="etape>0" class="btn-info" v-on:click="suivantclick">Suivant</button>
+  <button v-if="etape>1 && etape<7" class="btn-info" v-on:click="precedentclick">Précédent</button>
+  <button v-if="etape>0 && etape<6" class="btn-info" v-on:click="suivantclick">Suivant</button>
+  <button v-if="etape==6" class="btn-info" v-on:click="validerclick">Valider</button>
 </div>
 </template>
 
@@ -194,8 +246,10 @@
 import {restapi} from '../rest';
 import MainLayout from '../layout/Main.vue'
 import DatepickerComponent from 'vuejs-datepicker';
+import {fr} from 'vuejs-datepicker/dist/locale'
 import moment from 'moment';
 import 'moment/locale/fr';
+
 
 export default {
   name: 'Inscription',
@@ -212,6 +266,7 @@ export default {
       adresse:"",
       codepostal:"",
       ville:"",
+      email:"",
       sexe:-1,
       naissance:"",
       handicap:0,
@@ -223,6 +278,9 @@ export default {
       telparent2:"",      
       date:this.getNow(),
     }
+  },
+  created: function() {
+      moment.locale('fr');
   },
    methods:{
       suivantclick: function(event) {
@@ -250,6 +308,13 @@ export default {
             }
         }
       },
+      validerclick: function(event) {
+        if (this.etape==6) {
+            if (this.check()) {
+              this.etape=7;
+            }
+        }
+      },
 
       check: function() {
         if (this.etape<1) { return true;}
@@ -265,7 +330,6 @@ export default {
 
       getNow: function() {
         moment.locale('fr');
-        console.log(moment.locale()); // en
         return moment().format('DD MMMM YYYY');
       }
 
