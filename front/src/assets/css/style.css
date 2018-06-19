@@ -1,0 +1,11 @@
+
+.avertissement{
+    font-weight: bold;
+    color: #9F000F;
+  }
+
+  .obligatoire{
+    color: #9F000F;
+    font-style: italic;
+    padding-left : 2em;
+  }

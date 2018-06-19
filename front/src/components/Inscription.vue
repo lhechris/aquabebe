@@ -1,5 +1,5 @@
 <template>
-<div class="container main" >
+<div class="container" >
 <p class="row">
   <form>
     <div v-if="etape==-1">
@@ -58,68 +58,85 @@
                 que l'association Aqua-Bébé utilise de manière privilégiée.</strong></p>    
     </div>    
     <div v-if="etape==1">      
-      <h2 >etape 1 : Enfant</h2>      
-      <div class="row forminscription">
-        <div class="col-md-4" >Nom de l'enfant</div>
-        <div class="col-md-2"><input name="nomenfant" type="text" v-model="nomenfant"></input></div>
-        <div class="col-md-4 avertissement" v-if="nomenfant==''">Veuillez inscrire un nom</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Prénom de l'enfant</div>
-        <div class="col-md-2"><input name="prenomenfant" type="text" v-model="prenomenfant"></input></div>
-        <div class="col-md-4 avertissement" v-if="prenomenfant==''">Veuillez inscrire un prénom</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Date de naissance</div>
-        <div class="col-md-2"><datepicker v-model="naissance" name="naissance" format="dd/MM/yyyy"></datepicker></div>
-        <div class="col-md-4 avertissement" v-if="naissance==''">Veuillez sélectionner une date</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Adresse</div>
-        <div class="col-md-3"><textarea name="adresse" v-model="adresse"/></div>
-        <div class="col-md-3 avertissement" v-if="adresse==''">Veuillez inscrire une adresse</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Code Postal</div>
-        <div class="col-md-2"><input name="codepostal" type="text" v-model="codepostal" /></div>
-        <div class="col-md-4 avertissement" v-if="codepostal==''">Veuillez inscrire Le code postal</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Ville</div>
-        <div class="col-md-2"><input name="ville" type="text" v-model="ville" /></div>
-        <div class="col-md-4 avertissement" v-if="ville==''">Veuillez inscrire La ville</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Email</div>
-        <div class="col-md-2"><input name="email" type="text" v-model="email" /></div>
-        <div class="col-md-4 avertissement" v-if="email==''">Veuillez inscrire un email</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Sexe</div>
-        <div class="col-md-2" align="left"><input type="radio" name="sexe" value="1" v-model="sexe"/>&nbsp;M&nbsp;<input type="radio" name="sexe" value="0" v-model="sexe"/>&nbsp;F</div>
-        <div class="col-md-4 avertissement" v-if="sexe==-1">Veuillez sélectionner le sexe de l'enfant</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Votre enfant présente t'il un handicap</div>
-        <div class="col-md-2" align="left"><input type="radio" name="handicap" value="1" v-model="handicap"/>&nbsp;Oui&nbsp;<input type="radio" name="handicap" value="0" v-model="handicap"/>&nbsp;Non</div>
-        <div class="col-md-4 avertissement" v-if="handicap==-1">Veuillez sélectionner une réponse</div>
+      <h2 >etape 1 : Enfant</h2>
+      <div class="row">      
+        <div class="form-group forminscription col-md-4">
+          <label for="nomenfant">Nom de l'enfant :</label>
+          <span class="obligatoire" v-if="nomenfant==''">Champ obligatoire</span>
+          <input name="nomenfant" type="text" class="form-control" v-model="nomenfant" ></input>
+        </div>
+        <div class="form-group forminscription col-md-4">
+          <label for="prenomenfant" >Prénom de l'enfant :</label>
+          <span class="obligatoire" v-if="prenomenfant==''">Champ obligatoire</span>
+          <input name="prenomenfant" type="text" class="form-control" v-model="prenomenfant"></input>
+        </div>
+        <div class="form-group forminscription col-md-2" >
+          <label for="naissance" >Date de naissance</label>
+          <span class="obligatoire" v-if="naissance==''">*</span>
+          <input type="date" class="form-control" v-model="naissance" >
+        </div>
       </div>
+      <div class="row">
+        <div class="form-group forminscription col-md-4">
+          <label for="adresse" >Adresse</label>
+          <span class="obligatoire" v-if="adresse==''">Champ obligatoire</span>
+          <textarea name="adresse" class="form-control" v-model="adresse"/>
+        </div>
+        <div class="form-group forminscription col-md-3">
+          <label for="codepostal" >Code Postal</label>
+          <span class="obligatoire" v-if="codepostal==''">Champ obligatoire</span>
+          <input name="codepostal" type="text" class="form-control" v-model="codepostal" />
+        </div>
+        <div class="form-group forminscription col-md-3">
+          <label for="ville" >Ville</label>
+          <span class="obligatoire" v-if="ville==''">Champ obligatoire</span>
+          <input name="ville" type="text" class="form-control" v-model="ville" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group forminscription">
+          <label for="email" >Email</label>
+          <span class="obligatoire" v-if="email==''">Champ obligatoire</span>
+          <input name="email" type="email" class="form-control" v-model="email" id="email"/>        
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group forminscription">
+          <label for="sexe" >Sexe</label>
+          <span class="obligatoire" v-if="sexe==-1">Champ obligatoire</span>
+          <div><input type="radio" name="sexe" value="1" v-model="sexe"/>&nbsp;M&nbsp;<input type="radio" name="sexe" value="0" v-model="sexe"/>&nbsp;F</div>
+        </div>
+        <div class="form-group forminscription">
+          <label for="handicap" >Votre enfant présente t'il un handicap</label>
+          <span class="obligatoire" v-if="handicap==-1">Champ obligatoire</span>
+          <div><input type="radio" name="handicap" value="1" v-model="handicap"/>&nbsp;Oui&nbsp;<input type="radio" name="handicap" value="0" v-model="handicap"/>&nbsp;Non</div>
+        </div>
+      </div>
+
     </div>
     <div v-if="etape==2">
       <h2>etape 2 : Parents </h2>
-      <div class="row forminscription">
-        <div class="col-md-4" >Nom du parent 1</div>
-        <div class="col-md-2"><input type="text" name="nomparent1" v-model="nomparent1" ></input></div>
-        <div class="col-md-4 avertissement" v-if="nomparent1==''">Veuillez inscrire un nom</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Prénom parent 1</div>
-        <div class="col-md-2"><input type="text"  name="prenomparent1" v-model="prenomparent1"></input></div>
-        <div class="col-md-4 avertissement" v-if="prenomparent1==''">Veuillez inscrire un prénom</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Téléphone 1</div>
-        <div class="col-md-2"><input type="text"  name="telparent1" v-model="telparent1"></input></div>
-        <div class="col-md-4 avertissement" v-if="telparent1==''">Veuillez inscrire un numéro de téléphone</div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Nom du parent 2</div>
-        <div class="col-md-2"><input type="text"  name="nomparent2" v-model="nomparent2"></input></div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Prénom parent 2</div>
-        <div class="col-md-2"><input type="text"  name="prenomparent2" v-model="prenomparent2"></input></div>
-      </div><div class="row forminscription">
-        <div class="col-md-4" >Téléphone 2</div>
-        <div class="col-md-2"><input type="text"  name="telparent2" v-model="telparent2"></input></div>
+      <div class="form-group ">
+        <label for="nomparent1" >Nom du parent 1</label>
+        <span class="obligatoire" v-if="nomparent1==''">Champ obligatoire</span>
+        <div><input type="text" class="form-control" name="nomparent1" v-model="nomparent1" ></input></div>
+      </div><div class="form-group">
+        <label for="prenomparent1" >Prénom parent 1</label>
+        <span class="obligatoire" v-if="prenomparent1==''">Champ obligatoire</span>
+        <div><input type="text"  class="form-control" name="prenomparent1" v-model="prenomparent1"></input></div>
+      </div><div class="form-group">
+        <label for="telparent1" >Téléphone 1</label>
+        <span class="obligatoire" v-if="telparent1==''">Champ obligatoire</span>
+        <div ><input type="text"  class="form-control" name="telparent1" v-model="telparent1"></input></div>
+      </div><div class="form-group">
+        <label for="nomparent2" >Nom du parent 2</label>
+        <div><input type="text"  class="form-control" name="nomparent2" v-model="nomparent2"></input></div>
+      </div><div class="form-group">
+        <label for="prenomparent2" >Prénom parent 2</label>
+        <div><input type="text"  class="form-control" name="prenomparent2" v-model="prenomparent2"></input></div>
+      </div><div class="form-group">
+        <label for="telparent2" >Téléphone 2</label>
+        <div><input type="text"  class="form-control" name="telparent2" v-model="telparent2"></input></div>
       </div>
 
     </div>
@@ -245,21 +262,17 @@
 <script>
 import {restapi} from '../rest';
 import MainLayout from '../layout/Main.vue'
-import DatepickerComponent from 'vuejs-datepicker';
-import {fr} from 'vuejs-datepicker/dist/locale'
 import moment from 'moment';
 import 'moment/locale/fr';
-
 
 export default {
   name: 'Inscription',
   components: {
       MainLayout,
-      datepicker : DatepickerComponent
   },
   data () {
     return {
-      etape:-1,
+      etape:1,
       creneaux:{},
       nomenfant:"",
       prenomenfant:"",
@@ -320,7 +333,7 @@ export default {
         if (this.etape<1) { return true;}
 
         if (this.etape==1) {
-          if ((this.nomenfant=="") || (this.prenomenfant=="") || (this.naissance=="") || (this.sexe==-1)){ return false;}
+          if ((this.nomenfant=="") || (this.prenomenfant=="") || (this.naissance=="") || (this.sexe==-1) || (this.email=="")){ return false;}
 
         } else if (this.etape==2) {
           if ((this.nomparent1=="") || (this.prenomparent1=="") || (this.telparent1=="") ){ return false;}
@@ -346,19 +359,13 @@ export default {
   padding : 5px;
 
 }
+
 .border {
     border-color: #182a84;
     border-style: solid;
     border-width: 1px;
     margin-top: 30px;
     background-color: white;
-}
-.main {
-  text-align:left;
-}
-.avertissement {
-  color:red;
-  font-style:italic;
 }
 
 </style>

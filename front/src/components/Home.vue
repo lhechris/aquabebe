@@ -1,7 +1,7 @@
 <template>
 <!--<div v-html="msg"></div>-->
 <div class="container">
-  <div class="row">
+  <div class="row">    
     <h1>Activité pour les enfants de 3 mois à 3 ans à Villeneuve-Tolosane et jusqu'à 5 ans à Saint-Lys.</h1>
     <p>&nbsp;</p>
       <p class="avertissement">Suite à des travaux plus importants que prévus sur le bassin de Villeneuve-Tolosane, nous sommes obligés d'arrêter la saison sur Villeneuve. Des créneaux de remplacement vont être mis en place sur Saint Lys</p>
@@ -83,10 +83,7 @@ li {
 a {
   color: #42b983;
 }
-.avertissement{
-  font-weight: bold;
-  color: #9F000F;
-}
+
 .container{
   text-align:left;
 }

@@ -1,5 +1,5 @@
 <template>
-<div class="container main">
+<div class="container">
 <h2>QUESTIONS / REPONSES</h2>
 <p><strong>Quel est le montant des inscriptions ?</strong></p><p>Le montant des inscriptions peut se consulter : <router-link to="/tarifs">ici</router-link><br/>Pensez &agrave; noter le pr&eacute;nom et le nom de vos enfants au dos des ch&egrave;ques. 
                                       Le montant de l'adh&eacute;sion (20&euro;) est &agrave; acquitter via un ch&egrave;que &agrave; part.</p><br/>
@@ -38,8 +38,3 @@ export default {
 
 }
 </script>
-<style scoped>
-.main {
-    text-align:left;
-}
-</style>

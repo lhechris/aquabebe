@@ -15,8 +15,8 @@
     <h2>Calculer le montant de votre cotisation</h2>
 
     <div>
-    <table class="table-responsive">
-    <tbody><tr align="center">
+    <table class="table table-responsive  table-striped">
+    <tbody><tr>
       <th>Vous inscrivez votre enfant</th>
       <th>1 enfant</th>
       <th>2 enfants</th>
@@ -95,9 +95,7 @@ export default {
 div{
   text-align:left;
 }
-table {
-  /*background : linear-gradient( to right,rgba(255,128,128,0.8), rgba(255,128,128,0.3));*/
-  /*border-radius : 10px;*/
+/*table {
   margin:5px;
   padding : 5px;
 
@@ -106,5 +104,5 @@ td {
     border: 2px solid #182a84 ;
     border-radius:10px;
     margin-top: 30px;    
-} 
+} */
 </style>

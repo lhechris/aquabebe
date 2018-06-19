@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <main-layout></main-layout>    
-    <router-view/>    
-    <main-footer></main-footer>
+    <router-view/>
+    <main-footer></main-footer>    
   </div>
 </template>
 
@@ -19,11 +19,12 @@ export default {
 <style>
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
   margin-top: 60px;
+  font-size:16px;
 }
 </style>
