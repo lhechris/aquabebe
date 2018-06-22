@@ -8,7 +8,14 @@ class daoCreneau extends daoClass {
     public function getAll()
     {
         try {
-            $stmt=$this->pdo->query("select creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,personne.prenom,personne.naissance from creneau,inscription,enfant,personne where creneau.id=inscription.id_creneau and inscription.ID_enfant=enfant.ID_enfant and enfant.ID_personne=personne.id and creneau.saison='2017-2018' and personne.type='enfant' order by creneau.id");
+            $stmt=$this->pdo->query("select creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,personne.prenom,personne.naissance,personne.id ".
+                                    "from creneau,inscription,enfant,personne ".
+                                    "where creneau.id=inscription.id_creneau ".
+                                      "and inscription.ID_enfant=enfant.ID_enfant ".
+                                      "and enfant.ID_personne=personne.id ".
+                                      "and creneau.saison='2017-2018' ".
+                                      "and personne.type='enfant' ".
+                                    "order by creneau.id");
             $liste=$stmt->fetchAll();
         }catch(PDOException  $e ){
             echo "Error: ".$e;
@@ -28,6 +35,7 @@ class daoCreneau extends daoClass {
                 array_push($creneaux,$creneau);
             }
             $enfant=new Personne();
+            $enfant->setId($r[8]);
             $enfant->setPrenom($r[6]);
             $enfant->setNaissance($r[7]);
             $creneaux[sizeof($creneaux)-1]->addEnfant($enfant);
@@ -48,10 +56,9 @@ class daoCreneau extends daoClass {
             $stmt=$this->pdo->query("SELECT creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,count(*),creneau.naissance_min,creneau.naissance_max ".
                                     "FROM creneau,inscription ".
                                     "WHERE creneau.id=inscription.id_creneau ".
-                                          "AND inscription.ID_enfant ".
                                           "AND creneau.saison='2017-2018' ".
                                           "AND date(creneau.naissance_min)<=date('$naissance') AND date(creneau.naissance_max)>=date('$naissance') ".
-                                    "GROUP BY (creneau.id) ORDER BY creneau.id");
+                                    "GROUP BY (creneau.id) ORDER BY creneau.lieu,creneau.jour,creneau.heure");
             $liste=$stmt->fetchAll();
         }catch(PDOException  $e ){
             echo "Error: ".$e;
@@ -62,7 +69,7 @@ class daoCreneau extends daoClass {
             $creneau=new Creneau();
             $creneau->setId($r[0]);
             $creneau->setHeure($r[2]);
-            $creneau->setlieu($r[1]);
+            $creneau->setLieu($r[1]);
             $creneau->setJour($r[3]);
             $creneau->setAge($r[4]);
             $creneau->setCapacite($r[5]);

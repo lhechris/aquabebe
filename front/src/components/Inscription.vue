@@ -2,7 +2,8 @@
 <div class="container" >
 <p class="row">
   <form>
-    <div v-if="etape==-1">
+    <transition name="slide"  mode="out-in">
+    <div v-if="etape==-1" key="etapeq">
     <h2>Vous souhaitez vous inscrire?</h2>
     <p><strong>Pour prendre en compte votre inscription il vous est demandé&nbsp;:</strong></p>
     <ul>
@@ -18,12 +19,12 @@
     <p><strong>Information sur les créneaux :</strong></p>
     <p>Lors de votre inscription, vous aurez à sélectionner les créneaux par ordre de préférence. Une place vous est automatiquement réservée dans le premier créneau préféré ayant une place libre. Cette affectation vous est réservée pendant 7 jours et sera confirmée lors de la réception du paiement. <br>Vous êtes également en liste d'atente sur les crénaux complets ayant une préférence plus élevée et, si une place se libère, vous serez repositionnés sur celui-ci.</p>
     <p><strong>Information sur les tarifs :</strong></p>
-    <p>Si vous avez plusieurs enfants inscrits, le <router-link to="/tarif">tarif est dégressif</router-link>. 
+    <p>Si vous avez plusieurs enfants inscrits, le <router-link to="/tarifs">tarif est dégressif</router-link>. 
         N'ayant pas automatisé ce système, nous vous proposons de faire l'inscription de chaque enfant indépendamment et 
         de choisir le paiement par chèque. Vous ferez donc un chèque du montant approprié avec le nom de tous les enfants 
         au dos et l'enverrez comme indiqué dans la procédure. <br>En cas de doute sur le montant, vous pouvez nous contacter par 
         E-mail <img src="/images/contact-head.jpg" alt="adresse à recopier"><br>
-        Calendrier de l'encaissement des chèques : voir <router-link to="/tarif">ici</router-link>.
+        Calendrier de l'encaissement des chèques : voir <router-link to="/tarifs">ici</router-link>.
     </p> 
     <h2>Inscription : <button class="btn-info" v-on:click="suivantclick">S'INSCRIRE</button></h2>
     <h2>Une question ? Un problème ?</h2>
@@ -31,8 +32,8 @@
       <li>Pour toute autre question, vous pouvez nous joindre : <img src="/images/contact-head.jpg" alt="adresse à recopier"></li>
     </ul>
     <p><strong><br>Que ce soit pour l'inscription ou pour toute communication en cours d'année, l'E-mail est la solution que l'association Aqua-Bébé utilise de manière privilégiée.</strong></p>
-    </div>
-    <div v-if="etape==0">
+    </div>    
+    <div v-if="etape==0" key="etape0">
       <h2>Inscription 2017-2018 </h2>
       <ul>
         <!--<li>Nous sommes complets pour la saison. La page créneaux vous indiquera si des places se libèrent.</li>-->
@@ -57,7 +58,7 @@
       <p><strong><br>Que ce soit pour l'inscription ou pour toute communication en cours d'année, l'E-mail est la solution 
                 que l'association Aqua-Bébé utilise de manière privilégiée.</strong></p>    
     </div>    
-    <div v-if="etape==1">      
+    <div v-if="etape==1" key="etape1">      
       <h2 >etape 1 : Enfant</h2>
       <div class="row">      
         <div class="form-group forminscription col-md-4">
@@ -114,7 +115,7 @@
       </div>
 
     </div>
-    <div v-if="etape==2">
+    <div v-if="etape==2" key="etape2">
       <h2>etape 2 : Parents </h2>
       <div class="form-group ">
         <label for="nomparent1" >Nom du parent 1</label>
@@ -138,9 +139,8 @@
         <label for="telparent2" >Téléphone 2</label>
         <div><input type="text"  class="form-control" name="telparent2" v-model="telparent2"></input></div>
       </div>
-
     </div>
-    <div v-if="etape==3">
+    <div v-if="etape==3" key="etape3">
       <h2>etape 3:  Choix des créneaux </h2>  
       <p>Voici les créneaux auxquels vous pouvez inscrire votre enfant. Indiquez votre créneau préféré (1) puis, à défaut, les autres créneaux (2,3...).</p>
       <p>Si aucune autre demande n'a été validée avant que vous n'ayez terminé votre inscription et si votre créneau préféré a des places libres, alors une place sur ce créneau vous est réservée pendant 7 jours.</p>
@@ -167,7 +167,7 @@
           <div class="cold-md-4"><span>Lu et accepté :&nbsp;*&nbsp;</span><span><input name="lu3" value="true" type="checkbox" /></span></div>
       </div>
     </div>
-    <div v-if="etape==4">
+    <div v-if="etape==4" key="etape4">
       <h2>etape 4:  Autorisations</h2> 
       <div class="row">&nbsp;* Ces informations sont indispensables pour traiter votre demande.</div>
       <h2 class="row">Demande d'autorisation de diffusion d'image</h2>
@@ -191,7 +191,7 @@
         </div>
       </div>
     </div>
-    <div v-if="etape==5">
+    <div v-if="etape==5" key="etape5">
       <h2>etape 5:  Réglement Intérieur</h2>
       <div class="row">
         <div class="col-md-12">&nbsp;*Ces informations sont indispensables pour traiter votre demande.</div>
@@ -216,7 +216,7 @@
           <div class="col-md-2"><input name="reglement" value="true" type="checkbox" /></div>
       </div>
     </div>
-    <div v-if="etape==6">
+    <div v-if="etape==6" key="etape6">
       <h2>etape 6:  Paiement</h2>
       <p>* Ces informations sont indispensables pour traiter votre demande.</p>
       <p>Choisissez votre moyen de paiement puis validez ce formulaire.
@@ -246,6 +246,7 @@
         </div>
       </div>
     </div>
+    </transition>
     <div v-if="etape==7">
       <h2>Confirmation</h2>
       <p>Votre demande a été prise en compte vous recevrez d'ici quelques minute un email de confirmation.</p>    
@@ -272,7 +273,7 @@ export default {
   },
   data () {
     return {
-      etape:1,
+      etape:-1,
       creneaux:{},
       nomenfant:"",
       prenomenfant:"",
@@ -366,6 +367,22 @@ export default {
     border-width: 1px;
     margin-top: 30px;
     background-color: white;
+}
+
+.slide-enter-active {
+  transition: 1s;
+}
+.slide-leave-active {
+  transition: 1s;  
+}
+
+.slide-enter {
+  transform: translate(0, -100%);
+  opacity:0;
+}
+.slide-leave-to {
+  transform: translate(0, 100%);
+  opacity:0;
 }
 
 </style>

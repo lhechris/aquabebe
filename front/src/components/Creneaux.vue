@@ -1,22 +1,29 @@
 <template>
 <div class="container" >
-  <p v-if="Object.keys(creneaux).length==0"> loading...</p>
-  <td><button class="btn-info" v-on:click="actionclick">{{afficher}}</button></td>
-  <table v-for="creneau of creneaux" class="table-responsive">
-    <tbody>
-    <tr align="center">
-      <td >{{creneau.name}}</td>
-      <td>{{creneau.lieu}}</td>
-      <td>{{creneau.description}}</td>
-      <td><span v-if="creneau.iscomplet" class="complet">Complet ! </span></td>
-    </tr>
-    <transition name="fade">
-    <tr align="center" v-if="show">
-      <td v-for="enfant of creneau.enfants" class="border">{{enfant.name}} ({{enfant.age}})</td>
-    </tr>
-    </transition>
-    </tbody>
-  </table>
+  <div class="row">    
+    <p v-if="Object.keys(creneaux).length==0"> loading...</p>
+    <div class="col-md-6">
+      <div v-for="lieu of creneaux" ><h2>{{lieu.name}}</h2>
+        <div v-for="jour of lieu.jours" >
+          <h3>{{jour.name}}</h3>
+            <table class="mytable">
+              <tr v-for="creneau of jour.creneaux" v-on:click="actionclick(creneau.enfants)" v-bind:class="{selectionner:creneau.enfants==enfants}">          
+                <td>{{creneau.heure}}</td>
+                <td>{{creneau.description}}</td>
+                <td v-if="creneau.iscomplet" class="avertissement">Complet !</td>
+                <td><button class="glyphicon glyphicon-th"></button></td>
+              </tr>
+            </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <transition-group name="list" tag="p">
+        <p class="mytable" v-for="enfant of enfants" v-bind:key="enfant.id">{{enfant.name}} ({{enfant.age}})</p>
+      </transition-group>
+    </div>
+
+  </div>
 </div>
 </template>
 
@@ -32,9 +39,7 @@ export default {
   data () {
     return {
       creneaux: {},
-      show:true,
-      afficher:"Afficher moins"
-
+      enfants:{}
     }
   },
   created: function() {
@@ -42,15 +47,13 @@ export default {
   },
   
    methods:{
-      actionclick: function(event) {
-        if (this.show) {
-          this.show=false;
-          this.afficher="Afficher plus";
-        }
-        else{
-          this.show=true;
-          this.afficher="Afficher moins";
-        }
+      actionclick: function(id) {
+        /*this.enfants=[]
+        for (var i=0;i<id.length;i++)
+        {
+            this.enfants.push({"n":id[i]["id"],"name":id[i]["name"],"age":id[i]["age"]});
+        }*/
+        this.enfants=id;
       },
       get: function (){
         var api = new restapi();
@@ -69,15 +72,15 @@ export default {
 </script>
 
 <style scoped>
-.complet {
-  color:red;
-}
-table {
+.mytable {
   background : linear-gradient( to right,rgba(255,128,128,0.8), rgba(255,128,128,0.3));
   border-radius : 10px;
   margin:5px;
   padding : 5px;
 
+}
+.selectionner{
+  background:linear-gradient( to left,rgba(255,200,200,0.8), rgba(69,128,128,0.3));
 }
 .border {
     border-color: #182a84;
@@ -90,11 +93,25 @@ table {
     width: 115px;
     font-size:0.8em;    
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.list-enter-active {
+  transition: all 1s;
+}
+.list-leave-active {
+  transition: all 0s;
+}
+.list-enter {
   opacity: 0;
+  transform: translateX(-30px);
 }
-
+.list-leave-to  {
+  /*opacity: 0;*/
+  transform: translateX(30px);
+}
+/*.flip-list-move {
+  transition: transform 1s;
+}*/
 </style>
