@@ -4,7 +4,7 @@ import moment from 'moment'
 export class restapi {
     baseurl= 'http://localhost:85/rest';
     //baseurl='/rest';
-    token = "";
+    token = "";    
 
     getHome() {
       
@@ -26,7 +26,9 @@ export class restapi {
     }   
 
     postInscription(inscription) {
-        return axios.get(this.baseurl+'/inscription',inscription).then(response =>{        
+        console.log(inscription);
+        return axios.post(this.baseurl+'/inscription',inscription).then(response =>{        
+            console.log("postInscription:"+response);
             return response.data;      
          })
      }

@@ -273,19 +273,19 @@ export default {
   },
   data () {
     return {
-      etape:-1,
+      etape:6,
       creneaux:{},
-      nomenfant:"",
-      prenomenfant:"",
-      adresse:"",
-      codepostal:"",
-      ville:"",
-      email:"",
-      sexe:-1,
-      naissance:"",
+      nomenfant:"coucou",
+      prenomenfant:"petit",
+      adresse:"ici",
+      codepostal:"77400",
+      ville:"la",
+      email:"non",
+      sexe:1,
+      naissance:"2016-05-29",
       handicap:0,
-      nomparent1:"",
-      prenomparent1:"",
+      nomparent1:"lui",
+      prenomparent1:"bof",
       telparent1:"",
       nomparent2:"",
       prenomparent2:"",
@@ -326,6 +326,28 @@ export default {
         if (this.etape==6) {
             if (this.check()) {
               this.etape=7;
+              var api = new restapi();
+              var self=this;
+              var inscription=new FormData();
+              inscription.append("nomenfant", this.nomenfant);
+              inscription.append("prenomenfant",this.prenomenfant);
+              inscription.append("adresse",this.adresse);
+              inscription.append("codepostal",this.codepostal);
+              inscription.append( "ville",this.ville);
+              inscription.append("email",this.email);
+              inscription.append("sexe",this.sexe);
+              inscription.append("naissance",this.naissance);
+              inscription.append("handicap",this.handicap);
+              inscription.append("nomparent1",this.nomparent1);
+              inscription.append("prenomparent1",this.prenomparent1);
+              inscription.append("telparent1",this.telparent1);
+              inscription.append("nomparent2",this.nomparent2);
+              inscription.append("prenomparent2",this.prenomparent2);
+              inscription.append("telparent2",this.telparent2);
+
+              api.postInscription(inscription).then(response=>{
+                  console.log(response);
+              })
             }
         }
       },
