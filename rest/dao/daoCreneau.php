@@ -43,7 +43,7 @@ class daoCreneau extends daoClass {
         return $creneaux;
     }
 
-    public function getForNaissance($naissance)
+    public function getByNaissance($naissance)
     {
         //check date format YYYY-MM-DD
         $naissance=htmlentities($naissance);
@@ -80,8 +80,6 @@ class daoCreneau extends daoClass {
         }
         return $creneaux;
     }
-
-
 }
 
 

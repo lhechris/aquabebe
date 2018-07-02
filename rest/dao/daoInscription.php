@@ -6,42 +6,62 @@ class daoInscription extends daoClass {
 
     public function insert($inscription)
     {
+
         trace_info("insert : ".$inscription->getEnfant()->getNom());
-        /*try {
-            $stmt=$this->pdo->query("select creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,personne.prenom,personne.naissance,personne.id ".
-                                    "from creneau,inscription,enfant,personne ".
-                                    "where creneau.id=inscription.id_creneau ".
-                                      "and inscription.ID_enfant=enfant.ID_enfant ".
-                                      "and enfant.ID_personne=personne.id ".
-                                      "and creneau.saison='2017-2018' ".
-                                      "and personne.type='enfant' ".
-                                    "order by creneau.id");
-            $liste=$stmt->fetchAll();
+        $query="insert into incription(ID_enfant,ID_creneau,date_max,paiement,paiement_date,certificat_medical,vaccins,facture_remise,diffusion_image,".
+        "diffusion_image_date,diffusion_image_lieu,diffusion_image_signature,reglement_interieur_date,reglement_interieur_lieu,".
+        "reglement_interieur_signature values(";
+               
+        $query.=$inscription->getEnfant()->getId().",";
+        $query.=$inscription->getCreneau().",";
+        $query.="'".$inscription->getDateMax()."',";
+        $query.=$inscription->getPaiement().",";
+        $query.="'".$inscription->getPaiementDate()."',";
+        $query.=$inscription->getCertificatMedical().",";
+        $query.=$inscription->getVaccins().",";
+        $query.=$inscription->getFactureRemise().",";
+        $query.=$inscription->getDiffusionImage().",";
+        $query.="'".$inscription->getdiffusion_image_date()."',";
+        $query.="'".$inscription->getdiffusion_image_lieu()."',";
+        $query.="'".$inscription->getdiffusion_image_signature()."',";
+        $query.="'".$inscription->getreglement_interieur_date()."',";
+        $query.="'".$inscription->getreglement_interieur_lieu()."',";
+        $query.="'".$inscription->getreglement_interieur_signature()."'";
+        $query.=")";
+
+        try {
+            $stmt=$this->pdo->query($query);
+            $inscriptionid=$this->pdo->lastInsertId();
+            $inscription->setId($inscriptionid);            
         }catch(PDOException  $e ){
-            echo "Error: ".$e;
+            trace_info("Error $e\n");
+            trace_error("Error ".$query."\n  ".$e);
+            return false;
         }
-        $creneaux=array();        
-        foreach($liste as $r)
-        {
-            if ((sizeof($creneaux)==0) || ($creneaux[sizeof($creneaux)-1]->getId()!=$r[0]))
-            {
-                $creneau=new Creneau();
-                $creneau->setId($r[0]);
-                $creneau->setHeure($r[2]);
-                $creneau->setlieu($r[1]);
-                $creneau->setJour($r[3]);
-                $creneau->setAge($r[4]);
-                $creneau->setCapacite($r[5]);
-                array_push($creneaux,$creneau);
-            }
-            $enfant=new Personne();
-            $enfant->setId($r[8]);
-            $enfant->setPrenom($r[6]);
-            $enfant->setNaissance($r[7]);
-            $creneaux[sizeof($creneaux)-1]->addEnfant($enfant);
+        return true;
+    }
+
+    public function insertPreinscription($preinscription)
+    {
+
+        trace_info("insert preinscription: inscription=".$preinscription->getInscription()->getId()." creneau=".$inscription->getCreneau()->getId());
+        $query="insert into preincription( 	ID_inscription,ID_creneauPrimaire,choixPrimaire,reservation)  values(";
+               
+        $query.=$preinscription->getInscription()->getId().",";
+        $query.=$preinscription->getCreneau()->getId().",";
+        $query.=$preinscription->getChoix().",";
+        $query.=$preinscription->getReservation();
+        $query.=")";
+
+        try {
+            $stmt=$this->pdo->query($query);
+            $inscriptionid=$this->pdo->lastInsertId();
+        }catch(PDOException  $e ){
+            trace_info("Error $e\n");
+            trace_error("Error ".$query."\n  ".$e);
+            return false;
         }
-        return $creneaux;*/
-        return array();
+        return true;
     }
 
 }

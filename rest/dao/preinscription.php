@@ -11,7 +11,7 @@ class Inscription{
     }
 
     public function getInscription() { return $this->Inscription;}
-    public function setInscription($v) { $this->=$v;}
+    public function setInscription($v) { $this->inscription=$v;}
 
     public function getCreneau() { return $this->creneau;}
     public function setCreneau($v) { $this->creneau=$v;}

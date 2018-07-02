@@ -60,7 +60,7 @@ class RestCreneaux {
 
         $app->get('/creneaux/naissance={naissance}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             $daocreneaux=new daoCreneau();
-            $creneaux=$daocreneaux->getForNaissance($args['naissance']);
+            $creneaux=$daocreneaux->getByNaissance($args['naissance']);
             $data=array();        
             foreach($creneaux as $creneau)
             {

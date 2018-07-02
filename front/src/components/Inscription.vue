@@ -146,8 +146,9 @@
       <p>Si aucune autre demande n'a été validée avant que vous n'ayez terminé votre inscription et si votre créneau préféré a des places libres, alors une place sur ce créneau vous est réservée pendant 7 jours.</p>
       <p>Vous avez donc 7 jours au maximum pour nous faire parvenir votre règlement et confirmer votre inscription.</p>
       <p>Si votre créneau préféré comporte uniquement des places en attente de validation de paiement (en jaune), nous attendrons la fin du délai de 7 jours (attente max du paiement par autrui). Si au terme de ce délai, le règlement de l'autre personne ne nous est pas parvenu, vous remonterez dans la liste d'attente et la place pourra éventuellement vous être attribuée. En attendant, une place sur votre 2ème, 3ème... choix est réservée. </p>
+      <p class="obligatoire" v-if="creneauok==false">Vous devez choisir au moins un creneau (1 dans une des case)</p>
       <div class="row forminscription" v-for="creneau of creneaux">
-        <div class="col-md-4"><input type="text" size="1" v-bind:name="creneau.inputname" /></div>
+        <div class="col-md-4"><input type="number" size="1" v-bind:name="creneau.inputname" v-model="creneau.inputval" /></div>
         <div class="col-md-4">{{creneau.name}} - {{creneau.lieu}}</div>
         <div class="col-md-4">({{creneau.inscrits}} inscrits sur {{creneau.capacite}})</div>
       </div>
@@ -273,7 +274,7 @@ export default {
   },
   data () {
     return {
-      etape:6,
+      etape:2,
       creneaux:{},
       nomenfant:"coucou",
       prenomenfant:"petit",
@@ -286,11 +287,12 @@ export default {
       handicap:0,
       nomparent1:"lui",
       prenomparent1:"bof",
-      telparent1:"",
+      telparent1:"01020304",
       nomparent2:"",
       prenomparent2:"",
       telparent2:"",      
       date:this.getNow(),
+      creneauok:false,
     }
   },
   created: function() {
@@ -310,6 +312,8 @@ export default {
               var i;
               for (i in self.creneaux) {
                 self.creneaux[i]["inputname"]="creneau_"+self.creneaux[i]["id"];
+                self.creneaux[i]["inputval"]="";
+                if (i==0) {self.creneaux[i]["inputval"]=1;} 
               }
             })
           }
@@ -333,7 +337,7 @@ export default {
               inscription.append("prenomenfant",this.prenomenfant);
               inscription.append("adresse",this.adresse);
               inscription.append("codepostal",this.codepostal);
-              inscription.append( "ville",this.ville);
+              inscription.append("ville",this.ville);
               inscription.append("email",this.email);
               inscription.append("sexe",this.sexe);
               inscription.append("naissance",this.naissance);
@@ -344,6 +348,9 @@ export default {
               inscription.append("nomparent2",this.nomparent2);
               inscription.append("prenomparent2",this.prenomparent2);
               inscription.append("telparent2",this.telparent2);
+              for (var i in this.creneaux) {
+                inscription.append(this.creneaux[i]["inputname"],this.creneaux[i]["inputval"]);
+              }
 
               api.postInscription(inscription).then(response=>{
                   console.log(response);
@@ -360,6 +367,15 @@ export default {
 
         } else if (this.etape==2) {
           if ((this.nomparent1=="") || (this.prenomparent1=="") || (this.telparent1=="") ){ return false;}
+
+        } else if (this.etape==3) {
+            this.creneauok=false;
+            for (var i in this.creneaux) {
+                if (this.creneaux[i]["inputval"]=="1") {this.creneauok=true;}
+            }
+
+            return this.creneauok;
+
         }
         return true;
       },
