@@ -126,6 +126,10 @@
         <span class="obligatoire" v-if="prenomparent1==''">Champ obligatoire</span>
         <div><input type="text"  class="form-control" name="prenomparent1" v-model="prenomparent1"></input></div>
       </div><div class="form-group">
+          <label for="sexeparent1" >Sexe</label>
+          <span class="obligatoire" v-if="sexeparent1==-1">Champ obligatoire</span>
+          <div><input type="radio" name="sexeparent1" value="1" v-model="sexeparent1"/>&nbsp;M&nbsp;<input type="radio" name="sexeparent1" value="0" v-model="sexeparent1"/>&nbsp;F</div>
+      </div><div class="form-group">
         <label for="telparent1" >Téléphone 1</label>
         <span class="obligatoire" v-if="telparent1==''">Champ obligatoire</span>
         <div ><input type="text"  class="form-control" name="telparent1" v-model="telparent1"></input></div>
@@ -135,6 +139,10 @@
       </div><div class="form-group">
         <label for="prenomparent2" >Prénom parent 2</label>
         <div><input type="text"  class="form-control" name="prenomparent2" v-model="prenomparent2"></input></div>
+      </div><div class="form-group">
+          <label for="sexeparent2" >Sexe</label>
+          <span class="obligatoire" v-if="sexeparent2==-1">Champ obligatoire</span>
+          <div><input type="radio" name="sexeparent2" value="1" v-model="sexeparent2"/>&nbsp;M&nbsp;<input type="radio" name="sexeparent2" value="0" v-model="sexeparent2"/>&nbsp;F</div>
       </div><div class="form-group">
         <label for="telparent2" >Téléphone 2</label>
         <div><input type="text"  class="form-control" name="telparent2" v-model="telparent2"></input></div>
@@ -287,9 +295,11 @@ export default {
       handicap:0,
       nomparent1:"lui",
       prenomparent1:"bof",
+      sexeparent1:1,
       telparent1:"01020304",
       nomparent2:"",
       prenomparent2:"",
+      sexeparent2:0,
       telparent2:"",      
       date:this.getNow(),
       creneauok:false,
@@ -344,9 +354,11 @@ export default {
               inscription.append("handicap",this.handicap);
               inscription.append("nomparent1",this.nomparent1);
               inscription.append("prenomparent1",this.prenomparent1);
+              inscription.append("sexeparent1",this.sexeparent1);
               inscription.append("telparent1",this.telparent1);
               inscription.append("nomparent2",this.nomparent2);
               inscription.append("prenomparent2",this.prenomparent2);
+              inscription.append("sexeparent2",this.sexeparent2);
               inscription.append("telparent2",this.telparent2);
               for (var i in this.creneaux) {
                 inscription.append(this.creneaux[i]["inputname"],this.creneaux[i]["inputval"]);

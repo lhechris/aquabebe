@@ -7,34 +7,48 @@ class daoInscription extends daoClass {
     public function insert($inscription)
     {
 
-        trace_info("insert : ".$inscription->getEnfant()->getNom());
-        $query="insert into incription(ID_enfant,ID_creneau,date_max,paiement,paiement_date,certificat_medical,vaccins,facture_remise,diffusion_image,".
-        "diffusion_image_date,diffusion_image_lieu,diffusion_image_signature,reglement_interieur_date,reglement_interieur_lieu,".
-        "reglement_interieur_signature values(";
+        $query="INSERT INTO inscription("
+            ."ID_enfant,"
+            ."ID_creneau,"
+            ."date_max,"
+            ."paiement,"
+            ."paiement_date,"
+            ."certificat_medical,"
+            ."vaccins,"
+            ."facture_remise,"
+            ."diffusion_image,"
+            ."diffusion_image_date,"
+            ."diffusion_image_lieu,"
+            ."diffusion_image_signature,"
+            ."reglement_interieur_date,"
+            ."reglement_interieur_lieu,"
+            ."reglement_interieur_signature) VALUES(";
                
         $query.=$inscription->getEnfant()->getId().",";
-        $query.=$inscription->getCreneau().",";
+        $query.=$inscription->getCreneau()->getId().",";
         $query.="'".$inscription->getDateMax()."',";
-        $query.=$inscription->getPaiement().",";
-        $query.="'".$inscription->getPaiementDate()."',";
-        $query.=$inscription->getCertificatMedical().",";
-        $query.=$inscription->getVaccins().",";
-        $query.=$inscription->getFactureRemise().",";
-        $query.=$inscription->getDiffusionImage().",";
-        $query.="'".$inscription->getdiffusion_image_date()."',";
-        $query.="'".$inscription->getdiffusion_image_lieu()."',";
-        $query.="'".$inscription->getdiffusion_image_signature()."',";
-        $query.="'".$inscription->getreglement_interieur_date()."',";
-        $query.="'".$inscription->getreglement_interieur_lieu()."',";
-        $query.="'".$inscription->getreglement_interieur_signature()."'";
+        $query.=$this->intornull($inscription->getPaiement()).",";
+        $query.=$this->strornull($inscription->getPaiementDate()).",";
+        $query.=$this->intornull($inscription->getCertificatMedical()).",";
+        $query.=$this->intordefault($inscription->getVaccins(),0).",";
+        $query.=$this->intornull($inscription->getFactureRemise()).",";
+        $query.=$this->intornull($inscription->getDiffusionImage()).",";
+        $query.=$this->strornull($inscription->getDiffusionImageDate()).",";
+        $query.=$this->strornull($inscription->getDiffusionImageLieu()).",";
+        $query.=$this->strornull($inscription->getDiffusionImageSignature()).",";
+        $query.=$this->strornull($inscription->getReglementInterieurDate()).",";
+        $query.=$this->strornull($inscription->getReglementInterieurLieu()).",";
+        $query.=$this->strornull($inscription->getReglementInterieurSignature());
         $query.=")";
+        trace_info($query);
 
         try {
             $stmt=$this->pdo->query($query);
             $inscriptionid=$this->pdo->lastInsertId();
             $inscription->setId($inscriptionid);            
+            trace_info("Return id:".$inscriptionid);
         }catch(PDOException  $e ){
-            trace_info("Error $e\n");
+            trace_info("Error $e");
             trace_error("Error ".$query."\n  ".$e);
             return false;
         }
@@ -56,12 +70,39 @@ class daoInscription extends daoClass {
         try {
             $stmt=$this->pdo->query($query);
             $inscriptionid=$this->pdo->lastInsertId();
+            trace_info($query);
         }catch(PDOException  $e ){
-            trace_info("Error $e\n");
+            trace_info("Error $e");
             trace_error("Error ".$query."\n  ".$e);
             return false;
         }
         return true;
+    }
+
+    private function strornull($v)
+    {
+        if ($v=="") {
+            return "NULL";
+        }else {
+            return "'".$v."'";
+        }
+
+    }
+    private function intornull($v)
+    {
+        if ($v=="") {
+            return "NULL";
+        }else {
+            return $v;
+        }
+    }
+    private function intordefault($v,$def)
+    {
+        if ($v=="") {
+            return $def;
+        }else {
+            return $v;
+        }
     }
 
 }

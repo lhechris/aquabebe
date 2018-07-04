@@ -1,20 +1,25 @@
 <?php
-function trace_info($string)
+
+function _writefile($hdl,$string)
 {
-    $hdl=fopen("log/info.log","a");
     if ($hdl!==false)
     {
+        fwrite($hdl,date('Y/m/d H:i:s')." ");
         fwrite($hdl,$string);
+        fwrite($hdl,"\n");
         fclose($hdl);
     }
 }
+
+function trace_info($string)
+{
+    $hdl=fopen("log/info.log","a");
+    _writefile($hdl,$string);
+}
+
 function trace_error($string)
 {
     $hdl=fopen("log/error.log","a");
-    if ($hdl!==false)
-    {
-        fwrite($hdl,$string);
-        fclose($hdl);
-    }
+    _writefile($hdl,$string);
 }
 ?>

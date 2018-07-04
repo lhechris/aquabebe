@@ -18,6 +18,7 @@ class RestInscription {
             $daoinscription=new daoInscription();
                    
             $json = $request->getParsedBody();
+            trace_info("POST inscription");
             trace_info(print_r($json,true));
             $enfant=new Personne();
             $parent1=new Personne();
@@ -36,9 +37,11 @@ class RestInscription {
                 if ($key=="naissance") { $enfant->setNaissance($valuesck);}
                 if ($key=="nomparent1") { $parent1->setNom($valuesck);}
                 if ($key=="prenomparent1") { $parent1->setPrenom($valuesck);}
+                if ($key=="sexeparent1") { $parent1->setSexe($valuesck);}
                 if ($key=="telparent1") { $parent1->setTel($valuesck);}
                 if ($key=="nomparent2") { $parent2->setNom($valuesck);}
                 if ($key=="prenomparent2") { $parent2->setPrenom($valuesck);}
+                if ($key=="sexeparent2") { $parent2->setSexe($valuesck);}
                 if ($key=="telparent2") { $parent2->setTel($valuesck);}
                 if (substr($key,0,8)=="creneau_") {
                     $creneauid=substr($key,8);
@@ -49,42 +52,53 @@ class RestInscription {
             $daocreneau=new DaoCreneau();
             $creneaux=$daocreneau->getByNaissance($enfant->getNaissance());
 
-            foreach($creneaux as $creneau) {
-                trace_info("crenaux ".$creneau->getId()."\n");
-            }
-            $newResponse = $response->write("gnarkgnark");
-            return $newResponse;
-
-
             //Ajoute l'enfant et les parents en base de données
             $daoPersonne = new daoPersonne();
             $ret=$daoPersonne->insert($enfant,$parent1,$parent2);
             if ($ret==false) {
                 trace_info("Can't add inscription, error while inserting personne");
                 $newResponse = $response->write("Internal error: can't create inscription");
-                return newResponse;
+                return $newResponse;
             }
             //Ajoute les inscriptions et preinscriptions
             foreach($creneaux as $creneau) {
+                trace_info("creneau:".$creneau->getId()." nbinscrit=".$creneau->getNbInscrit()." capacite=".$creneau->getCapacite()." ".array_key_exists((string)($creneau->getId()),$listcreneaux));
                 if (($creneau->getNbInscrit()<$creneau->getCapacite()) && 
-                    (array_key_exists((string)($creneau->getId())))
+                    (array_key_exists((string)($creneau->getId()),$listcreneaux))
                    ) 
                 {
                     $inscr=new Inscription();
                     $inscr->setEnfant($enfant);
                     $inscr->setCreneau($creneau);
-                    $daoinscription->insert($inscr);
-                    
+                    $ret=$daoinscription->insert($inscr);
+                    if ($ret==false) {
+                        trace_info("Can't add inscription, error while inserting inscription");
+                        $newResponse = $response->write("Internal error: can't create inscription");
+                        return $newResponse;
+                    }
+                            
                     $preinscr=new Preinscription();
                     $preinscr->setCreneau($creneau);
                     $preinscr->setInscription($inscr);
                     $preinscr->setChoix($listcreneaux[$creneau->getId()]);
+                    $daoinscription->insert($preinscr);
+                    if ($ret==false) {
+                        trace_info("Can't add inscription, error while inserting preinscription");
+                        $newResponse = $response->write("Internal error: can't create inscription");
+                        return $newResponse;
+                    }
+                            
+                }
+                else
+                {
+                    $newResponse = $response->write("Les creneaux de correspondent pas");
+                    return $newResponse;
                 }
             }
-            
-
-            $newResponse = $response->withJson($json);
+            $newResponse = $response->write("Inscription ajoutée");
+            //$newResponse = $response->withJson($json);
             return $newResponse;
+
         });
 
         $app->get("/inscription/test",function(ServerRequestInterface $request, ResponseInterface $response) {
