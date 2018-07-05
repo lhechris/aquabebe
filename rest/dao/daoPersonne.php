@@ -48,8 +48,10 @@ class daoPersonne extends daoClass {
         if ($this->_insert($parent1)==false){
             return false;
         }
-        if ($this->_insert($parent2)==false){
-            return false;
+        if ($parent2->getNom()!="") {
+            if ($this->_insert($parent2)==false){
+                return false;
+            }
         }
         
         $query="insert into enfant(ID_enfant,ID_personne) values(".$enfant->getID().",".$parent1->getID().")";

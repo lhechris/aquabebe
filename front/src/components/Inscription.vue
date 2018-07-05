@@ -185,14 +185,15 @@
                                                       l'association Aqua-Bébé ci-dessus identifiée à laquelle nous adhérons puisse être 
                                                       photographiée. &nbsp;*</div>
         <div class="col-md-8">
+          <p class="obligatoire" v-if="imagediffusion==0">Vous devez choisir parmi les 2 choix</p>
           <div class="row forminscription">
-            <div class="col-md-1"><input name="image_diffusion" value="1" type="radio"></div>
+            <div class="col-md-1"><input name="image_diffusion" value="1" type="radio" v-model="imagediffusion"></div>
             <div class="col-md-11">Je reconnais et accepte que les images puissent être utilisées pour support pouvant assurer 
                                   la promotion de l'association Aqua-bébé et plus particulièrement sur les plaquettes et le site 
                                   web de l'association (http://www.aquabebe.fr)</div>
           </div>
           <div class="row forminscription">
-            <div class="col-md-1"><input name="image_diffusion" value="2" type="radio"></div>
+            <div class="col-md-1"><input name="image_diffusion" value="2" type="radio"  v-model="imagediffusion"></div>
             <div class="col-md-11">Je refuse que les images puissent être utilisées pour support pouvant assurer la promotion 
                                   de l'association Aqua-Bébé et le cas échéant, elles seront rendues floues afin que l'identification 
                                   soit impossible.</div>
@@ -222,7 +223,7 @@
                                 s'engage à les traiter confidentiellement.</p>
       </div><div class="row forminscription">
           <div class="col-md-6">J'ai lu et j'accepte d'appliquer le règlement intérieur.&nbsp;*</div>
-          <div class="col-md-2"><input name="reglement" value="true" type="checkbox" /></div>
+          <div class="col-md-2"><input name="reglement" value="false" type="checkbox" v-model="reglement"/></div>
       </div>
     </div>
     <div v-if="etape==6" key="etape6">
@@ -234,7 +235,7 @@
       <div class="row">
         <div class="col-md-2">Choix du paiement :&nbsp;*</div>
         <div class="col-md-10">
-            <input name="paiement_moyen" value="1" type="radio"></input>
+            <input name="paiement_moyen" value="1" type="radio" v-model="paiement"></input>
             <span><strong>Je choisis de payer par chèque.</strong><br>
 										Après avoir validé ce formulaire, le paiement intégral (participation + adhésion) devra parvenir 
 										à l'association dans les 7 jours pour confirmer l'inscription de lulu. 
@@ -303,6 +304,9 @@ export default {
       telparent2:"",      
       date:this.getNow(),
       creneauok:false,
+      imagediffusion:0,
+      reglement:false,
+      paiement:-1,
     }
   },
   created: function() {
@@ -360,6 +364,9 @@ export default {
               inscription.append("prenomparent2",this.prenomparent2);
               inscription.append("sexeparent2",this.sexeparent2);
               inscription.append("telparent2",this.telparent2);
+              inscription.append("imagediffusion",this.imagediffusion);
+              inscription.append("reglement",this.reglement);
+              inscription.append("paiement",this.paiement);
               for (var i in this.creneaux) {
                 inscription.append(this.creneaux[i]["inputname"],this.creneaux[i]["inputval"]);
               }
@@ -385,10 +392,20 @@ export default {
             for (var i in this.creneaux) {
                 if (this.creneaux[i]["inputval"]=="1") {this.creneauok=true;}
             }
-
             return this.creneauok;
 
+        } else if (this.etape==4) {
+           if (this.imagediffusion==0) {return false; }
+
+        } else if (this.etape==5) {
+           if (this.reglement==false) {return false; }
+
+        } else if (this.etape==6) {
+           console.log(this.paiement);
+           if (this.paiement==-1) {return false; }
+
         }
+
         return true;
       },
 

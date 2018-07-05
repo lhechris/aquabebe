@@ -1,5 +1,5 @@
 <?php
-class Inscription{
+class PreInscription{
     private $inscription;
     private $creneau;
     private $choix;
@@ -10,7 +10,7 @@ class Inscription{
         
     }
 
-    public function getInscription() { return $this->Inscription;}
+    public function getInscription() { return $this->inscription;}
     public function setInscription($v) { $this->inscription=$v;}
 
     public function getCreneau() { return $this->creneau;}

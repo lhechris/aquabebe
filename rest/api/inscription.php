@@ -70,6 +70,27 @@ class RestInscription {
                     $inscr=new Inscription();
                     $inscr->setEnfant($enfant);
                     $inscr->setCreneau($creneau);
+                    $inscr->setDateMax(date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")+7, date("Y"))));
+
+                    if (array_key_exists("diffusionimage",$json)&&($json["diffusionimage"]=="1")) {
+                        $inscr->setDiffusionImage(1);
+                    } else {
+                        $inscr->setDiffusionImage(2);
+                    }
+                    $inscr->setDiffusionImageLieu("web");
+                    $inscr->setDiffusionImageDate(date("Y-m-d"));
+                    $inscr->setDiffusionImageSignature("oui");
+
+                    if (array_key_exists("reglement",$json)&&($json["reglement"]=="true")) {
+                        $inscr->setReglementInterieurSignature("accepté");
+                        $inscr->setReglementInterieurLieu("web");
+                        $inscr->setReglementInterieurDate(date("Y-m-d"));
+                    } else {
+                        $inscr->setReglementInterieurSignature("");
+                        $inscr->setReglementInterieurLieu("");
+                        $inscr->setReglementInterieurDate(date(""));
+                    }
+
                     $ret=$daoinscription->insert($inscr);
                     if ($ret==false) {
                         trace_info("Can't add inscription, error while inserting inscription");
@@ -81,18 +102,13 @@ class RestInscription {
                     $preinscr->setCreneau($creneau);
                     $preinscr->setInscription($inscr);
                     $preinscr->setChoix($listcreneaux[$creneau->getId()]);
-                    $daoinscription->insert($preinscr);
+                    $preinscr->setReservation(0);
+                    $daoinscription->insertPreinscription($preinscr);
                     if ($ret==false) {
                         trace_info("Can't add inscription, error while inserting preinscription");
                         $newResponse = $response->write("Internal error: can't create inscription");
                         return $newResponse;
                     }
-                            
-                }
-                else
-                {
-                    $newResponse = $response->write("Les creneaux de correspondent pas");
-                    return $newResponse;
                 }
             }
             $newResponse = $response->write("Inscription ajoutée");

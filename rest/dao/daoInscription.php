@@ -1,6 +1,7 @@
 <?php
 include_once('daoClass.php');
 include_once('inscription.php');
+include_once('preinscription.php');
 
 class daoInscription extends daoClass {
 
@@ -58,8 +59,8 @@ class daoInscription extends daoClass {
     public function insertPreinscription($preinscription)
     {
 
-        trace_info("insert preinscription: inscription=".$preinscription->getInscription()->getId()." creneau=".$inscription->getCreneau()->getId());
-        $query="insert into preincription( 	ID_inscription,ID_creneauPrimaire,choixPrimaire,reservation)  values(";
+        trace_info("insert preinscription: inscription=".$preinscription->getInscription()->getId()." creneau=".$preinscription->getCreneau()->getId());
+        $query="insert into preinscription( 	ID_inscription,ID_creneau,choix,reservation)  values(";
                
         $query.=$preinscription->getInscription()->getId().",";
         $query.=$preinscription->getCreneau()->getId().",";
@@ -67,10 +68,10 @@ class daoInscription extends daoClass {
         $query.=$preinscription->getReservation();
         $query.=")";
 
+        trace_info($query);
+
         try {
             $stmt=$this->pdo->query($query);
-            $inscriptionid=$this->pdo->lastInsertId();
-            trace_info($query);
         }catch(PDOException  $e ){
             trace_info("Error $e");
             trace_error("Error ".$query."\n  ".$e);
