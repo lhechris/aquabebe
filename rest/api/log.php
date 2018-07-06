@@ -1,4 +1,5 @@
 <?php
+$DEBUG_MODE=true;
 
 function _writefile($hdl,$string)
 {
@@ -22,4 +23,14 @@ function trace_error($string)
     $hdl=fopen("log/error.log","a");
     _writefile($hdl,$string);
 }
+function trace_debug($string)
+{
+    global $DEBUG_MODE;
+    if ($DEBUG_MODE) {
+        $hdl=fopen("log/debug.log","a");
+        _writefile($hdl,$string);
+    }
+}
+
+
 ?>

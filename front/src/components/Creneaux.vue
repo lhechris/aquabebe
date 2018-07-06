@@ -19,7 +19,7 @@
     </div>
     <div class="col-md-3">
       <transition-group name="list" tag="p">
-        <p class="mytable" v-for="enfant of enfants" v-bind:key="enfant.id">{{enfant.name}} ({{enfant.age}})</p>
+        <p class="mytable" v-for="enfant of enfants" v-bind:key="enfant.id">{{enfant.name}} <span v-if="enfant.age!=''">({{enfant.age}})</span></p>
       </transition-group>
     </div>
 
