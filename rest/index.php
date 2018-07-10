@@ -4,6 +4,7 @@ require 'slim/vendor/autoload.php';
 require 'api/creneaux.php';
 require 'api/auth.php';
 require 'api/inscription.php';
+require 'api/adherents.php';
 
 session_start();
 
@@ -63,6 +64,7 @@ require 'slim/src/routes.php';
 
 $auth=new RestAuth($app);
 $insc=new RestInscription($app);
+$adh=new RestAdherents($app);
 
 // Run app
 $app->run();

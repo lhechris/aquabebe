@@ -1,6 +1,8 @@
 <?php
 include_once('daoClass.php');
 include_once('personne.php');
+include_once('inscription.php');
+include_once('creneau.php');
 
 class daoPersonne extends daoClass {
 
@@ -76,6 +78,71 @@ class daoPersonne extends daoClass {
             }
         }
         return true;
+    }
+
+
+    public function get($saison) {
+
+        if (strlen($saison)!=9) {
+            trace_error("daoPersonne::get bad saison length expected 9");
+            return false;
+        }
+
+        $query="select personne.id, ".                /* 0 */
+                       "personne.prenom, ".           /* 1 */
+                       "personne.nom, ".              /* 2 */
+                       "personne.naissance, ".        /* 3 */
+                       "creneau.id, ".                /* 4 */
+                       "creneau.lieu, ".              /* 5 */
+                       "creneau.jour, ".              /* 6 */
+                       "creneau.heure, ".             /* 7 */
+                       "inscription.id, ".            /* 8 */
+                       "inscription.paiement, ".      /* 9 */
+                       "preinscription.choix, ".      /* 10 */
+                       "preinscription.reservation ". /* 11 */
+        "from creneau,inscription,personne,preinscription ".
+        "where creneau.id=inscription.id_creneau ".
+          "and inscription.ID_enfant=personne.id ".
+          "and creneau.saison='$saison' ".
+          "and personne.type='enfant' ".
+          "and preinscription.id_inscription=inscription.id ".
+        "order by personne.nom,personne.prenom,preinscription.choix";
+        trace_debug($query);
+
+        try {
+            $stmt=$this->pdo->query($query);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            echo "Error: ".$e;
+        }
+        $personnes=array();        
+        foreach($liste as $r)
+        {
+            $enfant=new Personne();
+            $enfant->setId($r[0]);
+            $enfant->setPrenom($r[1]);
+            $enfant->setNom($r[2]);
+            $enfant->setNaissance($r[3]);
+
+            $creneau=new Creneau();
+            $creneau->setId($r[4]);
+            $creneau->setLieu($r[5]);
+            $creneau->setJour($r[6]);
+            $creneau->setHeure($r[7]);
+
+            $inscription=new Inscription();
+            $inscription->setId($r[8]);
+
+            $preinscription=new Preinscription();
+            $preinscription->setInscription($inscription);
+            $preinscription->setCreneau($creneau);
+            $preinscription->setChoix($r[10]);
+            $preinscription->setReservation($r[11]);
+
+            array_push($personnes,array("enfant"=>$enfant,"preinscription"=>$preinscription ));
+        }
+        return $personnes;
+
     }
 }
 

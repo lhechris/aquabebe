@@ -2,6 +2,7 @@
 include_once('daoClass.php');
 include_once('creneau.php');
 include_once('personne.php');
+include_once('config.php');
 
 class daoCreneau extends daoClass {
 
@@ -11,7 +12,7 @@ class daoCreneau extends daoClass {
         "from creneau,inscription,personne,preinscription ".
         "where creneau.id=inscription.id_creneau ".
           "and inscription.ID_enfant=personne.id ".
-          "and creneau.saison='2017-2018' ".
+          "and creneau.saison='".CURRENT_SAISON."' ".
           "and personne.type='enfant' ".
           "and preinscription.id_inscription=inscription.id ".
         "order by creneau.id";
@@ -70,7 +71,7 @@ class daoCreneau extends daoClass {
             $stmt=$this->pdo->query("SELECT creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,count(*),creneau.naissance_min,creneau.naissance_max ".
                                     "FROM creneau,inscription ".
                                     "WHERE creneau.id=inscription.id_creneau ".
-                                          "AND creneau.saison='2017-2018' ".
+                                          "AND creneau.saison='".CURRENT_SAISON."' ".
                                           "AND date(creneau.naissance_min)<=date('$naissance') AND date(creneau.naissance_max)>=date('$naissance') ".
                                     "GROUP BY (creneau.id) ORDER BY creneau.lieu,creneau.jour,creneau.heure");
             $liste=$stmt->fetchAll();
