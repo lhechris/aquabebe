@@ -1,10 +1,13 @@
 <?php
 
 require 'slim/vendor/autoload.php';
-require 'api/creneaux.php';
 require 'api/auth.php';
-require 'api/inscription.php';
-require 'api/adherents.php';
+require 'api/restAdherents.php';
+require 'api/restCreneaux.php';
+require 'api/restEnfant.php';
+require 'api/restInscription.php';
+
+include_once('config.php');
 
 session_start();
 
@@ -47,11 +50,11 @@ $app->get('/hello/{name}', function ($request, $response, $args) {
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$app->get('/data', function(ServerRequestInterface $request, ResponseInterface $response) {
-    $data = array('name' => 'Bob', 'age' => 40);
-    $newResponse = $response->withJson($data);
+$app->get('/saison', function(ServerRequestInterface $request, ResponseInterface $response) {
+    $newResponse = $response->write(CURRENT_SAISON);
     return $newResponse;
 });
+
 
 // Set up dependencies
 require 'slim/src/dependencies.php';
@@ -62,9 +65,11 @@ require 'slim/src/middleware.php';
 // Register routes
 require 'slim/src/routes.php';
 
-$auth=new RestAuth($app);
-$insc=new RestInscription($app);
-$adh=new RestAdherents($app);
+
+new RestAuth($app);
+new RestInscription($app);
+new RestAdherents($app);
+new RestEnfant($app);
 
 // Run app
 $app->run();

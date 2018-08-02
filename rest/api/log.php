@@ -32,5 +32,10 @@ function trace_debug($string)
     }
 }
 
+function trace_mail($from,$to,$subject,$body)
+{
+    $hdl=fopen("log/mails.log","a");
+    _writefile($hdl,"FROM $from TO $to\n$subject\n$body\n");
+}
 
 ?>

@@ -6,6 +6,8 @@ include_once("dao/daoCreneau.php");
 include_once("dao/inscription.php");
 include_once("dao/personne.php");
 
+include_once("mailInscription.php");
+
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -60,44 +62,63 @@ class RestInscription {
                 $newResponse = $response->write("Internal error: can't create inscription");
                 return $newResponse;
             }
-            //Ajoute les inscriptions et preinscriptions
+
+
+            //Ajoute l'inscriptions
+            $inscr=new Inscription();
+            $inscr->setEnfant($enfant);
+
+            $inscr->setDateMax(date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")+7, date("Y"))));
+
+            if (array_key_exists("diffusionimage",$json)&&($json["diffusionimage"]=="1")) {
+                $inscr->setDiffusionImage(1);
+            } else {
+                $inscr->setDiffusionImage(2);
+            }
+            $inscr->setDiffusionImageLieu("web");
+            $inscr->setDiffusionImageDate(date("Y-m-d"));
+            $inscr->setDiffusionImageSignature("oui");
+
+            if (array_key_exists("reglement",$json)&&($json["reglement"]=="true")) {
+                $inscr->setReglementInterieurSignature("accepté");
+                $inscr->setReglementInterieurLieu("web");
+                $inscr->setReglementInterieurDate(date("Y-m-d"));
+            } else {
+                $inscr->setReglementInterieurSignature("");
+                $inscr->setReglementInterieurLieu("");
+                $inscr->setReglementInterieurDate(date(""));
+            }
+
+            //recupere le creneau principal
+            foreach($creneaux as $creneau) {
+                if (array_key_exists((string)($creneau->getId()),$listcreneaux))
+                {
+                    if ($listcreneaux[$creneau->getId()] == "1") {
+                        $inscr->setCreneau($creneau);
+                    }
+                }
+            }
+
+            if ($inscr->getCreneau()=="") {
+                $newResponse = $response->write("Error: pas de creneau primaire");
+                return $newResponse;
+            }
+
+            //ajoute l'inscription en base
+            $ret=$daoinscription->insert($inscr);
+            if ($ret==false) {
+                trace_info("Can't add inscription, error while inserting inscription");
+                $newResponse = $response->write("Internal error: can't create inscription");
+                return $newResponse;
+            }
+
+            //Ajoute les preinscriptions
             foreach($creneaux as $creneau) {
                 trace_info("creneau:".$creneau->getId()." nbinscrit=".$creneau->getNbInscrit()." capacite=".$creneau->getCapacite()." ".array_key_exists((string)($creneau->getId()),$listcreneaux));
                 if (($creneau->getNbInscrit()<$creneau->getCapacite()) && 
                     (array_key_exists((string)($creneau->getId()),$listcreneaux))
                    ) 
-                {
-                    $inscr=new Inscription();
-                    $inscr->setEnfant($enfant);
-                    $inscr->setCreneau($creneau);
-                    $inscr->setDateMax(date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")+7, date("Y"))));
-
-                    if (array_key_exists("diffusionimage",$json)&&($json["diffusionimage"]=="1")) {
-                        $inscr->setDiffusionImage(1);
-                    } else {
-                        $inscr->setDiffusionImage(2);
-                    }
-                    $inscr->setDiffusionImageLieu("web");
-                    $inscr->setDiffusionImageDate(date("Y-m-d"));
-                    $inscr->setDiffusionImageSignature("oui");
-
-                    if (array_key_exists("reglement",$json)&&($json["reglement"]=="true")) {
-                        $inscr->setReglementInterieurSignature("accepté");
-                        $inscr->setReglementInterieurLieu("web");
-                        $inscr->setReglementInterieurDate(date("Y-m-d"));
-                    } else {
-                        $inscr->setReglementInterieurSignature("");
-                        $inscr->setReglementInterieurLieu("");
-                        $inscr->setReglementInterieurDate(date(""));
-                    }
-
-                    $ret=$daoinscription->insert($inscr);
-                    if ($ret==false) {
-                        trace_info("Can't add inscription, error while inserting inscription");
-                        $newResponse = $response->write("Internal error: can't create inscription");
-                        return $newResponse;
-                    }
-                            
+                {                           
                     $preinscr=new Preinscription();
                     $preinscr->setCreneau($creneau);
                     $preinscr->setInscription($inscr);
@@ -113,9 +134,19 @@ class RestInscription {
             }
             $newResponse = $response->write("Inscription ajoutée");
             //$newResponse = $response->withJson($json);
+
+            //envoi le mail
+            mailinscription($enfant->getMel());
+
             return $newResponse;
 
         });
+
+
+
+
+
+
 
         $app->get("/inscription/test",function(ServerRequestInterface $request, ResponseInterface $response) {
             $daoPersonne=new daoPersonne();

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Creneaux from '@/components/Creneaux'
 import Adherents from '@/components/Adherents'
+import Enfant from '@/components/Enfant'
 
 Vue.use(Router)
 
@@ -23,5 +24,12 @@ export default new Router({
       name: 'Creneaux',
       component: Creneaux
     },
+    {
+      path: '/Enfant/:id',
+      name: 'Enfant',
+      component: Enfant,
+      props:true
+    },
+    
   ]
 })
