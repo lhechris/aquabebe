@@ -6,6 +6,7 @@ require 'api/restAdherents.php';
 require 'api/restCreneaux.php';
 require 'api/restEnfant.php';
 require 'api/restInscription.php';
+require 'api/restRegister.php';
 
 include_once('config.php');
 
@@ -70,6 +71,7 @@ new RestAuth($app);
 new RestInscription($app);
 new RestAdherents($app);
 new RestEnfant($app);
+new RestRegister($app);
 
 // Run app
 $app->run();

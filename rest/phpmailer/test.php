@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+
+print_r($_SESSION);
+
+$_SESSION["bof"]="merde";
+exit;
+
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;

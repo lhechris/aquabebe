@@ -282,7 +282,59 @@ class daoPersonne extends daoClass {
             $parent->setCommune($r[7]);
             array_push($parents,$parent);
         }
+
         return array("enfant"=>$enfant,"preinscriptions"=>$preinscriptions,"parents"=>$parents);
+    }
+
+
+    /**
+     * UPDATE personne
+     */
+    function update($oldpers,$newpers)
+    {
+        $values=array();
+        if ($oldpers->getPrenom() != $newpers->getPrenom()) {
+            array_push($values,"prenom='".$newpers->getPrenom()."'");
+        }
+        if ($oldpers->getNom() != $newpers->getNom()) {
+            array_push($values,"nom='".$newpers->getNom()."'");
+        }
+        if ($oldpers->getSexe() != $newpers->getSexe()) {
+            array_push($values,"sexe=".$newpers->getSexe());
+        }
+        if ($oldpers->getNaissance() != $newpers->getNaissance()) {
+            array_push($values,"naissance='".$newpers->getNaissance()."'");
+        }
+        if ($oldpers->getHandicap() != $newpers->getHandicap()) {
+            array_push($values,"handicap=".$newpers->getHandicap());
+        }
+        if ($oldpers->getType() != $newpers->getType()) {
+            array_push($values,"type='".$newpers->getType()."'");
+        }
+        if ($oldpers->getProfession() != $newpers->getProfession()) {
+            array_push($values,"profession='".$newpers->getProfession()."'");
+        }
+        if ($oldpers->getAdresse() != $newpers->getAdresse()) {
+            array_push($values,"adresse='".$newpers->getAdresse()."'");
+        }
+        if ($oldpers->getCp() != $newpers->getCp()) {
+            array_push($values,"cp=".$newpers->getCp());
+        }
+        if ($oldpers->getCommune() != $newpers->getCommune()) {
+            array_push($values,"commune='".$newpers->getCommune()."'");
+        }
+        if ($oldpers->getTel() != $newpers->getTel()) {
+            array_push($values,"tel='".$newpers->getTel()."'");
+        }
+        if ($oldpers->getTel2() != $newpers->getTel2()) {
+            array_push($values,"tel2='".$newpers->getTel2()."'");
+        }
+        if ($oldpers->getMel() != $newpers->getMel()) {
+            array_push($values,"mel='".$newpers->getMel()."'");
+        }
+
+        return $this->doUpdate("personne",$oldpers->getId(),$values);
+
     }
 
 

@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios,{AxiosRequestConfig} from 'axios';
 
-
+var ajaxTimeout = 30000; // in milliseconds
 export class restapi {
     baseurl= 'http://localhost:85/rest';
     //baseurl='/rest';
@@ -29,6 +29,11 @@ export class restapi {
         const AuthStr = 'Bearer '.concat(this.token); 
         //console.log("getHello");
         return axios.get(this.baseurl+'/hello', { headers: { Authorization: AuthStr } })
+/* res.header('Access-Control-Allow-Origin', yourExactHostname);
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+ */
+
          /*.then(response => {
              console.log(response.data);
           })
@@ -48,6 +53,40 @@ export class restapi {
            return response.data;      
         })
     }   
+
+    postEnfant(enfant) {
+        return axios.post(this.baseurl+'/enfant',enfant).then(response =>{        
+            return response.data;      
+         })
+     }
+
+     isRegister(isregister) {
+        return axios.get(this.baseurl+'/test.php/register',{withCredentials: true}).then(response =>{        
+            return response.data;      
+         })
+         /*$.ajax({
+            url: this.baseurl+'/test.php/register',
+            type: 'GET',
+            async: true,
+            timeout: ajaxTimeout,
+            xhrFields: {
+                withCredentials: true,
+                "Access-Control-Allow-Origin" : "localhost",
+           },
+            success: function(data,textStatus,transport){
+                isregister=data;
+                console.log(data);
+            }
+        }
+        );*/
+
+     }
+
+     postLogin(login) {
+        return axios.post(this.baseurl+'/test.php/register',login,{withCredentials: true}).then(response =>{        
+            return response.data;      
+         })
+     }
 
 
 }
