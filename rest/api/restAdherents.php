@@ -19,15 +19,19 @@ class RestAdherents {
             {
                 $personne=$t["enfant"];
                 $preinscription=$t["preinscription"];
+                $paiement=$t["paiement"];
                 
                 $t=array("id"=>$personne->getId(),
                         "prenom"=>$personne->getPrenom(),
                         "nom"=>$personne->getNom(),
                         "naissance"=>$personne->getNaissance(),
                         "creneau" =>$preinscription->getCreneau()->getLieu()." ".$preinscription->getCreneau()->getJour()." ".$preinscription->getCreneau()->getHeure(),
-                        "inscriptionid" => $preinscription->getInscription()->getId(),
+                        "paiement" => $preinscription->getInscription()->getPaiement(),
                         "choix" => $preinscription->getChoix(),
-                        "reservation" => $preinscription->getReservation()
+                        "reservation" => $preinscription->getReservation(),
+                        "paiementmontant" => $paiement->getMontant(),
+                        "paiementmois"    => $paiement->getMois()
+
                        );
                 array_push($data,$t);
             }                        

@@ -5,6 +5,17 @@ include_once("dao/daoCreneau.php");
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+class foo {
+    private $a;
+    public $b = 1;
+    public $c;
+    private $d;
+    static $e;
+    function __construct() {
+        $this->a="blabla";
+    }
+}
+
 class RestCreneaux {
 
     public function __construct($app)
@@ -81,6 +92,37 @@ class RestCreneaux {
             //$data = file_get_contents("api/creneauxall.json");   
             $newResponse = $response->withJson($data);
             return $newResponse;
+        });
+
+
+        $app->get("/creneaux/list",function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            $daocreneaux=new daoCreneau();
+            $creneaux=$daocreneaux->getList();
+            $data=array();
+
+            foreach($creneaux as $creneau) {
+                array_push($data,$creneau->toarray());
+            }
+            $newResponse = $response->withJson($data);
+            return $newResponse;
+        });
+
+        /**
+         * METHOD POST enfant
+         */
+        $app->post('/creneaux/mail', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+           
+            $json = $request->getParsedBody();
+            trace_info("POST creneaux email");
+            trace_info(print_r($json,true));
+
+            //recherche tous les emails d'un creneau
+            $daocreneaux=new daoCreneau();
+            $emails=$creneaux=$daocreneaux->getEmails($json["creneau"]);
+
+
+            $newResponse = $response->write("Pas encore implementé");
+            return $newResponse;  
         });
 
     }

@@ -104,13 +104,18 @@ class daoPersonne extends daoClass {
                        "inscription.id, ".            /* 12 */
                        "inscription.paiement, ".      /* 13 */
                        "preinscription.choix, ".      /* 14 */
-                       "preinscription.reservation ". /* 15 */
-        "from creneau,inscription,personne,preinscription ".
+                       "preinscription.reservation, "./* 15 */
+                       "paiement.id, ".               /* 16 */ 
+                       "paiement.montant, ".          /* 17 */
+                       "paiement.mois ".              /* 18 */
+        "from creneau,inscription,personne,preinscription,paiement ".
         "where creneau.id=inscription.id_creneau ".
           "and inscription.ID_enfant=personne.id ".
           "and creneau.saison='$saison' ".
           "and personne.type='enfant' ".
           "and preinscription.id_inscription=inscription.id ".
+          "and preinscription.reservation=1 ".
+          "and paiement.id=inscription.paiement ".
         "order by personne.nom,personne.prenom,preinscription.choix";
         trace_debug($query);
 
@@ -120,6 +125,7 @@ class daoPersonne extends daoClass {
         }catch(PDOException  $e ){
             trace_info("Error $e");
             trace_error("Error ".$query."\n  ".$e);
+            return array();
         }
         $personnes=array();        
         foreach($liste as $r)
@@ -144,13 +150,19 @@ class daoPersonne extends daoClass {
             $inscription->setId($r[12]);
             $inscription->setPaiement($r[13]);
 
+            $paiement=new Paiement();
+            $paiement->setId($r[16]);
+            $paiement->setMontant($r[17]);
+            $paiement->setMois($r[18]);
+
             $preinscription=new Preinscription();
             $preinscription->setInscription($inscription);
             $preinscription->setCreneau($creneau);
             $preinscription->setChoix($r[14]);
             $preinscription->setReservation($r[15]);
 
-            array_push($personnes,array("enfant"=>$enfant,"preinscription"=>$preinscription ));
+
+            array_push($personnes,array("enfant"=>$enfant,"preinscription"=>$preinscription,"paiement"=>$paiement ));
         }
         return $personnes;
 

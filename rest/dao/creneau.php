@@ -1,5 +1,5 @@
 <?php
-class Creneau{
+class Creneau {
     private $id;
     private $saison;
     private $lieu;
@@ -57,5 +57,14 @@ class Creneau{
 
     public function getEnfants() { return $this->enfants;}
     public function addEnfant($enfant) { array_push($this->enfants,$enfant);}
+
+    /*public function jsonSerialize() {
+		$vars = get_object_vars($this);
+		return $vars;
+    }*/
+    public function toarray() {
+		$vars = get_object_vars($this);
+		return $vars;
+    }
 }
 ?>

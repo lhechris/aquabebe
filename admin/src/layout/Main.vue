@@ -16,6 +16,9 @@
       <li class="nav-item">
         <router-link class="nav-link" to="/creneaux">Créneaux</router-link>
       </li>
+      <li class="nav-item">
+        <router-link class="nav-link" to="/mailing">Mailing</router-link>
+      </li>
     </ul>
   </div>
 </nav>

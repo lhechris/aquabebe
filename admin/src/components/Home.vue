@@ -41,13 +41,13 @@ export default {
       get: function (){
         var api = new restapi();
         var self=this;
-        api.isRegister().then(response=>{
+        api.isRegister().then(()=>{
           self.isregister=true;
-        })
+        });
       },  
       login: function (){
         var api = new restapi();
-        var self=this;
+
         var data = new FormData();
         data.append("login","admin");
         data.append("pass","admin");

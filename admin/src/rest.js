@@ -1,6 +1,5 @@
-import axios,{AxiosRequestConfig} from 'axios';
+import axios from 'axios';
 
-var ajaxTimeout = 30000; // in milliseconds
 export class restapi {
     baseurl= 'http://localhost:85/rest';
     //baseurl='/rest';
@@ -27,23 +26,17 @@ export class restapi {
     
     getHello(){
         const AuthStr = 'Bearer '.concat(this.token); 
-        //console.log("getHello");
-        return axios.get(this.baseurl+'/hello', { headers: { Authorization: AuthStr } })
-/* res.header('Access-Control-Allow-Origin', yourExactHostname);
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
- */
-
-         /*.then(response => {
-             console.log(response.data);
-          })
-         .catch((error) => {
-             console.log('error ' + error);
-          })*/;
+        return axios.get(this.baseurl+'/hello', { headers: { Authorization: AuthStr } });
     }
 
     getCreneaux(){
         return axios.get(this.baseurl+'/creneaux/all').then(response =>{        
+           return response.data;      
+        })
+    }   
+
+    getListCreneaux(){
+        return axios.get(this.baseurl+'/creneaux/list').then(response =>{        
            return response.data;      
         })
     }   
@@ -60,26 +53,16 @@ export class restapi {
          })
      }
 
+    postEmailCreneau(mail) {
+        return axios.post(this.baseurl+'/creneaux/mail',mail).then(response =>{        
+            return response.data;      
+         })
+    }
+
      isRegister(isregister) {
         return axios.get(this.baseurl+'/test.php/register',{withCredentials: true}).then(response =>{        
             return response.data;      
          })
-         /*$.ajax({
-            url: this.baseurl+'/test.php/register',
-            type: 'GET',
-            async: true,
-            timeout: ajaxTimeout,
-            xhrFields: {
-                withCredentials: true,
-                "Access-Control-Allow-Origin" : "localhost",
-           },
-            success: function(data,textStatus,transport){
-                isregister=data;
-                console.log(data);
-            }
-        }
-        );*/
-
      }
 
      postLogin(login) {

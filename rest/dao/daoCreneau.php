@@ -22,7 +22,8 @@ class daoCreneau extends daoClass {
             $stmt=$this->pdo->query($query);
             $liste=$stmt->fetchAll();
         }catch(PDOException  $e ){
-            echo "Error: ".$e;
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
         }
         $creneaux=array();        
         foreach($liste as $r)
@@ -76,7 +77,8 @@ class daoCreneau extends daoClass {
                                     "GROUP BY (creneau.id) ORDER BY creneau.lieu,creneau.jour,creneau.heure");
             $liste=$stmt->fetchAll();
         }catch(PDOException  $e ){
-            echo "Error: ".$e;
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
         }
         $creneaux=array();        
         foreach($liste as $r)
@@ -95,6 +97,73 @@ class daoCreneau extends daoClass {
         }
         return $creneaux;
     }
+
+    /**
+     * Retourne la liste des creneaux
+     */
+    function getList() {
+        
+        try {
+            $query="SELECT id,lieu,heure,jour ".
+            "FROM creneau ".
+            "WHERE saison='".CURRENT_SAISON."' ".
+            "ORDER BY lieu,jour,heure";
+
+            $stmt=$this->pdo->query($query);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+            return array();            
+        }
+        $creneaux=array();
+        foreach($liste as $r)
+        {
+            $creneau=new Creneau();
+            $creneau->setId($r[0]);
+            $creneau->setLieu($r[1]);
+            $creneau->setHeure($r[2]);
+            $creneau->setJour($r[3]);
+            array_push($creneaux,$creneau);
+        }
+        return $creneaux;
+    }
+
+    /**
+     * Retourne la liste des email d'un creneaux
+     */
+    function getEmails($id) {
+        
+        $emails=array();
+
+        /*try {
+            $query="SELECT id,lieu,heure,jour ".
+            "FROM creneau ".
+            "WHERE saison='".CURRENT_SAISON."' ".
+            "ORDER BY lieu,jour,heure";
+
+            $stmt=$this->pdo->query($query);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+            return array();            
+        }
+        $creneaux=array();
+        foreach($liste as $r)
+        {
+            $creneau=new Creneau();
+            $creneau->setId($r[0]);
+            $creneau->setLieu($r[1]);
+            $creneau->setHeure($r[2]);
+            $creneau->setJour($r[3]);
+            array_push($creneaux,$creneau);
+        }
+        return $creneaux;*/
+        return $emails;
+    }
+
+
 }
 
 
