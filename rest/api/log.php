@@ -23,6 +23,7 @@ function trace_error($string)
     $hdl=fopen("log/error.log","a");
     _writefile($hdl,$string);
 }
+
 function trace_debug($string)
 {
     global $DEBUG_MODE;

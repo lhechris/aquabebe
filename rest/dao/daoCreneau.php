@@ -134,14 +134,16 @@ class daoCreneau extends daoClass {
      */
     function getEmails($id) {
         
+        //TODO check id
+
         $emails=array();
-
-        /*try {
-            $query="SELECT id,lieu,heure,jour ".
-            "FROM creneau ".
-            "WHERE saison='".CURRENT_SAISON."' ".
-            "ORDER BY lieu,jour,heure";
-
+        try {
+            $query="SELECT personne.mel ".
+            "FROM inscription,personne ".
+            "WHERE inscription.id_creneau=".$id." ".
+              "and inscription.ID_enfant=personne.id ".
+              "and personne.type='enfant' ";
+    
             $stmt=$this->pdo->query($query);
             $liste=$stmt->fetchAll();
         }catch(PDOException  $e ){
@@ -149,17 +151,11 @@ class daoCreneau extends daoClass {
             trace_error("Error ".$query."\n  ".$e);
             return array();            
         }
-        $creneaux=array();
+
         foreach($liste as $r)
         {
-            $creneau=new Creneau();
-            $creneau->setId($r[0]);
-            $creneau->setLieu($r[1]);
-            $creneau->setHeure($r[2]);
-            $creneau->setJour($r[3]);
-            array_push($creneaux,$creneau);
+            array_push($emails,$r[0]);
         }
-        return $creneaux;*/
         return $emails;
     }
 

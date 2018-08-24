@@ -11,7 +11,6 @@ include_once('log.php');
 
 function mailinscription($enfant)
 {
-
     $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
     try {
         //Server settings
@@ -73,8 +72,7 @@ function mailinscription($enfant)
         trace_mail($from,$enfant->getMel(),$mail->Subject,$mail->Body);
 
     } catch (Exception $e) {
-        trace_error('Message could not be sent. Mailer Error: ', $e);
-        echo $e;
+        trace_error("Erreur lors de l'envoi d'un message:". $e->getMessage());
     }
 }
 

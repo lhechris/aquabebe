@@ -5,6 +5,7 @@ import Creneaux from '@/components/Creneaux'
 import Adherents from '@/components/Adherents'
 import Enfant from '@/components/Enfant'
 import Mailing from '@/components/Mailing'
+import Documentation from '@/components/Documentation'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/Mailing',
       name: 'Mailing',
       component: Mailing
+    },
+    {
+      path: '/documentation',
+      name: 'Documentation',
+      component: Documentation
     },
     
   ]

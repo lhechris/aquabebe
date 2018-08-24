@@ -62,7 +62,7 @@ class Creneau {
 		$vars = get_object_vars($this);
 		return $vars;
     }*/
-    public function toarray() {
+    public function toArray() {
 		$vars = get_object_vars($this);
 		return $vars;
     }

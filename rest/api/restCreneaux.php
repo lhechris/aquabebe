@@ -1,9 +1,12 @@
 <?php
 include_once("log.php");
 include_once("dao/daoCreneau.php");
+include_once("mailcreneau.php");
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+
+use Slim\Http\UploadedFile;
 
 class foo {
     private $a;
@@ -101,7 +104,7 @@ class RestCreneaux {
             $data=array();
 
             foreach($creneaux as $creneau) {
-                array_push($data,$creneau->toarray());
+                array_push($data,$creneau->toArray());
             }
             $newResponse = $response->withJson($data);
             return $newResponse;
@@ -116,12 +119,29 @@ class RestCreneaux {
             trace_info("POST creneaux email");
             trace_info(print_r($json,true));
 
+            $uploadedFiles = $request->getUploadedFiles();
+            $directory=__DIR__ . DIRECTORY_SEPARATOR . 'uploads';
+            if (array_key_exists("files",$uploadedFiles)) {
+                foreach($uploadedFiles['files'] as $uploadedFile) {
+
+                    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+                    $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+                    $filename = sprintf('%s.%0.8s', $basename, $extension);
+                    trace_info($directory . DIRECTORY_SEPARATOR . $filename);
+                    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+                }
+            }
+
             //recherche tous les emails d'un creneau
             $daocreneaux=new daoCreneau();
             $emails=$creneaux=$daocreneaux->getEmails($json["creneau"]);
 
+            mailcreneau($emails,$json['texte'],$json['sujet'],array());
 
-            $newResponse = $response->write("Pas encore implementé");
+            //$newResponse = $response->write("Pas encore implementé");
+            $newResponse = $response->withJson($emails);
+
+
             return $newResponse;  
         });
 

@@ -70,7 +70,24 @@ export class restapi {
             return response.data;      
          })
      }
+     
+     getDocuments() {
+        return axios.get(this.baseurl+'/doc/get').then(response =>{        
+            return response.data;      
+         })
+     }
+     getDocument(id) {
+        return axios.get(this.baseurl+'/doc/getfichier/'+id,{responseType:'stream'}).then(response =>{      
+            return response; 
+         })
+     }
 
+     postDocUpload(data) {
+        console.log(data);
+        return axios.post(this.baseurl+'/doc/upload',data).then(response =>{        
+            return response.data;      
+         })
+    }
 
 }
 
