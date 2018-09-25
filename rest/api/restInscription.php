@@ -3,8 +3,6 @@ include_once("log.php");
 include_once("dao/daoInscription.php");
 include_once("dao/daoPersonne.php");
 include_once("dao/daoCreneau.php");
-include_once("dao/inscription.php");
-include_once("dao/personne.php");
 
 include_once("mailInscription.php");
 

@@ -1,0 +1,7 @@
+AuthUserFile /homez.109/aquabebe/.htpasswd_inscription
+AuthGroupFile /dev/null
+AuthName "Les inscriptions internet 2018-2019 sont fermées pour ce week-end. Elles se fairont durant les forums de Saint Lys et de de Villeneuve_Tolosane"
+AuthType Basic
+<Limit GET POST>
+require valid-user
+</Limit>

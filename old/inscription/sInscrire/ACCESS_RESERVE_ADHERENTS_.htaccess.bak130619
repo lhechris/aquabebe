@@ -1,0 +1,7 @@
+AuthUserFile /homez.109/aquabebe/.htpasswd_inscription
+AuthGroupFile /dev/null
+AuthName "LES INSCRIPTIONS SONT RESERVEES AUX ADHERENTS. ELLES SERONT ACCESSIBLES A TOUS A PARTIR DU 7 JUILLET."
+AuthType Basic
+<Limit GET POST>
+require valid-user
+</Limit>

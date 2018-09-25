@@ -2,13 +2,13 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse, Ax
 import moment from 'moment'
 
 export class restapi {
-    baseurl= 'http://localhost:85/rest';
+    baseurl= 'http://localhost/rest';
     //baseurl='/rest';
     token = "";    
 
-    getHome() {
+    getPage(name) {
       
-     return axios.get(this.baseurl+'/home').then(response =>{        
+     return axios.get(this.baseurl+'/pages/'+name).then(response =>{        
         return response.data;      
      })
     }

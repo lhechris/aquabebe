@@ -1,0 +1,12 @@
+<!-- En tête de page -->
+    <div id="header">
+		<h1>Aqua-Bébé</h1>
+		<a href="<?=REPOSITORY;?>/index.php" class="logo">Aqua-Bébé</a>
+		<div class="renseignements">
+			<strong>Renseignements</strong><br/>
+			<a href="http://www.aquabebe.fr">www.aquabebe.fr</a><br/>
+			<img src="<?=REPOSITORY?>/images/contact-head.jpg" alt="adresse à recopier" /> <br/>
+			<!--Répondeur/fax : 09 72 11 66 39-->
+		</div>
+    </div>
+<!-- Fin d l'en tête de page -->

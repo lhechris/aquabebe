@@ -1,0 +1,7 @@
+AuthUserFile /homez.109/aquabebe/.htpasswd_inscription
+AuthGroupFile /dev/null
+AuthName "Les inscriptions internet 2015-2016 sont closes pour ce week-end. Elles pourront se faire durant le forum des associations de Villeneuve_Tolosane (Espace Marcel Pagnol), ce samedi 12 septembre vous pourrez nous y retrouver à partir de 14h00."
+AuthType Basic
+<Limit GET POST>
+require valid-user
+</Limit>

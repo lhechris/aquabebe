@@ -1,0 +1,7 @@
+AuthUserFile /homez.109/aquabebe/.htpasswd_inscription
+AuthGroupFile /dev/null
+AuthName "Nous sommes actuellement complets pour la saison 2010-2011. Le forum vous indiquera si des places se libèrent."
+AuthType Basic
+<Limit GET POST>
+require valid-user
+</Limit>

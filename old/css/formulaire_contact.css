@@ -1,0 +1,139 @@
+/*formulaire de contact*/
+#main .formulaire{
+	width:90%;
+	margin:0 auto;
+	position: relative;
+	display:block;
+	/*left:40px;*/
+	top:10px;
+}
+#main .formulaire .onglets{
+	width:100%;
+	list-style:none;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	position: relative;
+	display:block;
+	background-position:left bottom;
+	background-repeat:no-repeat;
+	left:0px;
+}
+#main .onglets li{
+	width:16%;
+	height:60px;
+	position:relative;
+	float: left;
+	left:0px;
+	top:0px;
+	padding-top:5px;
+	color:#233e7f;
+	text-align:center;
+	background-color:#93bdd9;
+	border:solid 1px;
+	border-color:#233e7f;
+}
+#main .onglets li.actif{
+	width:18%;
+	height:58px;
+	color:#233e7f;
+	font-weight:bold;
+	padding-top:8px;
+	border-bottom:none;
+	background-color:white;
+}
+#main .onglets li.last{
+	width:0;
+	display:none;
+	border:none;
+}
+#main .onglets li.actif.last{
+	width:2%;
+	height:58px;
+	color:#233e7f;
+	font-weight:bold;
+	padding-top:8px;
+	border-bottom:solid 1px;
+	border-color:#233e7f;
+	background-color:transparent;
+	display:block;
+}
+#main .formulaire .fields{
+	background-color:white;
+	border:solid 1px;
+	border-top:none;
+	border-color:#233e7f;
+	position: relative;
+	display:block;
+	float:left;
+	width:99%;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+#main .formulaire table{
+	position:relative;
+	width:80%;
+	margin:0 auto;
+	padding:0 0 0 0;
+}
+#main .formulaire form{
+	margin: 0 0 0 0;
+}
+#main .formulaire table caption{
+	font-style:italic;
+	color:#4e66a1;
+}
+#main .formulaire table .value{
+	/*width:350px;*/
+}
+#main .formulaire input.error{
+	color:black;
+	background-color:#fcd8ba;
+	
+}
+#main .formulaire .error{
+    color:#c79284;
+	font-size:0.9em;
+	display:inline;
+}
+#main .formulaire td.label{
+	width:50%;
+	text-align:center;
+}
+#main .formulaire td.value{
+	font-style:italic;
+	color:black;
+	/*#4e66a1;*/
+}
+#main .formulaire td.separator{
+	font-style:italic;
+	font-weight:bold;
+	color:#4e66a1;
+	text-align:justify;
+}
+#main img{
+	position:relative;
+	display:inline;
+}
+#main .formulaire td.buttons{
+	text-align:center;
+}
+#main .formulaire button {
+}
+#main .formulaire button img.button{
+	display:inline;
+	position:relative;
+	top:0;
+	left:0;
+	margin:0 0 0 0;
+	padding : 0 0 0 0;
+	width:100px;
+	height:24px;
+}
+#main .formulaire .bottom{
+	display:none;
+}
+#main .redStar{
+    color:#c79284;
+	font-size:0.9em;
+	display:inline;
+}

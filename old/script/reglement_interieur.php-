@@ -1,0 +1,70 @@
+<?php
+	function getRI()
+  {
+		$text = "<h2>".htmlentities("Règlement intérieur",null,"ISO-8859-1",false)."</h2>"
+            ."<h2>".htmlentities("Aqua-Bébé",null,"ISO-8859-1",false)."</h2>"
+            ."<h2>".htmlentities("Saison ",null,"ISO-8859-1",false).SAISON."</h2>"
+            ."<h3>".htmlentities("Adhésion - Cotisation",null,"ISO-8859-1",false)."</h3>"
+            ."<p>"	.htmlentities("L'adhésion à l'association est obligatoire. La somme de 20 € doit être acquittée par famille pour accéder 
+									aux activités de l'Association.",null,"ISO-8859-1",false)
+					."<br/>"
+					.htmlentities("La cotisation, dont le montant est voté en assemblée générale, permet à l'enfant et à son accompagnateur 
+									déclaré d'accéder aux activités. Celle-ci est valable du 17 septembre 2014 au 27 juin 2015 et sera recalculée 
+									au nombre de mois d'activité restants pour les inscriptions en cours d'année.",null,"ISO-8859-1",false)
+					."<br/>"
+					.htmlentities("Une réduction est accordée aux fratries.",null,"ISO-8859-1",false)."</p>"
+            ."<br/>"
+            ."<h3>".htmlentities("Activité",null,"ISO-8859-1",false)."</h3>"
+            ."<p>"	.htmlentities("L'activité des bébés nageurs est encadrée par un maitre-nageur diplômé. Elle est dispensée à la piscine du ",null,"ISO-8859-1",false)
+					."<u>".htmlentities("Centre René Bouscairol",null,"ISO-8859-1",false)."</u>"
+					.htmlentities(" à Villeneuve Tolosane.",null,"ISO-8859-1",false)
+					"<u>".htmlentities(" et au cours de l'année 2015, en partie, au Centre Rosine BET",null,"ISO-8859-1",false)."</u>"
+					.htmlentities(" à Saint Lys.",null,"ISO-8859-1",false)
+					."<br/>"
+					."<br/>"
+                  ."<b>".htmlentities("La remise d'un certificat médical de moins de 3 mois attestant qu'il n'y a pas de contre-indication 
+										à la pratique de la baignade pour l'enfant ainsi que le justificatif précisant que l’enfant est 
+										à jour de ses vaccins ",null,"ISO-8859-1",false)
+                  ."<u>".htmlentities("sont obligatoires dès le premier bain.",null,"ISO-8859-1",false)."</u>"
+				  ."</b>"
+				  ."<br/>"
+				  ."<br/>"
+                  .htmlentities("L'enfant et son accompagnateur déclaré s'engagent à respecter le Règlement Intérieur 
+                                 de la piscine du centre dont notamment :",null,"ISO-8859-1",false)."<br/>"
+                  .htmlentities("- le port par l'enfant d'une couche (s'il n'est pas totalement propre) ou d'un maillot étanche spécial piscine; ",null,"ISO-8859-1",false)."<br/>"
+                  .htmlentities("- le port d'un maillot de bain par l'accompagnant (éviter le short de bain pour les Messieurs);",null,"ISO-8859-1",false)."<br/>"
+                  .htmlentities("- le passage sous la douche avant la baignade;",null,"ISO-8859-1",false)."<br/>"
+                  .htmlentities("- n'abandonner ni couches, ni cotons, ni lingettes ou tout autre chose usagée dans les 
+                                  locaux mais utiliser les poubelles mises à disposition;",null,"ISO-8859-1",false)."<br/>"
+                  .htmlentities("- se déchausser avant l'accès aux vestiaires.",null,"ISO-8859-1",false)
+				  ."<br/>"
+				  ."<br/>"
+				  .htmlentities("L'enfant et son accompagnateur déclaré ",null,"ISO-8859-1",false)
+				  ."<u>".htmlentities("s’engagent à prendre part",null,"ISO-8859-1",false)."</u>"
+				  .htmlentities(" à la vie de l'association (participation à l’accueil, passage de la raclette, rangement des cabines, 
+									rangement des jeux à disposition des enfants...).",null,"ISO-8859-1",false)
+                  ."</p>"
+            ."<br/>"
+            ."<h3>".htmlentities("Horaires",null,"ISO-8859-1",false)."</h3>"
+            ."<p>".htmlentities("Le jour et l'horaire de l'activité sont attribués pour l'année lors de l'inscription. L'enfant et son accompagnateur 
+                                  s'engagent à respecter le créneau attitré. Un planning des séances sur la saison est établi et affiché.",null,"ISO-8859-1",false)
+				  ."<br/>"
+				  ."<br/>"
+				  .htmlentities("L'enfant et son accompagnateur déclaré  ",null,"ISO-8859-1",false)
+				  ."<u>".htmlentities("s’engagent à prévenir",null,"ISO-8859-1",false)."</u>"
+				  .htmlentities(" le maître-nageur sauveteur (MNS) de leur absence via l’e-mail suivant : absence.mns@aquabebe.fr",null,"ISO-8859-1",false)
+                   ."</p>"
+            ."<h3>".htmlentities("Communication",null,"ISO-8859-1",false)."</h3>"
+            ."<p>".htmlentities("L'association Aqua bébé communique par mail sauf en cas d'urgence par SMS. Elle décline toute responsabilité en cas de non réception des messages.",null,"ISO-8859-1",false)
+                  ."</p>"
+            ."<h3>".htmlentities("Arrêt d'activité",null,"ISO-8859-1",false)."</h3>"
+            ."<p>".htmlentities("Un remboursement de la cotisation pourra être considéré en cas d'arrêt d'activité 
+                                sur présentation d'un justificatif (problème de santé de l'enfant, changement de situation 
+                                familiale, mutation...). Les demandes seront étudiées par le Conseil d'Administration qui 
+                                s'engage à les traiter confidentiellement.",null,"ISO-8859-1",false)
+                  ."</p>"
+    ;
+    
+    return $text;
+	}
+?>

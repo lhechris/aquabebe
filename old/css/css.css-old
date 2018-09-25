@@ -1,0 +1,426 @@
+/*
+	//couleurs
+	define("NOIR","black");
+	define("BLEU_FONCE","#182a84");
+	define("BLEU_CLAIR","#93bdd9");
+	define("ROSE","#cf9f92");
+*/
+
+html{
+    height:100%;
+}
+body{
+    margin:0 0 0 0;
+	padding: 0 0 0 0;
+	height:100%;
+	min-height:100%;
+	color:black;
+	font-size:14px;
+	font-family:times;
+	background-color:white;
+	background:url(../images/vagues8.gif) repeat;
+}
+/* ------------------------------ header --------------------------------*/
+#header {
+	width:90%;
+	height:115px;
+	background:url(../images/header.gif) no-repeat;
+    background-position: top left;
+    margin:0 auto;
+	position:relative;
+}
+#header h1{
+	width:50%;
+	height:90px;
+	padding:0 0 0 0;
+	margin:0 auto;
+	position:relative;
+	text-indent:-9999px;
+	z-index:10000;
+	/*background:url(../images/aquabebe.gif);*/
+	background-repeat:no-repeat;
+    background-position: bottom center;
+}
+#header .renseignements{
+	position:absolute;
+	right:10px;
+	top:0px;
+	padding:15px 0 0 0;
+	margin:0 0 0 0;
+	height:131px;
+	width:262px;
+	font-size: 120%;
+	color:#182a84;
+	text-decoration:none;
+	text-align:center;
+	background:url(../images/renseignements.gif) no-repeat;
+    background-position: top right;
+}
+#header .renseignements a{
+	color:#182a84;
+}
+
+#header a.logo{
+	text-indent:-9999px;
+	z-index:10000;
+	position:absolute;
+	top:2px;
+	left:0;
+	width:160px;
+	height:105px;
+	overflow:visible;
+	/*background:url(../images/logo_link.gif) no-repeat;*/
+    background-position: top left;
+}
+/*---------------------------------------- menu -------------------------------------------*/
+#menu{
+	height:100px;
+	width:90%;
+	background-image:url(../images/menu2.gif);
+	background-repeat:no-repeat;
+	background-position:top left;
+	padding: 0 0 0 0;
+	margin:0 auto;
+}
+#menu a{
+	background:transparent;
+	display:block;
+	float: left;
+	/*border-right: solid 1px white;*/
+	border-bottom:solid 1px #93bdd9;
+	border-left:none;
+	border-top:none;
+	width:180px;
+	height:20px;
+	padding: 60px 0 0 0;
+	text-align:center;
+	color:#182a84;
+	font-size: 100%;
+	font-weight:bold;
+	text-decoration:none;
+}
+#menu a.last{
+	float: right;
+	border-right: none;
+	/*border-left: solid 1px white;*/
+	color:#93bdd9;
+	width:90px;
+}
+#menu a:hover {
+	font-size: 130%;
+	background-image:url(../images/balle.gif);
+	background-position:top center;
+	background-repeat:no-repeat;
+	color:#93bdd9;
+	font-weight:bold;
+}
+#menu a.last:hover{
+	color:#182a84;
+}
+#menu .selected{
+	font-weight:bold;
+	font-size: 120%;
+	height:40px;
+	background-image:url(../images/menu_focus.gif);
+	background-position:top center;
+	background-repeat:no-repeat;
+	border-bottom:none;
+}
+#menu a.selected:hover{
+	background-image:url(../images/balle_focus.gif);
+	background-position:top center;
+	color:black;
+}
+/* ----------------------- main ---------------------------*/
+#main{
+    width:90%;
+    margin:0 auto;
+	position:relative;
+	padding:0 0 20px 0;
+	display:block;
+	background-color:transparent;
+	font-size:medium;
+	background-image:url(../images/main.gif);
+	background-repeat:repeat-y;
+}
+#main cite{
+	color:#182a84;
+	text-align:center;
+	width:70%;
+	padding-left:15%;
+}
+#main .border{
+	border-color:#182a84;
+	border-style:solid;
+	border-width:1px;
+	margin-top:30px;
+	background-color:white;
+}
+#main .complet{
+	color:#cf9f92;
+}
+#main table.creneaux{
+	width:920px;
+	position:relative;
+	margin:0 auto;
+	left:64px;
+	display:block;
+}
+#main .creneaux td{
+	width:115px;
+}
+#main .creneaux .identification{
+	font-size:100%;
+	width:115px;
+}
+#main .creneaux a{
+	color:#93bdd9;
+	text-decoration:none;
+	font-size:70%;
+	padding-top:15px;
+	display:block;
+}
+#main .creneaux a:hover{
+	text-decoration:underline;
+}
+#main .creneaux cite{
+	font-size:90%;
+	height:100px;
+	font-weight:none;
+	width:115px;
+}
+#main cite .number{
+	color:green;
+	font-size:120%;
+}
+#main .creneaux table{
+	width:115px;
+}
+#main .creneaux table td.border{
+	width:100%;
+	height:45px;
+	text-align:center;
+	vertical-align:middle;
+}
+#main .creneaux table td .reservation{
+	font-weight:bold;
+	color:#93bdd9;
+}
+
+#main .creneaux table td a{
+	padding:0 0 0 0;
+}
+#main h2{
+	text-align:center;
+	margin:0 auto;
+	padding:30px 0 0 0;
+	color:#182a84;
+}
+#main h4{
+	position:relative;
+	width:80%;
+	display:block;
+	margin:0 auto;
+	margin-bottom:2.5%;
+	color:#93bdd9;
+	text-align:center;
+}
+#main hr {
+	clear: both;
+	visibility: hidden;
+	width:60%;
+	margin:0 auto;
+	margin-bottom:30px;
+}
+#main a{
+	display:inline;
+	color:#93bdd9;
+}
+#main p{
+	width:80%;
+	text-align:justify;
+	margin:15px auto;
+	left:110px;
+}
+#main ul{
+	width:75%;
+	text-align:justify;
+	margin:15px auto;
+	left:110px;
+	padding-left:5%;
+	list-style-image: url(../images/bullet.gif);
+}
+#main cite
+#main div.validation{
+	margin:0 0 0 0;
+	padding-top:40px;
+	padding-bottom:40px;
+	width:100%;
+	display:block;
+	position:relative;
+}
+#main div.coordonnees{
+	display:block;
+	position:relative;
+	float:left;
+	width:29%;
+	padding:0 0 0 0;
+	margin:0 0 0 0;
+}
+#main div.preinscriptions{
+	display:block;
+	position:relative;
+	float:right;
+	width:69%;
+	overflow:none;
+	padding:0 0 0 0;
+	margin:0 0 0 0;
+}
+
+#main table.validation, #main table.preinscription {
+	position:relative;
+	display:block;
+	padding:0 0 0 0;
+	border-style:outset;
+	
+	width:80%;
+	margin:30px auto;
+	background-color:white;
+}
+#main .validation tr, #main .preinscription tr {
+	width:100%;
+}
+#main .validation td, #main .preinscription td {
+	border-top-style:outset;
+	text-align:center;
+	vertical-align:middle;
+	height:20px;
+}
+#main .validation th{
+	width:17%;
+}
+#main .preinscription th{
+	width:25%;
+}
+#main .validation  td form, #main .preinscription td form{
+	margin:0 0 0 0;
+	padding:0 0 0 0;
+}
+
+#main .part{
+	display:block;
+	position:relative;
+	width:85%;
+	border-right: solid 5px #182a84;
+	border-bottom: solid 5px #4e66a1;
+	padding:0 0 0 20px;
+	margin:30px 0 20px 0;
+	left:100px;
+}
+#main .part h3{
+	width:98%;
+	padding:2px 2px 2px 4px;
+	margin:0 0 0 0;
+	color:#182a84;
+	font-size: 120%;
+	font-weight:bold;
+	text-decoration:underline;
+}
+#main .part.feminin{
+	background-image: url(../images/feminin.gif);
+	background-position:bottom right;
+	background-repeat:no-repeat;
+}
+#main .part.masculin{
+	background-image: url(../images/masculin.gif);
+	background-position:bottom right;
+	background-repeat:no-repeat;
+}
+#main .part.fille{
+	background-image: url(../images/fille.gif);
+	background-position:bottom right;
+	background-repeat:no-repeat;
+}
+#main .part.garcon{
+	background-image: url(../images/garcon.gif);
+	background-position:bottom right;
+	background-repeat:no-repeat;
+}
+#main .part p{
+	width:90%;
+	text-align:justify;
+	margin:2px 12px 2px 20px;
+	padding:0 0 0 2px;
+}
+
+#main .part a.mail{
+	color:black;
+	text-decoration:none;
+	padding:0 0 0 25px;
+	margin-left:20px;
+	background-image: url(../images/message.gif);
+	background-repeat:no-repeat;
+	background-position:bottom left;
+}
+#main .part a:hover{
+	color:#93bdd9;
+}
+
+
+#main span.lettrine {
+	position:relative;
+	top:0;
+	left:0;
+	float: left; /* positionnement de la lettrine dans le conteneur*/
+	font-size: 2em; 
+	font-weight: bold;
+	color: #182a84;
+	background-color:#93bdd9;
+	margin: 1px 1px 1px 0;
+	padding: 1px 1px 1px 0;
+	line-height: 1em;
+	display:inline;
+	width:25px;
+	text-align:center;
+}
+/* ---------------------- footer ------------------------ */
+#footer{
+	width:90%;
+	padding:0 0 0 0;
+	margin:0 auto;
+	position:relative;
+	float:bottom;
+	display:block;
+	background-color:white;
+}
+#footer h1{
+	border-top: solid 2px;
+	border-bottom: solid 2px;
+	border-color:#cf9f92;
+	margin:0 0 0 0;
+	padding:0 0 0 5px;
+	color:black;
+	font-size: 130%;
+	font-style:italic;
+	color:#93bdd9;
+}
+#footer a.mail{
+	color:black;
+	text-decoration:none;
+	padding:0 0 0 25px;
+	margin-left:60%;
+	background-image: url(../images/message.gif);
+	background-repeat:no-repeat;
+	background-position:bottom left;
+	height:20px;
+	display:block;
+}
+#footer a.mail:hover{
+	text-decoration:underline;
+	color:#4e66a1;
+}
+#footer p.legal{
+	text-align:justify;
+	font-size:80%;
+}
+

@@ -54,6 +54,18 @@ class RestDocumentation {
                 }
             }
         });
+
+        $app->post('/doc/update', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            $data = $request->getParsedBody();
+            trace_info("POST doc update");
+            trace_info(print_r($data,true));
+            if (array_key_exists("docs",$data)) {
+                $dao=new daoDocuments();
+                $dao->update(json_decode($data["docs"],true));
+            }
+        });
+
+
     }
 }
 

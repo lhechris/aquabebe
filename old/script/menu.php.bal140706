@@ -1,0 +1,30 @@
+<!-- Menu haut de page -->	
+	<div id="menu">
+		<?php 
+			writeLink("Accueil","/index.php",$selected); 
+			writeLink("Créneaux","/creneaux/index.php",$selected); 
+			
+			if(isset($_SESSION["ADMIN"])) 
+      {
+				writeLink("Administratif","/administration/index.php",$selected); 
+				writeLink("Inscrire un enfant","/inscription/index.php",$selected);
+				writeLink("Valider une inscription","/validation/index.php",$selected); 
+				writeLink("Offre d'emploi","/offre_emploi/index.php",$selected);
+				writeLink("Planning","/doc-pub/AQUABEBE-Planning.pdf",$selected);
+				writeLink("FAQ","/faq/index.php",$selected);
+				writeLastLink("Déconnexion","/administration/deconnexion.php"); 
+			} 
+      else 
+      {
+				//writeLink("Tarifs","/tarifs/index.php",$selected);
+				writeLink("Accès","/acces/index.php",$selected); 
+				writeLink("Inscrire un enfant","/inscription/index.php",$selected);
+				writeLink("Tarifs","/tarifs/index.php",$selected);
+				writeLink("Planning","/doc-pub/AQUABEBE-Planning.pdf",$selected);
+				writeLink("FAQ","/faq/index.php",$selected);
+				writeLink("Offre d'emploi","/offre_emploi/index.php",$selected); 
+				writeLastLink("Connexion","/administration/connexion.php"); 
+			}
+		?>		
+	</div> 
+<!-- Fin du menu haut de page -->

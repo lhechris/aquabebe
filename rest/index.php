@@ -8,6 +8,7 @@ require 'api/restEnfant.php';
 require 'api/restInscription.php';
 require 'api/restRegister.php';
 require 'api/restDocumentation.php';
+require 'api/restPages.php';
 
 include_once('config.php');
 
@@ -74,7 +75,7 @@ new RestAdherents($app);
 new RestEnfant($app);
 new RestRegister($app);
 new RestDocumentation($app);
-
+new RestPages($app);
 
 function exception_error_handler($severity, $message, $file, $line) {
     
@@ -91,9 +92,9 @@ set_error_handler("exception_error_handler");
 
 
 
-trace_info("SERVER ".print_r($_SERVER,true));
-trace_info("GET  ".print_r($_GET,true));
-trace_info("POST ".print_r($_POST,true));
+//trace_info("SERVER ".print_r($_SERVER,true));
+//trace_info("GET  ".print_r($_GET,true));
+//trace_info("POST ".print_r($_POST,true));
 try {
     if ($_SERVER["REQUEST_METHOD"]=="GET") {
         $uri=$_SERVER["REQUEST_URI"];

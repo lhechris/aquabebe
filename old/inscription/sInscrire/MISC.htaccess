@@ -1,0 +1,7 @@
+AuthUserFile /homez.109/aquabebe/.htpasswd_photo
+AuthGroupFile /dev/null
+AuthName "Ces photos sont réservées aux adhérents du vendredi."
+AuthType Basic
+<Limit GET POST>
+require valid-user
+</Limit>

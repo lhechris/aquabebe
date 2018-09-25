@@ -7,9 +7,10 @@
             <tr><th>Nom</th><th colspan="2">Description</th>
             <tr v-for="doc in documents">
                 <td>{{doc.nom}}</td>
-                <td>{{doc.description}}</td>
+                <td v-if="edit"><input type="text" v-model="doc.description"></td><td v-else>{{doc.description}}</td>
                 <!--<td><button class="glyphicon glyphicon-download" v-on:click="download(doc.id)" /></td>-->
-                <td><a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'http://localhost:85/rest/doc/getfichier/'+doc.id" /></td>
+                <td v-if="edit"><button class="glyphicon glyphicon-trash" v-on:click="supprimer(doc.id)"></button></td>
+                <td v-else><a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'http://localhost/rest/doc/getfichier/'+doc.id" /></td>
             </tr>
         </table>
     </div>
@@ -29,12 +30,19 @@
         <div class="row col-md-7">
             <button type="button" class="btn btn-primary col-md-3" v-on:click="uploadfichier()" >Transferer</button>
             <span class="col-md-3" />
-            <button type="button" class="btn btn-primary col-md-3" v-on:click="annuler()" >Annuler</button>
+            <button type="button" class="btn btn-primary col-md-3" v-on:click="refresh()" >Annuler</button>
         </div>
     </div>        
+    <div class="row mt-3"  style="padding:10px" v-else-if="edit">
+        <input  class="col-md-1" type="file" id="files" ref="addfichier" v-on:change="handlefichier()"/>
+        <button type="button"  class="btn btn-primary col-md-2" v-on:click="$refs.addfichier.click()">Ajouter un fichier</button>
+        <div class="col-md-1" ></div>
+        <button type="button" class="btn btn-primary col-md-2" v-on:click="sauver()">Sauver</button>
+        <div class="col-md-1" ></div>
+        <button type="button" class="btn btn-primary col-md-2" v-on:click="refresh()" >Annuler</button>
+    </div>
     <div class="row mt-3" v-else>
-        <input  type="file" id="files" ref="addfichier" v-on:change="handlefichier()"/>
-        <button type="button" class="btn btn-primary col-md-2" v-on:click="$refs.addfichier.click()">Ajouter un fichier</button>
+        <button type="button" class="btn btn-primary col-md-2" v-on:click="edit=true">Modifier</button>
     </div>        
 </div>
 </template>
@@ -55,6 +63,7 @@ export default {
       documents:[],
       files:[],
       newfile:false,
+      edit:false,
     }
   },
 
@@ -123,20 +132,39 @@ export default {
             //$("#myModal").modal('show');
             api.postDocUpload(data).then(response=>{
                 self.reponse=response;
-                self.uploading=false;
-                self.newfile=false;
-                self.get();
+                self.refresh()
                 //$("#myModal").modal('hide');
             }).catch(()=>{self.uploading=false;});
 
             this.newfile=true;
         },
 
-        annuler : function() {
+        refresh : function() {
             this.newfile=false;
+            this.edit=false;
             this.files=[];
-        }
+            this.uploading=false;
+            this.get();
+        },
 
+        supprimer: function(id) {
+            for (let i=0;i< this.documents.length;i++) {
+                if (this.documents[i].id==id) {
+                    this.documents.splice(i,1);
+                }
+            }
+        },
+        sauver : function() {
+            var api = new restapi();
+            var data = new FormData();
+            data.append("docs",JSON.stringify(this.documents));
+            var self=this;
+            this.uploading=true;
+            api.postDocUpdate(data).then(response=>{
+                self.refresh();
+            }).catch(()=>{self.refresh();});
+            
+        }
     }
 
 }

@@ -3,7 +3,7 @@
 <div>Adhérents de la saison {{saison}}</div>
 <table class="table table-responsive  table-striped">
   <thead>
-  <tr><th>prénom</th><th>nom</th><th>naissance</th><th>creneau</th><th>montant</th><th>mois paiement</th></tr>
+  <tr><th>prénom</th><th>nom</th><th>naissance</th><th>creneau</th><th>Certificat</th><th>Vaccins</th><th>Facture</th></tr>
   </thead>
   <tbody>
   <tr v-for="pers of adherents" v-bind:key="pers.id">
@@ -11,8 +11,9 @@
     <td>{{pers.nom}}</td>
     <td>{{pers.naissance}}</td>
     <td>{{pers.creneau}}</td>
-    <td>{{pers.paiementmontant}}</td>
-    <td>{{pers.paiementmois}}</td>
+    <td><div v-if="pers.certif!=1"><button>Déposer certificat</button></div><div v-else>Déposé</div></td>
+    <td><div v-if="pers.vaccins!=1"><button>Valider vaccins</button></div><div v-else>Validés</div></td>
+    <td><div v-if="pers.facture!=1"><button>Remettre facture</button></div><div v-else>Remise</div></td>
   </tr>
   </tbody>
 </table>

@@ -1,0 +1,7 @@
+AuthUserFile /homez.109/aquabebe/.htpasswd_inscription_forum
+AuthGroupFile /dev/null
+AuthName "LES INSCRIPTIONS SONT UNIQUEMENT REALISEES AU FORUM DES ASSOCIATIONS DE ST LYS, ce 08/09/12. LES INSCRIPTIONS EN LIGNE SERONT ENSUITE RE-OUVERTES."
+AuthType Basic
+<Limit GET POST>
+require valid-user
+</Limit>

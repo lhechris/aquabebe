@@ -6,6 +6,7 @@ import Adherents from '@/components/Adherents'
 import Enfant from '@/components/Enfant'
 import Mailing from '@/components/Mailing'
 import Documentation from '@/components/Documentation'
+import Page from '@/components/Page'
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
       path: '/documentation',
       name: 'Documentation',
       component: Documentation
+    },
+    {
+      path: '/pages',
+      name: 'Page',
+      component: Page
     },
     
   ]

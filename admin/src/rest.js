@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class restapi {
-    baseurl= 'http://localhost:85/rest';
+    baseurl= 'http://localhost/rest';
     //baseurl='/rest';
     token = "";    
 
@@ -83,8 +83,22 @@ export class restapi {
      }
 
      postDocUpload(data) {
-        console.log(data);
         return axios.post(this.baseurl+'/doc/upload',data).then(response =>{        
+            return response.data;      
+         })
+    }
+    postDocUpdate(data) {
+        return axios.post(this.baseurl+'/doc/update',data).then(response =>{        
+            return response.data;      
+         })
+    }
+    getPage(name) {
+        return axios.get(this.baseurl+'/pages/'+name).then(response =>{      
+            return response.data; 
+         })
+     }
+     postPageUpdate(data) {
+        return axios.post(this.baseurl+'/pages/update',data).then(response =>{        
             return response.data;      
          })
     }

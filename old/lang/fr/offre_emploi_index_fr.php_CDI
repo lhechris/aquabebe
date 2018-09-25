@@ -1,0 +1,27 @@
+<?php
+
+  define( "_OFFRE_EMPLOI", "<h2>".htmlentities("Offre d'emploi",null,"utf-8",false)."</h2>"."<br/>"."<br/>"
+                                        ."<p>"
+                                        .htmlentities("BEBE NAGEUR (Association Sportive et Culturelle AQUABEBE (ASSOCIATION LOI 1901))",
+                                                      null,"utf-8",false)."<br/>"."<br/>"
+                                        ."<strong>".htmlentities("Recherche encadrant Bébé Nageur – H/F –",null,"utf-8",false)."</strong>"."<br/>"."<br/>"
+                                        ."<strong>".htmlentities("Contrat :",null,"utf-8",false)."</strong>"."<br/>"
+                                        .htmlentities("CDD à temps partiel du 12/09/2012 au 29/06/2013 inclus.",null,"utf-8",false)."<br/>"
+                                        .htmlentities("Horaires : Mercredi de 17h15 à 20h (3 cours) - Vendredi de 17h15 à 20h (3 cours) - Samedi de 9 h à 13 h (4 cours).",
+                                                      null,"utf-8",false)."<br/>"."<br/>"
+                                        ."<strong>".htmlentities("Profil du candidat :",null,"utf-8",false)."</strong>"."<br/>"
+                                        ."BEESAN obligatoire."."<br/>"
+                                        .htmlentities("Expérience dans l’encadrement d’enfants de 3 mois à 5 ans obligatoire. Esprit d’initiative, 
+                                                      créativité, goût du dialogue.",null,"utf-8",false)."<br/>"."<br/>"
+                                        ."<strong>".htmlentities("Prestation salariale :",null,"utf-8",false)."</strong>"."<br/>"
+                                        .htmlentities("14€ brut / heure + indemnités.",null,"utf-8",false)."<br/>"."<br/>"
+                                        ."<strong>".htmlentities("Candidature : ",null,"utf-8",false)."</strong>"."<br/>"
+                                        .htmlentities("Envoyer CV + lettre motivation par e-mail à &nbsp;",null,"utf-8",false)
+                                        ."<a href=\"mailto:contact@aquabebe.fr\">contact@aquabebe.fr</a>"."<br/>"."<br/>"."<br/>"
+                                        .htmlentities("Nous recherchons également des BEESAN pour des remplacements occasionnels en 
+                                                      cas d’absence de nos maîtres nageurs sauveteurs titulaires.",null,"utf-8",false)."<br/>"."<br/>"
+                                        ."</p>");
+                                        
+
+                                      
+?>

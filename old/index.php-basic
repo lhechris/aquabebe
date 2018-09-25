@@ -1,0 +1,82 @@
+<?php 
+	session_start();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<?php
+	$specific_css=array();
+	$specific_css[0]="accueil.css";
+
+	require_once("./constant.php");
+	require_once(DOCUMENT_ROOT."/commun/structure.php");
+	startPage($specific_css);
+?>
+	<!--  <h2>Assembl&eacute;e G&eacute;n&eacute;rale : lundi 8 f&eacute;vrier</h2>  -->
+        <br/>
+        <!-- <h2><a href="http://forum.aquabebe.fr/viewtopic.php?f=19&amp;t=48">Retrouvez toutes les informations sur notre forum 
+                                  "Espace des adh&eacute;rents"&nbsp;!</a></h2>  -->
+				<h2>Activité pour les enfants de 3 mois à 3 ans 1/2.</h2>
+        <!-- <h2><a href="http://forum.aquabebe.fr/viewforum.php?f=7">Retrouvez toutes les questions générales sur notre forum </a></h2> -->
+				<!--  <h2>Nous sommes actuellement complets pour la saison 2011-2012. Le forum vous indiquera si des places se libèrent.</h2> -->
+				<!--  <h2>Msg aux adhérents : L'Assemblée Générale aura lieu le jeudi 20 octobre 2011 à 20h.</h2> -->
+        <h2> 
+			<!--  Début des séances : mercredi 18 septembre <br/> -->
+			<br/> 
+		
+			Toutes les places disponibles sont visibles à la page <a href="http://www.aquabebe.fr/creneaux/index.php?">"Créneaux"</a>.<br/>
+		<!--
+			Inscriptions 2013-2014 : durant le forum des associations de St Lys, ce samedi 8 septembre.<br/><br/>  
+			
+			Les inscriptions en ligne sont actuellement fermées. <br/>
+			Elles seront ré-ouvertes une fois le site mis à jour avec les inscriptions reçues durant le forum des associations.<br/><br/> 
+			
+			Les inscriptions 2013/2014 sont ouvertes. <br/>
+		-->
+        </h2>
+		
+		<!--
+        <center><h2>              Février 2014 : Recherche pour un MNS en cours pour un CDD de 4 à 6 semaines        </h2>
+			<h3>Si vous connaissez un MNS (diplômé BEESAN ou BNSSA), n'hésitez pas à le contacter et/ou nous le faire savoir.</h3>
+		    <h3><a href="http://aquabebe.fr/offre_emploi/index.php?">Fiche de poste.</a></h3></center>
+		-->
+		<!--
+        <h2>  
+            2012-2013 : Recherche pour un MNS en cours
+        </h2>
+	<br/>
+			<div>Si vous connaissez un MNS (diplômé BEESAN), n'hésitez pas à le contacter.</div>
+		-->
+		
+	<div>
+		<img src="./photos/BBsousEau.JPG" alt="Image" align="left" />
+		<img src="./photos/lesGrands-3.JPG" alt="Image" align="right" />
+	</div>
+	
+	<div>
+		<img src="./photos/BB-1.JPG" alt="Image" align="right"  HSPACE=10/>
+		<?php echo _ACCUEIL_P1;?>
+	</div>
+	
+	<div>
+		<img src="./photos/lesGrands-1.JPG" alt="Image" align="left" HSPACE=10/>
+		<?php echo _ACCUEIL_P2;?>
+	</div>
+	
+	<div>
+		<img src="./photos/20110401_CoinEscalier.JPG" alt="Image" align="right"  HSPACE=10/>
+		<?php echo _ACCUEIL_P3;?>
+	</div>
+	
+	<div>
+		<img src="./photos/lesGrands-2.JPG" alt="Image" align="left"  HSPACE=10/>
+		<?php echo _ACCUEIL_P4;?>
+	</div>
+	
+<?php
+ stopPage();
+?>
+
+</html>
+
+

@@ -1,6 +1,6 @@
 <?php
 include_once("log.php");
-include_once("dao/daoPersonne.php");
+include_once("dao/daoAdherents.php");
 include_once("config.php");
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,28 +12,12 @@ class RestAdherents {
     {
 
         $app->get('/adherents/current', function(ServerRequestInterface $request, ResponseInterface $response) {
-            $daopersonne=new daoPersonne();
-            $personnes=$daopersonne->get(CURRENT_SAISON);
+            $daoadherents=new daoAdherents();
+            $adherents=$daoadherents->get(CURRENT_SAISON);
             $data=array();
-            foreach($personnes as $t)
+            foreach($adherents as $adherent)
             {
-                $personne=$t["enfant"];
-                $preinscription=$t["preinscription"];
-                $paiement=$t["paiement"];
-                
-                $t=array("id"=>$personne->getId(),
-                        "prenom"=>$personne->getPrenom(),
-                        "nom"=>$personne->getNom(),
-                        "naissance"=>$personne->getNaissance(),
-                        "creneau" =>$preinscription->getCreneau()->getLieu()." ".$preinscription->getCreneau()->getJour()." ".$preinscription->getCreneau()->getHeure(),
-                        "paiement" => $preinscription->getInscription()->getPaiement(),
-                        "choix" => $preinscription->getChoix(),
-                        "reservation" => $preinscription->getReservation(),
-                        "paiementmontant" => $paiement->getMontant(),
-                        "paiementmois"    => $paiement->getMois()
-
-                       );
-                array_push($data,$t);
+                array_push($data,$adherent->toArray());
             }                        
 
             $newResponse = $response->withJson($data);

@@ -33,7 +33,8 @@
         <tr v-for="preinscr of enfant.preinscriptions" v-bind:key="preinscr.choix">
             <td>{{preinscr.creneau}}</td>
             <td>{{preinscr.choix}}</td>
-            <td>{{preinscr.reservation}}</td>  
+            <td v-if="editreservation"><input name="reservation" type="radio" v-bind:value="preinscr.creneauid" v-model="creneauselected" /></td>  
+            <td v-else>{{preinscr.reservation}}</td>  
         </tr>
       </tbody>
     </table>
@@ -64,18 +65,18 @@
       </thead>
       <tbody>
         <tr v-if="edit" class="form-group ">            
-            <td><input type="text" class="form-control" name="payeur" v-model="enfant.paiement.payeur" ></td>  
-            <td><input type="text" class="form-control" name="montant" v-model="enfant.paiement.montant" ></td>  
-            <td><input type="text" class="form-control" name="mois" v-model="enfant.paiement.mois" ></td>  
-            <td><input type="text" class="form-control" name="moyen" v-model="enfant.paiement.moyen" ></td>  
-            <td><input type="text" class="form-control" name="remarques" v-model="enfant.paiement.remarques" ></td>  
+            <td><input type="text" class="form-control" name="payeur" v-model="enfant.payeur" ></td>  
+            <td><input type="text" class="form-control" name="montant" v-model="enfant.montant" ></td>  
+            <td><input type="text" class="form-control" name="mois" v-model="enfant.mois" ></td>  
+            <td><input type="text" class="form-control" name="moyen" v-model="enfant.moyen" ></td>  
+            <td><input type="text" class="form-control" name="remarques" v-model="enfant.remarques"></td>  
         </tr>
         <tr v-else>
-            <td>{{enfant.paiement.payeur}}</td>  
-            <td>{{enfant.paiement.montant}}</td>  
-            <td>{{enfant.paiement.mois}}</td>  
-            <td>{{enfant.paiement.moyen}}</td>  
-            <td>{{enfant.paiement.remarques}}</td>  
+            <td>{{enfant.payeur}}</td>  
+            <td>{{enfant.montant}}</td>  
+            <td>{{enfant.mois}}</td>  
+            <td>{{enfant.moyen}}</td>  
+            <td>{{enfant.remarques}}</td>  
         </tr>
       </tbody>
     </table>
@@ -97,7 +98,9 @@ export default {
   data () {
     return {
       enfant: {},
+      creneauselected:-1,
       edit:false,
+      editreservation:false,
       loading:true,
     }
   },
@@ -113,6 +116,12 @@ export default {
         var self=this;
         api.getEnfant(this.id).then(response=>{
           self.enfant=response;
+          self.creneauselected=-1;
+          for (let i=0;i<self.enfant.preinscriptions.length;i++) {
+            if (self.enfant.preinscriptions[i].reservation==1) {
+              self.creneauselected=self.enfant.preinscriptions[i].creneauid;
+            }
+          }
           this.loading=false;
         })
         api.getSaison().then(response=>{
@@ -122,15 +131,17 @@ export default {
 
       editable: function(v) {
         this.edit=v;
+        this.editreservation=this.creneauselected==-1;
       },
 
       annuler : function() {
-        this.edit=false;
+        this.edit=false;        
         this.get();
       },
 
       sauver: function() {
         this.edit=false;
+        this.editreservation=false;
         var api = new restapi();
         var data = new FormData();
         data.append("id",this.enfant.id);
@@ -140,14 +151,17 @@ export default {
         data.append("adresse",this.enfant.adresse);
         data.append("cp",this.enfant.cp);
         data.append("commune",this.enfant.commune);
-        data.append("paiementid",this.enfant.paiement.id);
-        data.append("payeur",this.enfant.paiement.payeur);
-        data.append("montant",this.enfant.paiement.montant);
-        data.append("mois",this.enfant.paiement.mois);
-        data.append("moyen",this.enfant.paiement.moyen);
-        data.append("remarques",this.enfant.paiement.remarques);
+        data.append("paiementid",this.enfant.id);
+        data.append("payeur",this.enfant.payeur);
+        data.append("montant",this.enfant.montant);
+        data.append("mois",this.enfant.mois);
+        data.append("moyen",this.enfant.moyen);
+        data.append("remarques",this.enfant.remarques);
+        data.append("creneauselected",this.creneauselected);
+        api.postEnfant(data).then(()=> {
+          self.get();
+        });
 
-        api.postEnfant(data).then();        
       }
 
   }

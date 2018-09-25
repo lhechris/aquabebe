@@ -1,0 +1,51 @@
+#main div{
+	display:block;
+	width:40%;
+	height:150px;
+	position:relative;
+	margin:0 auto;
+	font-size:120%;
+	text-align:justify;
+	background-repeat:no-repeat;
+	padding-top:40px;
+}
+#main div.right{
+	background-position:top right;
+	padding-right:330px;
+}
+#main div.left{
+	background-position:bottom left;
+	padding-left:330px;
+}
+/*  #main #index_p1{
+	background-image:url(../photos/RosineBet2.jpg);
+    height:200px;
+	padding-right:350px;
+}*/
+#main #index_p1{
+	/*background-image:url(../photos/bouscairol-1.jpg);*/
+    height:200px;
+	padding-right:350px;
+}
+/* #main #index_p2
+{
+	background-image:url(../photos/RosineBet2.jpg);
+	height:230px;
+}*/
+
+#main #index_p2
+{
+	/*background-image:url(../photos/bouscairol-2.jpg);*/
+	height:230px;
+	top: -125px;
+}
+#main #index_p3{
+	background-image:url(../photos/20110401_Entree.JPG);
+	height:250px;
+	padding-top:50px;
+}
+#main #index_p4{
+	background-image:url(../photos/20110401_Vestiaire.jpg);
+	height:205px;
+	padding-top:0px;
+}

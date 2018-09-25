@@ -1,0 +1,53 @@
+#main div{
+	display:block;
+	width:70%;
+	height:150px;
+	position:relative;
+	margin:0 auto;
+	font-size:120%;
+	text-align:justify;
+	background-repeat:no-repeat;
+	padding-top:150px;
+}
+#main div.right{
+	background-position:top right;
+	padding-right:250px;
+}
+#main div.left{
+	background-position:bottom left;
+	padding-left:250px;
+}
+#main #index_p1{
+	background-image:url(../photos/BB-1.jpg);
+	padding-top:120px;
+	height:150px;
+}
+#main #index_p2{
+	background-image:url(../photos/lesGrands-1.JPG);
+	padding-top:100px;
+	padding-left:330px;
+	height:100px;
+	width:35%;
+}
+#main #index_p3{
+	background-image:url(../photos/20110401_CoinEscalier.jpg);
+	padding-top:135px;
+	height:130px;
+}
+#main #index_p4{
+	background-image:url(../photos/lesGrands-2.JPG);
+	height:150px;
+	padding-top:50px;
+	padding-left:330px;
+	width:35%;
+}
+#main #index_p5{
+	background-image:url(../photos/20080329_lilou_t.gif);
+	height:100px;
+	padding-top:50px;
+	padding-right:330px;
+	width:35%;
+}
+
+
+

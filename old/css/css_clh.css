@@ -1,0 +1,288 @@
+
+body{
+   background-image: url("../images/bg9.png");
+   background-repeat: repeat; 
+}
+
+img {
+    border:none;
+}
+
+a {
+color:navy; 
+visited:navy;
+border:none;
+}
+
+#page
+{
+    width: 100%;
+    margin: auto;
+}
+
+#page {
+background-color:red;
+}
+#main {
+background-color:green;
+}
+ #corp {
+ /*background-color:blue;*/
+ }
+
+/* ============================================================================
+               Header 
+   ==========================================================================*/
+#entete1 {
+   text-align : center;
+   width:1024px;
+   font-family:Helvetica,Arial,sans-serif;
+   font-size : 14px;
+   color:#4669BA;
+   padding-top:5px;
+   height:30px;
+}
+
+#entete2 {
+   background-color:#E1EAF4;
+    /*background: url('images/separateur.png') repeat-x bottom;*/
+    white-space : no-wrap;
+    display: block;
+    width:100%;
+	text-align:center;
+}
+
+header logo 
+{
+    width:507px;    
+    display: inline-block;
+    margin-bottom: 0px;
+    text-transform: uppercase;
+}
+
+
+/*header h1
+{
+    font-family: 'Patua One', cursive;
+    color :#a46c30;
+    font-size: 1.5em;
+    font-weight: normal;
+}
+
+header h1
+{
+    display: inline-block;
+    margin-bottom: 0px;
+    text-transform: uppercase;
+}
+
+
+header h2
+{
+    font-family: 'Patua One', cursive;
+    color :black;
+    font-size: 2.5em;
+    margin-top: 0px;
+    font-weight: normal;
+    text-transform: uppercase;    
+}
+header div
+{
+    display: inline-block;
+	vertical-align : top;
+	background-color:red;
+}*/
+
+/* ============================================================================
+    corp            
+   ==========================================================================*/
+#corp {
+   display : block;
+   text-align:center;
+  /* background-color:#006666;*/
+   width:1024px;
+   min-height:900px;
+   padding:5px;
+   margin:auto;
+}
+
+/* ============================================================================
+    navigation 
+    see menu.css for more configuration	
+   ==========================================================================*/
+header nav {
+    width: 517px;
+    display : inline-block;
+    vertical-align: top;
+    text-align : left;
+	/*background-color:#00CCCC;*/
+}
+
+/* ============================================================================
+    contenu            
+   ==========================================================================*/
+#main {
+    width: 769px;
+    display : inline-block;
+    vertical-align: top;
+	background-color:#ffffff;
+	text-align:left;
+}
+
+article{
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+	font-family: Helvetica,Arial,sans-serif;
+	font-size:16px;
+	color :#322B72;
+}
+
+article *.gros {
+	font-size:30px;
+	color :#322B72;
+	font-weight:bold;
+}
+article h1 {
+	font-size:34px;
+	color :#322B72;
+	font-weight:bold;
+}
+
+.news {
+  font:12px verdana,sans-serif;
+  text-align:center;
+}
+
+.contentnews {
+  border:4px solid #0431B4;
+  border-radius:10px;
+  padding:7px 7px 7px 7px;
+  background-color:#CEE3F6;
+  margin-bottom:3px;
+  width:600px;
+}
+
+/* ============================================================================
+recup code old
+*/
+ .complet{
+	color:#cf9f92;
+}
+ table.creneaux{
+	width:920px;
+	position:relative;
+	margin:0 auto;
+	left:64px;
+	display:block;
+}
+ .creneaux td{
+	width:115px;
+}
+.creneaux .identification{
+	font-size:100%;
+	width:115px;
+}
+ .creneaux a{
+	color:#93bdd9;
+	text-decoration:none;
+	font-size:70%;
+	padding-top:15px;
+	display:block;
+}
+ .creneaux a:hover{
+	text-decoration:underline;
+}
+ .creneaux cite{
+	font-size:90%;
+	height:100px;
+	font-weight:none;
+	width:115px;
+}
+ cite .number{
+	color:green;
+	font-size:120%;
+}
+ .creneaux table{
+	width:115px;
+}
+ .creneaux table td.border{
+	width:100%;
+	height:45px;
+	text-align:center;
+	vertical-align:middle;
+}
+ .creneaux table td .reservation{
+	font-weight:bold;
+	color:#93bdd9;
+}
+
+ .creneaux table td a{
+	padding:0 0 0 0;
+}
+/* ============================================================================
+    aside            
+   ==========================================================================*/
+#cote {
+  display: inline-block;
+}
+
+.coteaside {
+  padding-top : 10px;
+}
+
+aside {
+    display: block;
+    width: 225px;
+    background-color: #E1EAF4;
+    box-shadow: 0px 2px 5px #1c1a19;
+    border-radius: 5px;
+    padding: 10px;
+    color: black;
+    font-size: 0.9em;
+}
+
+aside.diapo {
+	height:250px;
+}
+
+aside ul li a {
+	text-decoration:none; 
+}
+
+aside ul {
+	list-style : none;
+	text-align : left;
+}
+
+aside ul li ul {
+   padding-left:10px;
+}
+
+/* ============================================================================
+    footer            
+   ==========================================================================*/
+footer {
+  	font-family: Helvetica,Arial,sans-serif;
+	font-size:12px;
+	color :#322B72;
+	background-color: #E1EAF4;
+	width:100%;
+	text-align:center;
+}
+footer div {
+    display:inline-block;
+    width : 1024px;
+}
+
+a.mail {
+    color: #000;
+    text-decoration: none;
+    padding: 0px 0px 0px 25px;
+    margin-left: 60%;
+    background-image: url("../images/message.gif");
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    height: 20px;
+    display: block;
+}
