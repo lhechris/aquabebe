@@ -80,6 +80,8 @@ class daoEnfant extends daoClass {
             $preinsc->setChoix($r[28]);
             $preinsc->setReservation($r[29]);
             
+            $enfant->setInscriptionid($r[13]);
+
             $enfant->setDateMax($r[14]);
             $enfant->setPaiementid($r[15]);
             $enfant->setPaiementdate($r[16]);
@@ -119,6 +121,7 @@ class daoEnfant extends daoClass {
         try {
             $stmt=$this->pdo->query($query);
             $liste=$stmt->fetchAll();
+            trace_debug("Return ".count($liste)." parents");
         }catch(PDOException  $e ){
             trace_info("Error $e");
             trace_error("Error ".$query."\n  ".$e);
@@ -139,12 +142,13 @@ class daoEnfant extends daoClass {
         //recherche paiement
         $daopaiement=new daoPaiement();
         $paiement=$daopaiement->get($enfant->getPaiementid());
-        $enfant->setPayeur($paiement->getPayeur());
-        $enfant->setMontant($paiement->getMontant());
-        $enfant->setMoyen($paiement->getMoyen());
-        $enfant->setMois($paiement->getMois());
-        $enfant->setRemarques($paiement->getRemarques());
-
+        if ($paiement!=null) {
+            $enfant->setPayeur($paiement->getPayeur());
+            $enfant->setMontant($paiement->getMontant());
+            $enfant->setMoyen($paiement->getMoyen());
+            $enfant->setMois($paiement->getMois());
+            $enfant->setRemarques($paiement->getRemarques());
+        }
         return $enfant;
     }
 

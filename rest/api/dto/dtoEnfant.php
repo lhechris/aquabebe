@@ -22,6 +22,7 @@ class dtoEnfant{
     private $paiementid;
     private $paiementdate;
     private $datemax;
+    private $inscriptionid;
     private $preinscriptions;
     private $parents;
     private $certificat_medical;
@@ -139,13 +140,16 @@ class dtoEnfant{
             }            
         }
         if ($this->parents!=null) {
+            $vars["parents"]=array();
             foreach($this->parents as $p) {
-                $vars["parents"]=array();
                 array_push($vars["parents"],$p->toArray());
             }            
         }
         return $vars;
     }
+
+    public function getInscriptionid() { return $this->inscriptionid;  }
+    public function setInscriptionid($inscriptionid)  {  $this->inscriptionid = $inscriptionid; }
 }
 
 ?>

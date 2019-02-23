@@ -25,6 +25,9 @@
       <li class="nav-item">
         <router-link class="nav-link" to="/pages">Pages</router-link>
       </li>
+      <li class="nav-item">
+        <router-link class="nav-link" to="/auth">Autorisations</router-link>
+      </li>
     </ul>
   </div>
 </nav>

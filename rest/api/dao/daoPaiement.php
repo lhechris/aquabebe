@@ -12,28 +12,6 @@ class daoPaiement extends daoClass {
      */
     public function insert($obj)
     {        
-        /*$query="insert into paiement(payeur,montant,moyen,mois,remarques) values(";
-        $query.="'".$obj->getPayeur()."',";
-        $query.=$obj->getMontant().",";
-        $query.="'".$obj->getMoyen()."',";
-        $query.="'".$obj->getMois()."',";
-        $query.="'".$obj->getRemarques()."'";
-        $query.=")";
-
-        trace_info($query);
-        $paiementid=-1;
-        try {
-            $stmt=$this->pdo->query($query);
-            $paiementid=$this->pdo->lastInsertId();
-            $obj->setId($paiementid);
-            trace_info("Return id=$paiementid");
-        }catch(PDOException  $e ){
-            trace_info("Error $e");
-            trace_error("Error ".$query."\n  ".$e);
-            return false;
-        }
-        return true;*/
-
         $values=array(
             "payeur"    => $this->pdo->quote($obj->getPayeur()),
             "montant"   => intval($obj->getMontant()),

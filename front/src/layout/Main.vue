@@ -11,7 +11,7 @@
         <router-link class="nav-link" to="/">Accueil <span class="sr-only">(current)</span></router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/acces">Accès</router-link>
+        <router-link class="nav-link" to="/page/acces">Accès</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/tarifs">Tarifs</router-link>

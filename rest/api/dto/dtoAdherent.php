@@ -8,6 +8,7 @@
         private $certificat;
         private $vaccins;
         private $facture;
+        private $inscriptionid;
     
         public function getId() { return $this->id;}
         public function setId($id) { $this->id=$id;}
@@ -33,9 +34,13 @@
         public function getFacture() { return $this->facture;}
         public function setFacture($v) { $this->facture=$v;}
 
+        public function getInscriptionid() { return $this->inscriptionid;  }
+        public function setInscriptionid($inscriptionid)  {  $this->inscriptionid = $inscriptionid; }
+
         public function toArray() {
             $vars = get_object_vars($this);
             return $vars;
         }
+
     } 
 ?>

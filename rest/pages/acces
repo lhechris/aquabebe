@@ -1,0 +1,15 @@
+<div>
+    <div id="index_p1" class="right">
+        <strong>L'association Les amis de l'enfance accueille l'association Aqua-Bébé dans ses deux centres.</strong>
+        <br/><br/>
+        <strong><img src="../assets/Entree_RB1.jpg" width="400" />  Centre Rosine Bet<br/></strong>  Lieu-dit "Les Rossignols"
+        <p>  820, route de Saint Thomas</p>
+        <p>31470 SAINT-LYS</p>
+        <br/><br/>
+    </div>
+    <div id="index_p2" class="left">
+        <strong><img class="img-responsive" src="../assets/bouscairol-2.jpg" />  Centre André Bousquairol</strong>
+        <p>22 rue des Lavandières</p>
+        <p>31270 VILLENEUVE-TOLOSANE</p>
+    </div>
+</div>

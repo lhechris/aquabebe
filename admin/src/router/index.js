@@ -7,6 +7,7 @@ import Enfant from '@/components/Enfant'
 import Mailing from '@/components/Mailing'
 import Documentation from '@/components/Documentation'
 import Page from '@/components/Page'
+import Auth from '@/components/Autorisations'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/pages',
       name: 'Page',
       component: Page
+    },
+    {
+      path: '/Auth',
+      name: 'Auth',
+      component: Auth
     },
     
   ]

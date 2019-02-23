@@ -24,7 +24,8 @@ class daoAdherents extends daoClass {
                        "creneau.heure, ".                   /* 6 */
                        "inscription.vaccins, ".             /* 7 */
                        "inscription.certificat_medical, ".  /* 8 */
-                       "inscription.facture_remise ".       /* 9 */
+                       "inscription.facture_remise,".       /* 9 */
+                       "inscription.id ".                   /* 10*/
         "from creneau,inscription,personne,preinscription,paiement ".
         "where creneau.id=preinscription.id_creneau ".
           "and inscription.ID_enfant=personne.id ".
@@ -53,9 +54,10 @@ class daoAdherents extends daoClass {
             $adherent->setNom($r[2]);
             $adherent->setNaissance($r[3]);
             $adherent->setCreneau($r[4]." ".$r[5]." ".$r[6]); 
-            $adherent->setCertificat($r[7]);
-            $adherent->setVaccins($r[8]);
+            $adherent->setVaccins($r[7]);
+            $adherent->setCertificat($r[8]);
             $adherent->setFacture($r[9]);
+            $adherent->setInscriptionid($r[10]);
 
             array_push($adherents,$adherent);
         }

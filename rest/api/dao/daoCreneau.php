@@ -48,11 +48,11 @@ class daoCreneau extends daoClass {
                     $enfant->setPrenom($r[6]);
                     $enfant->setNaissance($r[7]);
                 }
-                else
+               /* else
                 {
                     $enfant->setPrenom("?");
                     $enfant->setNaissance("");
-                }
+                }*/
                 $creneaux[sizeof($creneaux)-1]->addEnfant($enfant);
             }
         }

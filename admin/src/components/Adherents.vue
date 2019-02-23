@@ -11,9 +11,13 @@
     <td>{{pers.nom}}</td>
     <td>{{pers.naissance}}</td>
     <td>{{pers.creneau}}</td>
-    <td><div v-if="pers.certif!=1"><button>Déposer certificat</button></div><div v-else>Déposé</div></td>
-    <td><div v-if="pers.vaccins!=1"><button>Valider vaccins</button></div><div v-else>Validés</div></td>
-    <td><div v-if="pers.facture!=1"><button>Remettre facture</button></div><div v-else>Remise</div></td>
+    <td><button class="btn btn-primary" v-on:click="certificat(pers.inscriptionid)" v-if="pers.certificat!=1">Déposer certificat</button><span v-else>Déposé</span></td>
+    <td><button class="btn btn-primary" v-on:click="vaccins(pers.inscriptionid)" v-if="pers.vaccins!=1">Valider vaccins</button><span v-else>Validés</span></td>
+    <td>
+      <a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'http://localhost/rest/facture/'+pers.id" />
+      <button class="btn btn-primary" v-on:click="facture(pers.inscriptionid)" v-if="pers.facture!=1">Remettre facture</button>
+      <span v-else>Remise</span>
+    </td>
   </tr>
   </tbody>
 </table>
@@ -47,8 +51,33 @@ export default {
         })
         api.getSaison().then(response=>{
           self.saison=response;
+        })        
+    },
+
+    certificat: function(id) {
+        var api = new restapi();
+        var self=this;
+        api.postCertificat(id).then(response=>{
+          self.get();
         })
-    }
+    },
+
+    vaccins:function(id) {
+        var api = new restapi();
+        var self=this;
+        api.postVaccins(id).then(response=>{
+          self.get();
+        })
+    },
+
+    facture:function(id) {
+        var api = new restapi();
+        var self=this;
+        api.postFacture(id).then(response=>{
+          self.get();
+        })
+    },
+
   }
 
 }

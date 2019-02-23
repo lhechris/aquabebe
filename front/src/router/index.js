@@ -15,8 +15,15 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      props : {pname:"Accueil"}
     },
+    {
+      path: '/page/:pname',
+      name: 'Acces',
+      component: Home,
+      props : true
+    },    
     {
       path: '/Acces',
       name: 'Acces',

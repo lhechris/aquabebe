@@ -10,6 +10,9 @@ import MainLayout from '../layout/Main.vue'
 
 export default {
   name: 'Utilisateur',
+  props : {
+    pname : String
+  },
   components: {
       MainLayout
   },
@@ -21,12 +24,15 @@ export default {
   created: function() {
       this.get()
   },
+  updated: function() {
+      this.get()
+  },
   
    methods:{
       get: function (){
         var api = new restapi();
         var self=this;
-        api.getPage("accueil").then(response=>{self.msg=response; })
+        api.getPage(this.pname).then(response=>{self.msg=response; })
     }
   }
 

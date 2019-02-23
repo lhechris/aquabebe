@@ -2,8 +2,8 @@
 include_once("api/objects/document.php");
 
 class daoDocuments {
-    private $repertoire=__DIR__ . DIRECTORY_SEPARATOR . '..'.DIRECTORY_SEPARATOR."doc";
-    private $metafile = __DIR__ . DIRECTORY_SEPARATOR . '..'.DIRECTORY_SEPARATOR."doc".DIRECTORY_SEPARATOR.'meta.json';
+    private $repertoire=__DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR . '..'.DIRECTORY_SEPARATOR."doc";
+    private $metafile = __DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR . '..'.DIRECTORY_SEPARATOR."doc".DIRECTORY_SEPARATOR.'meta.json';
 
     public function litrepertoire($rep)
     {

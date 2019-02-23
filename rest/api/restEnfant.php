@@ -5,6 +5,7 @@ include_once("dao/daoEnfant.php");
 include_once("dao/daoPaiement.php");
 include_once("dao/daoInscription.php");
 include_once("dao/daoEnfant.php");
+include_once("dao/daoFacture.php");
 include_once("config.php");
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -97,6 +98,43 @@ class RestEnfant {
 
 
 
+        /**
+         * METHOD POST certificat
+         */
+        $app->post('/certificat/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            trace_info("POST certificat/".$args["id"]);
+
+            $daoinscr=new daoInscription();
+            $inscr = $daoinscr->get($args["id"]);
+            $daoinscr->updateCertificat($inscr);
+        });
+        $app->post('/vaccins/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            trace_info("POST vaccins/".$args["id"]);
+
+            $daoinscr=new daoInscription();
+            $inscr = $daoinscr->get($args["id"]);
+            $daoinscr->updateVaccins($inscr);
+        });
+        $app->post('/facture/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            trace_info("POST facture/".$args["id"]);
+
+            $daoinscr=new daoInscription();
+            $inscr = $daoinscr->get($args["id"]);
+            $daoinscr->updateFacture($inscr);
+        });
+
+        $app->get('/facture/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            trace_info("GET facture/".$args["id"]);
+
+            $daofacture=new daoFacture();
+            $ret = $daofacture->get($args["id"]);
+            
+            //$newResponse = $response->write($ret);
+            /*$data=$ret->toArray();
+            $newResponse = $response->withJson($data);
+            return $newResponse;  */          
+
+        });
     }
 
 }

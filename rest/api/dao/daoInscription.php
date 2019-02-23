@@ -2,8 +2,77 @@
 include_once('daoClass.php');
 include_once('api/objects/inscription.php');
 include_once('api/objects/preinscription.php');
+include_once('api/objects/personne.php');
+include_once("api/mailcertificat.php");
+include_once("api/mailvaccins.php");
 
 class daoInscription extends daoClass {
+
+    /**
+     * Met a jour le certificat et envoi le mail
+     */
+    public function get($id) {
+        $inscrid = intval($id);
+        if ($inscrid<=0){
+            trace_error("Bad Id:".$id);
+            return false;
+        }
+
+        $query ="select  ID,".                       /* 0 */
+                        "ID_enfant,".                /* 1 */
+                        "ID_creneau,".               /* 2 */
+                        "date_max,".                 /* 3 */
+                        "paiement,".                 /* 4 */
+                        "paiement_date,".            /* 5 */
+                        "certificat_medical,".       /* 6 */
+                        "vaccins,".                  /* 7 */
+                        "facture_remise,".           /* 8 */
+                        "diffusion_image,".          /* 9 */
+                        "diffusion_image_date,".     /* 10 */
+                        "diffusion_image_lieu,".     /* 11 */
+                        "diffusion_image_signature,"./* 12 */
+                        "reglement_interieur_date,". /* 13 */
+                        "reglement_interieur_lieu,".      /* 14 */
+                        "reglement_interieur_signature ". /* 15 */
+                "from inscription ".
+                "where ID=".$inscrid;
+
+        trace_debug($query);
+        
+        try {
+            $stmt=$this->pdo->query($query);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+            return false;
+        }
+
+        $inscription=new Inscription();
+
+        foreach($liste as $r)
+        {
+            $inscription->setId($r[0]);
+            $inscription->setEnfant($r[1]);
+            $inscription->setCreneau($r[2]);
+            $inscription->setDateMax($r[3]);
+            $inscription->setPaiement($r[4]);
+            $inscription->setPaiementDate($r[5]);
+            $inscription->setCertificatMedical($r[6]);
+            $inscription->setVaccins($r[7]);
+            $inscription->setFactureRemise($r[8]);
+            $inscription->setDiffusionImage($r[9]);
+            $inscription->setDiffusionImageDate($r[10]);
+            $inscription->setDiffusionImageLieu($r[11]);
+            $inscription->setDiffusionImageSignature($r[12]);
+            $inscription->setReglementInterieurDate($r[13]);
+            $inscription->setReglementInterieurLieu($r[14]);
+            $inscription->setReglementInterieurSignature($r[15]);
+        }  
+        return $inscription;
+
+    }
+
 
     public function insert($inscription)
     {
@@ -142,12 +211,94 @@ class daoInscription extends daoClass {
             trace_error("Error ".$query."\n  ".$e);
             return false;
         }
-
-
-
         //TODO envoi le mail
 
         return true;
+    }
+
+    /**
+     * Met a jour le certificat et envoi le mail
+     */
+    public function updateCertificat($inscription) {
+        $this->updateCertificatVaccinsFacture($inscription,true,false,false);    
+    }
+    /**
+     * Met a jour le vaccins et envoi le mail
+     */
+    public function updateVaccins($inscription) {
+        $this->updateCertificatVaccinsFacture($inscription,false,true,false);    
+    }
+    /**
+     * Met a jour la facture et envoi le mail ?? a vérifier
+     */
+    public function updatefacture($inscription) {
+        $this->updateCertificatVaccinsFacture($inscription,false,false,true);    
+    }
+
+    private function updateCertificatVaccinsFacture($inscription,$iscertificat,$isvaccins,$isfacture) {
+             
+        $id = intval($inscription->getId());
+        if ($id<=0){
+            trace_error("Bad Id:".$inscription->getId());
+            return false;
+        }
+
+        $query ="update inscription set ";
+        if ($iscertificat) {$query .="certificat_medical=1 ";}
+        if ($isvaccins) {$query .="vaccins=1 ";}
+        if ($isfacture) {$query .="facture_remise=1 ";}
+        $query.="where ID=".$id;
+
+        trace_debug($query);
+        
+        try {
+            $stmt=$this->pdo->query($query);
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+            return false;
+        }
+
+        //recherche l'enfant 
+        $query = "select personne.id,".       /* 0 */
+                        "personne.nom,".      /* 1 */
+                        "personne.prenom,".   /* 2 */
+                        "personne.sexe,".     /* 3 */
+                        "personne.naissance,"./* 4 */
+                        "personne.type,".     /* 5 */
+                        "personne.handicap,". /* 6 */
+                        "personne.mel ".      /* 7 */
+                 "from personne,inscription ".
+                 "where inscription.ID=".$id." and ".
+                 "inscription.ID_enfant=personne.ID";
+        try {
+            $stmt=$this->pdo->query($query);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+            return false;
+        }
+
+        $enfant=new Personne();
+
+        foreach($liste as $r)
+        {
+            $enfant->setId($r[0]);
+            $enfant->setNom($r[1]);
+            $enfant->setPrenom($r[2]);
+            $enfant->setSexe($r[3]);
+            $enfant->setNaissance($r[4]);
+            $enfant->setType($r[5]);
+            $enfant->setHandicap($r[6]);
+            $enfant->setMel($r[7]);
+        } 
+        if ($iscertificat) { mailcertificat($enfant);}
+        if ($isvaccins) { mailvaccins($enfant);}
+        if ($isfacture) { /*TO DO check if we need to send mail*/}
+
+        return true;
+
     }
 
 
