@@ -2,6 +2,7 @@
 include_once('daoClass.php');
 include_once('api/objects/creneau.php');
 include_once('api/objects/personne.php');
+
 include_once('config.php');
 
 class daoCreneau extends daoClass {
@@ -69,7 +70,7 @@ class daoCreneau extends daoClass {
         $naissance="$y-$m-$d";
 
         try {
-            $stmt=$this->pdo->query("SELECT creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,count(*),creneau.naissance_min,creneau.naissance_max ".
+            $stmt=$this->pdo->query("SELECT creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,count(*),creneau.naissance_min,creneau.naissance_max,creneau.nb_mois_mini ".
                                     "FROM creneau,inscription ".
                                     "WHERE creneau.id=inscription.id_creneau ".
                                           "AND creneau.saison='".CURRENT_SAISON."' ".
@@ -93,6 +94,7 @@ class daoCreneau extends daoClass {
             $creneau->setNbInscrit($r[6]);
             $creneau->setNaissanceMin($r[7]);
             $creneau->setNaissanceMax($r[8]);
+            $creneau->setNbMoisMini($r[9]);
             array_push($creneaux,$creneau);
         }
         return $creneaux;
@@ -158,6 +160,39 @@ class daoCreneau extends daoClass {
         }
         return $emails;
     }
+
+
+    
+    /**
+     * 
+     */
+    function add($creneau) {
+        try {
+            $query="INSERT INTO creneau(saison,lieu,jour,heure,age,pour_fratrie,naissance_min,naissance_max,nb_mois_mini,capacite) ".
+            "VALUES('.".
+            "'".$creneau->getSaison()."'".
+            "'".$creneau->getLieu()."'".
+            "'".$creneau->getJour()."'".
+            "'".$creneau->getHeure()."'".
+            "'".$creneau->getAge()."'".
+            $creneau->getPourFratrie().
+            "'".$creneau->getNaissanceMin()."'".
+            "'".$creneau->getNaissanceMax()."'".
+            $creneau->getNbMoisMini().
+            $creneau->getCapacite().
+            ")";
+    
+            $stmt=$this->pdo->query($query);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+            return array();            
+        }
+
+
+    }
+
 
 
 }

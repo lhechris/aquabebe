@@ -119,6 +119,13 @@ export class restapi {
          })
     }
 
+    postNewCreneau(data) {
+        return axios.post(this.baseurl+'/creneaux/add',data).then(response => {
+            return response.data;
+        })
+    }
+
+
 }
 
   

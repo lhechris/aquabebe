@@ -2,6 +2,7 @@
 include_once("log.php");
 include_once("dao/daoCreneau.php");
 include_once("mailcreneau.php");
+include_once("api/dto/dtoAddcreneau.php");
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -144,7 +145,14 @@ class RestCreneaux {
 
             return $newResponse;  
         });
-
+        $app->post('/creneaux/add', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+           
+            trace_info("add crenaux");
+            $json = $request->getParsedBody();
+            trace_info(print_r($json,true));
+            $addcreneau = new addCreneau();
+            $addcreneau->fromArray($json);
+        });
     }
 
 }
