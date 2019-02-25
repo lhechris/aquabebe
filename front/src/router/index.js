@@ -1,12 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Acces from '@/components/Acces'
 import Home from '@/components/Home'
 import Creneaux from '@/components/Creneaux'
 import Admin from '@/components/Admin'
 import Inscription from '@/components/Inscription'
-import Tarifs from '@/components/Tarifs'
-import Faq from '@/components/Faq'
 
 Vue.use(Router)
 
@@ -16,40 +13,24 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      props : {pname:"Accueil"}
+      props : {pname:"accueil"}
     },
     {
       path: '/page/:pname',
-      name: 'Acces',
+      name: 'Page',
       component: Home,
       props : true
     },    
-    {
-      path: '/Acces',
-      name: 'Acces',
-      component: Acces
-    },
-    {
-      path: '/tarifs',
-      name: 'Tarifs',
-      component: Tarifs
-    },
     {
       path: '/Creneaux',
       name: 'Creneaux',
       component: Creneaux
     },
     {
-      path: '/Faq',
-      name: 'Faq',
-      component: Faq
-    },
-    {
       path: '/admin',
       name: 'Admin',
       component: Admin
     },
-
     {
       path: '/inscription',
       name: 'inscription',

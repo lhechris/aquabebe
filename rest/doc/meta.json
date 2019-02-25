@@ -1,3 +1,9 @@
 [
-
+    {
+        "id": 1,
+        "nom": "effervescence.png",
+        "chemin": null,
+        "description": "test",
+        "type": "image\/png"
+    }
 ]

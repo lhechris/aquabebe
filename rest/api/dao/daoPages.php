@@ -5,17 +5,19 @@ class daoPages {
     private $repertoire=__DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR . '..'.DIRECTORY_SEPARATOR."pages";
     //private $metafile = __DIR__ . DIRECTORY_SEPARATOR . '..'.DIRECTORY_SEPARATOR."doc".DIRECTORY_SEPARATOR.'meta.json';
 
-    private $pages=["accueil","acces"];
+    private $pages=["","accueil","acces","tarifs","faq"];
 
     /**
      */
     public function get($name)
     {
-        if (in_array($name,$this->pages)) {
-            $file=$this->repertoire.DIRECTORY_SEPARATOR.$name;
+        if (in_array($name,$this->pages)){
+            if ($name=="") { $name="accueil";}
+            $file=$this->repertoire.DIRECTORY_SEPARATOR.$name.".html";
             $data = file_get_contents($file);
             return $data;
         } else {
+            trace_info("La page demandee $name n'est pas autorisee");
             return "";
         }
     }

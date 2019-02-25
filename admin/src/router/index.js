@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Creneaux from '@/components/Creneaux'
+import EditCreneaux from '@/components/EditCreneaux'
 import Adherents from '@/components/Adherents'
 import Enfant from '@/components/Enfant'
 import Mailing from '@/components/Mailing'
@@ -29,6 +30,11 @@ export default new Router({
       component: Creneaux
     },
     {
+      path: '/EditCreneaux',
+      name: 'EditCreneaux',
+      component: EditCreneaux
+    },
+        {
       path: '/Enfant/:id',
       name: 'Enfant',
       component: Enfant,

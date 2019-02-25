@@ -24,6 +24,9 @@
     </div>
 
   </div>
+  <div class='row'>
+  <router-link to="/EditCreneaux">Gerer les creneaux</router-link>
+  </div>
 </div>
 </template>
 

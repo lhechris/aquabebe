@@ -22,12 +22,11 @@ export default {
     }
   },
   created: function() {
-      this.get()
+      this.get();
   },
-  updated: function() {
-      this.get()
+watch : {
+    '$route': 'get'
   },
-  
    methods:{
       get: function (){
         var api = new restapi();
