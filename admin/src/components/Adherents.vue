@@ -1,6 +1,10 @@
 <template>
 <div class="container">
-<div>Adhérents de la saison {{saison}}</div>
+<div><label>Adhérents de la saison</label>
+  <select v-model="saison" v-on:change="changeSaison">
+     <option v-for="s in saisons" v-bind:key="s" v-bind:value="s">{{s}}</option>
+  </select>
+</div>
 <table class="table table-responsive  table-striped">
   <thead>
   <tr><th>prénom</th><th>nom</th><th>naissance</th><th>creneau</th><th>Certificat</th><th>Vaccins</th><th>Facture</th></tr>
@@ -34,24 +38,31 @@ export default {
   data () {
     return {
       adherents: {},
+      saisons: ["2014-2015","2015-2016","2016-2017","2017-2018","2018-2019"],
       saison:""
     }
   },
 
   created: function() {
-      this.get()
+        var api = new restapi();
+        var self=this;
+        api.getSaison().then(response=>{
+          self.saison=response;
+        });
+        api.getAllSaison().then(response=>{
+          self.saisons=response;
+          self.get();
+        });
+
   },
   
    methods:{
       get: function (){
         var api = new restapi();
         var self=this;
-        api.getAdherents().then(response=>{
+        api.getAdherents(this.saison).then(response=>{
           self.adherents=response;
         })
-        api.getSaison().then(response=>{
-          self.saison=response;
-        })        
     },
 
     certificat: function(id) {
@@ -77,6 +88,10 @@ export default {
           self.get();
         })
     },
+
+    changeSaison:function() {
+      this.get();
+    }
 
   }
 

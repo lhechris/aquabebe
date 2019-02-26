@@ -9,6 +9,7 @@ require 'api/restInscription.php';
 require 'api/restRegister.php';
 require 'api/restDocumentation.php';
 require 'api/restPages.php';
+require 'api/restSaison.php';
 
 include_once('config.php');
 
@@ -53,12 +54,6 @@ $app->get('/hello/{name}', function ($request, $response, $args) {
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-$app->get('/saison', function(ServerRequestInterface $request, ResponseInterface $response) {
-    $newResponse = $response->write(CURRENT_SAISON);
-    return $newResponse;
-});
-
-
 // Set up dependencies
 require 'slim/src/dependencies.php';
 
@@ -76,6 +71,7 @@ new RestEnfant($app);
 new RestRegister($app);
 new RestDocumentation($app);
 new RestPages($app);
+new RestSaison($app);
 
 function exception_error_handler($severity, $message, $file, $line) {
     

@@ -11,9 +11,11 @@ class RestAdherents {
     public function __construct($app)
     {
 
-        $app->get('/adherents/current', function(ServerRequestInterface $request, ResponseInterface $response) {
+        $app->get('/adherents/{saison}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             $daoadherents=new daoAdherents();
-            $adherents=$daoadherents->get(CURRENT_SAISON);
+            $saison=$args["saison"];
+            //TODO test saison
+            $adherents=$daoadherents->get($saison);
             $data=array();
             foreach($adherents as $adherent)
             {

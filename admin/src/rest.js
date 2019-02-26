@@ -5,14 +5,19 @@ export class restapi {
     //baseurl='/rest';
     token = "";    
 
-    getAdherents(){
-        return axios.get(this.baseurl+'/adherents/current').then(response =>{        
+    getAdherents(saison){
+        return axios.get(this.baseurl+'/adherents/'+saison).then(response =>{        
            return response.data;      
         })
     }   
 
     getSaison(){
-        return axios.get(this.baseurl+'/saison').then(response =>{        
+        return axios.get(this.baseurl+'/saison/current').then(response =>{        
+           return response.data;      
+        })
+    }   
+    getAllSaison(){
+        return axios.get(this.baseurl+'/saison/all').then(response =>{        
            return response.data;      
         })
     }   
