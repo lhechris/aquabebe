@@ -48,16 +48,15 @@
       <div class="row encadretitre col-md-12">
         <span class="col-md-2">date max</span><span class="col-md-2">date paiement</span><span class="col-md-2">certificat medical</span><span class="col-md-2">vaccins</span><span class="col-md-2">facture</span>
       </div>
-        <div class="row encadrebody col-md-12">
-                <span class="col-md-2">{{enfant.datemax}}</span>  
-                <span class="col-md-2">{{enfant.paiementdate}}</span>  
-                <span class="col-md-2"><button class="btn btn-primary" v-on:click="certificat(enfant.inscriptionid)" v-if="enfant.certificat_medical!=1">Déposer certificat</button><span v-else>Déposé</span></span>
-                <span class="col-md-2"><button class="btn btn-primary" v-on:click="vaccins(enfant.inscriptionid)" v-if="enfant.vaccins!=1">Valider vaccins</button><span v-else>Validés</span></span>
-                <span class="col-md-2">
-                  <a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'http://localhost/rest/facture/'+enfant.id" />
-                  <button class="btn btn-primary" v-on:click="facture(enfant.inscriptionid)" v-if="enfant.facture_remise!=1">Remettre facture</button><span v-else>Remise</span>
-                </span>
-        </div>
+      <div class="row encadrebody col-md-12">
+        <span class="col-md-2">{{enfant.datemax}}</span>  
+        <span class="col-md-2">{{enfant.paiementdate}}</span>  
+        <span class="col-md-2"><button class="btn btn-primary" v-on:click="certificat(enfant.inscriptionid)" v-if="enfant.certificat_medical!=1">Déposer certificat</button><span v-else>Déposé</span></span>
+        <span class="col-md-2"><button class="btn btn-primary" v-on:click="vaccins(enfant.inscriptionid)" v-if="enfant.vaccins!=1">Valider vaccins</button><span v-else>Validés</span></span>
+        <span class="col-md-2">
+          <a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'http://localhost/rest/facture/'+enfant.id" />
+          <button class="btn btn-primary" v-on:click="facture(enfant.inscriptionid)" v-if="enfant.facture_remise!=1">Remettre facture</button><span v-else>Remise</span>
+        </span>
       </div>
     </div>
     <div class="row encadre col-md-12">
@@ -178,9 +177,10 @@ export default {
         data.append("prenom",this.enfant.prenom);
         data.append("naissance",this.enfant.naissance);
         data.append("adresse",this.enfant.adresse);
+        data.append("telephone",this.enfant.telephone);
         data.append("cp",this.enfant.cp);
         data.append("commune",this.enfant.commune);
-        data.append("paiementid",this.enfant.id);
+        data.append("paiementid",this.enfant.paiementid);
         data.append("payeur",this.enfant.payeur);
         data.append("montant",this.enfant.montant);
         data.append("mois",this.enfant.mois);

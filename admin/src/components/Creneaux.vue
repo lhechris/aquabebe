@@ -1,48 +1,63 @@
 <template>
 <div class="container" >
   <div class="row">    
-    <p v-if="Object.keys(creneaux).length==0"> loading...</p>
+    <p v-if="loading"> loading...</p>
+    <p v-if="error!=''"> {{error}}</p>
     <div class="col-md-6">
       <div v-for="lieu of creneaux" v-bind:key="lieu.name"><h2>{{lieu.name}}</h2>
         <div v-for="jour of lieu.jours" v-bind:key="jour.name">
           <h3>{{jour.name}}</h3>
             <table class="mytable">
-              <tr v-for="creneau of jour.creneaux" v-on:click="actionclick(creneau.enfants)" v-bind:class="{selectionner:creneau.enfants==enfants}" v-bind:key="creneau.id">          
+              <tr v-for="creneau of jour.creneaux"  v-bind:class="{selectionner:creneau.enfants==enfants}" v-bind:key="creneau.id">          
                 <td>{{creneau.heure}}</td>
                 <td>{{creneau.description}}</td>
                 <td v-if="creneau.iscomplet" class="avertissement">Complet !</td>
-                <td><button class="glyphicon glyphicon-th"></button></td>
+                <td><button class="glyphicon glyphicon-th" v-on:click="actionclick(creneau.enfants)"></button></td>
+                <td><button class="glyphicon glyphicon-cog" v-on:click="editclick(creneau.id)"></button></td>
               </tr>
             </table>
         </div>
       </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
       <transition-group name="list" tag="p">      
         <p class="mytable" v-for="enfant of enfants" v-bind:key="enfant.id"><router-link class="nav-link" v-bind:to="'/enfant/'+enfant.id">{{enfant.name}} <span v-if="enfant.age!=''">({{enfant.age}})</span></router-link></p>
       </transition-group>
+      <div v-for="lieu of creneaux" v-bind:key="'e'+lieu.name">
+        <div v-for="jour of lieu.jours" v-bind:key="'e'+lieu.name+jour.name">
+              <div v-for="creneau of jour.creneaux" v-bind:key="'e'+creneau.id">
+                <EditCreneaux v-if="editcreneau==creneau.id" v-bind:creneauid="creneau.id"></EditCreneaux>
+              </div>
+        </div>
+      </div>
+      <EditCreneaux v-if="editcreneau==0" v-bind:creneauid="0"></EditCreneaux>
     </div>
 
   </div>
   <div class='row'>
-  <router-link to="/EditCreneaux">Gerer les creneaux</router-link>
+  <button class="btn btn-primary" v-on:click="editcreneau=0">Ajouter un creneau</button>
   </div>
 </div>
 </template>
 
 <script>
 import {restapi} from '../rest';
-import MainLayout from '../layout/Main.vue'
+import MainLayout from '../layout/Main.vue';
+import EditCreneaux from './EditCreneaux';
 
 export default {
   name: 'Creneaux',
   components: {
-      MainLayout
+      MainLayout,
+      EditCreneaux
   },
   data () {
     return {
       creneaux: {},
-      enfants:{}
+      enfants:{},
+      editcreneau:-1,
+      error:"",
+      loading:false,
     }
   },
   created: function() {
@@ -50,24 +65,29 @@ export default {
   },
   
    methods:{
-      actionclick: function(id) {
-        /*this.enfants=[]
-        for (var i=0;i<id.length;i++)
-        {
-            this.enfants.push({"n":id[i]["id"],"name":id[i]["name"],"age":id[i]["age"]});
-        }*/
-        this.enfants=id;
+      actionclick: function(enfants) {
+        this.enfants=enfants;
+        this.editcreneau=-1;
+      },
+      editclick: function(id) {
+        this.enfants={} ;
+        this.editcreneau=id;       
       },
       get: function (){
+        this.loading=true;
         var api = new restapi();
         var self=this;
         api.getCreneaux().then(response=>{
+          self.loading=false;
           self.creneaux=response;
           var i;
           for (i in self.creneaux) {
             self.creneaux[i]["show"]=false;
           }
-        })
+        }).catch((error) => {
+            self.loading=false;
+            self.error=error;
+          });
     }
   }
 
@@ -117,4 +137,24 @@ export default {
 /*.flip-list-move {
   transition: transform 1s;
 }*/
+
+.edituncreneau-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.edituncreneau-enter-active {
+  transition: all 1s;
+}
+.edituncreneau-leave-active {
+  transition: all 0s;
+}
+.edituncreneau-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.edituncreneau-leave-to  {
+  /*opacity: 0;*/
+  transform: translateX(30px);
+}
+
 </style>

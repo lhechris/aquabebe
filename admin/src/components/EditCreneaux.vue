@@ -1,7 +1,8 @@
 <template>
-<div class="container"><div class="row">
+<div class="container">
   <form>
-    <p>Nouveau</p>
+    <p v-if="creneauid==0">Nouveau creneau</p>
+    <p v-else>Creneau {{creneauid}}</p>
     <div class="form-group monform">        
       <label for="saison">Saison:</label>
       <input type="text" class="form-control" v-model="saison" v-on:change="saisonchange"/>  
@@ -9,24 +10,24 @@
     <div class="form-group monform">
         <label for="lieu">Lieu:</label>
         <select v-model="lieu" class="form-control">
-          <option v-for="l in lieux" v-bind:value="l">{{l}}</option>
+          <option v-for="l in lieux" v-bind:value="l" v-bind:key="l">{{l}}</option>
         </select>
     </div>
-    <div class="row monform">
-      <div class="form-group col-md-6">  
+    <div class="monform">
+      <div class="form-group">  
         <label for="jour">Jour:</label>
-        <select v-model="jour">
-          <option v-for="j in jours" v-bind:value="j">{{j}}</option> 
+        <select v-model="jour" class="form-control">
+          <option v-for="j in jours" v-bind:value="j" v-bind:key="j">{{j}}</option> 
         </select>
       </div>
-      <div class="form-group col-md-6">  
+      <div class="form-group">  
         <label for="heure">Heure:</label>
         <input type="text" class="form-control" v-model="heure" />
       </div>
     </div>
     <div class="form-group  monform">  
-      <label>Capacité:</label>
-      <input type="number" class="form-control" v-model="capacite" />  
+      <label >Capacité:</label>
+      <input class="form-control" type="number" v-model="capacite" />  
     </div>
     <div class="form-group  monform">  
       <div class="row">        
@@ -46,15 +47,17 @@
       <p>Enfants nés entre le {{naissance_max_p}} et le {{naissance_min_p}}</p>
     </div>
     <div class="form-group  monform row">
-      <label for="fratrie" class="col-md-6">Fratrie</label>
-      <input type="radio" class="col-md-1" v-model="fratrie" name="fratrie" value="0"/><span class="col-md-2">Non</span>
-      <input type="radio" class="col-md-1" v-model="fratrie" name="fratrie" value="1"/><span class="col-md-2">Oui</span>
+      <label for="fratrie" class="col-md-3">Fratrie</label>
+      <input type="radio" class="form-control col-md-1" v-model="fratrie" name="fratrie" value="0"/><span class="col-md-1">Non</span>
+      <input type="radio" class="form-control col-md-1" v-model="fratrie" name="fratrie" value="1"/><span class="col-md-1">Oui</span>
+      <label for="nbmoismini" class="col-md-4">Nb Mois mini</label>
+      <input type="number" class="form-control col-md-1" v-model="nbmoismini">
     </div>
     <div class="row">
-      <button  class="btn btn-primary col-md-1" v-on:click="ajouter()"  >Ajouter</button>
+      <button  class="btn btn-primary col-md-1" v-on:click="ajouter()" >Sauver</button>
     </div>
   </form>
-</div></div>
+</div>
 </template>
 
 <script>
@@ -67,6 +70,8 @@ export default {
   components: {
       MainLayout
   },
+  props: ["creneauid"],
+
   data () {
     return {
       saison: "",
@@ -84,7 +89,8 @@ export default {
       naissance_max:"",
       naissance_min_p:"",
       naissance_max_p:"",
-      fratrie:0
+      fratrie:0,
+      nbmoismini:0,
     }
   },
   created: function() {
@@ -116,11 +122,37 @@ export default {
       get: function (){
         var api = new restapi();
         var self=this;
-        api.getSaison().then(response=>{
-          self.saison=response;
-          self.agechange();
+        if (this.creneauid==0) {
+          api.getSaison().then(response=>{
+            self.saison=response;
+            self.agechange();
+          }) 
+        
+        } else {
+          api.getCreneau(this.creneauid).then(response=>{
+            self.saison=response.saison;
+            self.lieu=response.lieu;
+            self.jour=response.jour;
+            self.heure=response.heure;
+            self.capacite=response.capacite;
+            self.fratrie=response.pour_fratrie;
+            self.nbmoismini=response.nbmoismini;
 
-        }) 
+            //calculate age min
+            var annee=parseInt(this.saison.substring(0,4));
+            var nmin=moment([annee,8,1]) ;
+            var mmin=moment(response.min,"YYYY-MM-DD");
+            self.agemin=nmin.diff(mmin,"month");
+
+            //calculate age max
+            var nmax=moment([annee,9,1]) ;
+            var mmax=moment(response.max,"YYYY-MM-DD");
+            self.agemax=nmax.diff(mmax,"month");
+
+            self.agechange();
+          })
+        }
+
       },
       ajouter: function() {
         var api = new restapi();
@@ -137,6 +169,7 @@ export default {
         data.append("naissance_min",this.naissance_min);
         data.append("naissance_max",this.naissance_max);
         data.append("pour_fratrie",this.fratrie);
+        data.append("nbmoismini",this.nbmoismini);
 
         api.postNewCreneau(data).then(()=> {
           

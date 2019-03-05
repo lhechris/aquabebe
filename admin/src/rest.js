@@ -40,6 +40,11 @@ export class restapi {
         })
     }   
 
+    getCreneau(creneauid){
+        return axios.get(this.baseurl+'/creneaux/id='+creneauid).then(response =>{        
+           return response.data;      
+        })
+    }   
     getListCreneaux(){
         return axios.get(this.baseurl+'/creneaux/list').then(response =>{        
            return response.data;      
