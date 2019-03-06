@@ -28,6 +28,30 @@ class RestSaison {
             $newResponse = $response->withJson($ret);
             return $newResponse;            
         });
+
+        /**
+         * METHOD POST 
+         */
+        $app->post('/saison/{saison}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+           
+            trace_info("post saison ".$args["saison"]);
+            $saison=$args["saison"];
+            list($y1,$y2)=sscanf($saison,"%d-%d");
+            if (($y1>2000) && ($y1<2100) && ($y2==($y1+1))){
+                $hdl=fopen("config.php","w");
+                fwrite($hdl,"<?php\ndefine('CURRENT_SAISON','$y1-$y2');\n?>\n");
+                fclose($hdl);
+                $newResponse =  $response->write("Successfull");
+            } else {
+                $newResponse =  $response->write("bad saison $saison ($y1) ($y2)");
+            }
+
+            return $newResponse;
+            
+
+        });
+
+
     }
 
 }

@@ -7,13 +7,17 @@ include_once('config.php');
 
 class daoCreneau extends daoClass {
 
-    public function getAll()
+    public function getAll($saison)
     {
+        //TODO check saison
+        $saison=htmlentities($saison);
+        if ($saison=="") {$saison=CURRENT_SAISON;}
+
         $query="select creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,personne.prenom,personne.naissance,personne.id,preinscription.choix,preinscription.reservation ".
         "from creneau,inscription,personne,preinscription ".
         "where creneau.id=inscription.id_creneau ".
           "and inscription.ID_enfant=personne.id ".
-          "and creneau.saison='".CURRENT_SAISON."' ".
+          "and creneau.saison='".$saison."' ".
           "and personne.type='enfant' ".
           "and preinscription.id_inscription=inscription.id ".
         "order by creneau.id";
@@ -145,12 +149,16 @@ class daoCreneau extends daoClass {
     /**
      * Retourne la liste des creneaux
      */
-    function getList() {
+    function getList($saison) {
+        if ($saison=="") { $saison=CURRENT_SAISON;}
         
+        //TODO check saison
+        $saison=htmlentities($saison);
+
         try {
             $query="SELECT id,lieu,heure,jour ".
             "FROM creneau ".
-            "WHERE saison='".CURRENT_SAISON."' ".
+            "WHERE saison='".$saison."' ".
             "ORDER BY lieu,jour,heure";
 
             $stmt=$this->pdo->query($query);

@@ -72,8 +72,8 @@ export default {
             var data = new FormData();
             data.append("name",this.page);
             data.append("texte",this.texte);
-            self=this;
-            api.postPageUpdate(data).then(response=>{
+            var self=this;
+            api.postPageUpdate(data).then(()=>{
                 self.origtexte=self.texte;
             })
         },

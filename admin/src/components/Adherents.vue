@@ -1,7 +1,7 @@
 <template>
 <div class="container">
 <div><label>Adhérents de la saison</label>
-  <select v-model="saison" v-on:change="changeSaison">
+  <select v-model="saison" v-on:change="changeSaison()">
      <option v-for="s in saisons" v-bind:key="s" v-bind:value="s">{{s}}</option>
   </select>
 </div>
@@ -78,7 +78,7 @@ export default {
     certificat: function(id) {
         var api = new restapi();
         var self=this;
-        api.postCertificat(id).then(response=>{
+        api.postCertificat(id).then(()=>{
           self.get();
         })
     },
@@ -86,7 +86,7 @@ export default {
     vaccins:function(id) {
         var api = new restapi();
         var self=this;
-        api.postVaccins(id).then(response=>{
+        api.postVaccins(id).then(()=>{
           self.get();
         })
     },
@@ -94,7 +94,7 @@ export default {
     facture:function(id) {
         var api = new restapi();
         var self=this;
-        api.postFacture(id).then(response=>{
+        api.postFacture(id).then(()=>{
           self.get();
         })
     },

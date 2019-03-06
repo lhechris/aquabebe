@@ -21,6 +21,11 @@ export class restapi {
            return response.data;      
         })
     }   
+    postSaison(saison){
+        return axios.post(this.baseurl+'/saison/'+saison).then(response=>{
+            return response.data;
+        })
+    }
 
     postAdmin(){
         return axios.post(this.baseurl+'/token').then(response=>{
@@ -34,8 +39,8 @@ export class restapi {
         return axios.get(this.baseurl+'/hello', { headers: { Authorization: AuthStr } });
     }
 
-    getCreneaux(){
-        return axios.get(this.baseurl+'/creneaux/all').then(response =>{        
+    getCreneaux(saison){
+        return axios.get(this.baseurl+'/creneaux/all/'+saison).then(response =>{        
            return response.data;      
         })
     }   
@@ -45,8 +50,8 @@ export class restapi {
            return response.data;      
         })
     }   
-    getListCreneaux(){
-        return axios.get(this.baseurl+'/creneaux/list').then(response =>{        
+    getListCreneaux(saison){
+        return axios.get(this.baseurl+'/creneaux/list/'+saison).then(response =>{        
            return response.data;      
         })
     }   
@@ -69,7 +74,7 @@ export class restapi {
          })
     }
 
-     isRegister(isregister) {
+     isRegister() {
         return axios.get(this.baseurl+'/test.php/register',{withCredentials: true}).then(response =>{        
             return response.data;      
          })

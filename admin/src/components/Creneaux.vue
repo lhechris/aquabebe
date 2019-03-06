@@ -1,5 +1,12 @@
 <template>
 <div class="container" >
+  <div class="row"><label class="col-md-3">Créneaux de la saison</label>
+    <select class="col-md-3" v-model="saison" v-on:change="changeSaison()" :disabled="loading">
+      <option v-for="s in saisons" v-bind:key="s" v-bind:value="s">{{s}}</option>
+    </select>
+    <div class="col-md-6"></div>
+  </div>
+
   <div class="row">    
     <p v-if="error!=''"> {{error}}</p>
     <div v-else class="col-md-6">
@@ -58,10 +65,21 @@ export default {
       editcreneau:-1,
       error:"",
       loading:false,
+      disabled:"enabled",
+      saison:"",
+      saisons:[]
     }
   },
   created: function() {
-      this.get()
+        var api = new restapi();
+        var self=this;
+        api.getSaison().then(response=>{
+          self.saison=response;
+        });
+        api.getAllSaison().then(response=>{
+          self.saisons=response;
+          self.get();
+        });
   },
   
    methods:{
@@ -77,7 +95,7 @@ export default {
         this.loading=true;
         var api = new restapi();
         var self=this;
-        api.getCreneaux().then(response=>{
+        api.getCreneaux(this.saison).then(response=>{
           self.loading=false;
           self.creneaux=response;
           var i;
@@ -88,6 +106,10 @@ export default {
             self.loading=false;
             self.error=error.response.data.message;
           });
+    },
+
+    changeSaison:function() {
+      this.get();
     }
   }
 

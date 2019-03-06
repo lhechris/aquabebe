@@ -3,6 +3,7 @@ include_once("log.php");
 include_once("dao/daoCreneau.php");
 include_once("mailcreneau.php");
 include_once("api/dto/dtoAddcreneau.php");
+include_once("config.php");
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -25,9 +26,9 @@ class RestCreneaux {
     public function __construct($app)
     {
 
-        $app->get('/creneaux/all', function(ServerRequestInterface $request, ResponseInterface $response) {
+        $app->get('/creneaux/all/{saison}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             $daocreneaux=new daoCreneau();
-            $creneaux=$daocreneaux->getAll();
+            $creneaux=$daocreneaux->getAll($args["saison"]);
             $data=array();
             $lieu=array(); 
             $jour=array();
@@ -118,9 +119,10 @@ class RestCreneaux {
             return $newResponse;
         });
 
-        $app->get("/creneaux/list",function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+        $app->get("/creneaux/list/{saison}",function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             $daocreneaux=new daoCreneau();
-            $creneaux=$daocreneaux->getList();
+            
+            $creneaux=$daocreneaux->getList($args["saison"]);
             $data=array();
 
             foreach($creneaux as $creneau) {
@@ -174,7 +176,7 @@ class RestCreneaux {
 
             $daocreneaux = new $daoCreneaux();
 
-            $creneaux = $daocreneaux->getList();
+            $creneaux = $daocreneaux->getList(CURRENT_SAISON);
             $toupdate=False;
             foreach($creneaux as $creneau) {
                 if ($creneau->getLieu()==$addcreneau->getLieu() && 

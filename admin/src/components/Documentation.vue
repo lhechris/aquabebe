@@ -5,7 +5,7 @@
         <div v-if="waiting">On recherche les documents....</div>
         <table style="text-align:left" v-else>
             <tr><th>Nom</th><th colspan="2">Description</th>
-            <tr v-for="doc in documents">
+            <tr v-for="doc in documents" v-bind:key="'doc'+doc.id">
                 <td>{{doc.nom}}</td>
                 <td v-if="edit"><input type="text" v-model="doc.description"></td><td v-else>{{doc.description}}</td>
                 <!--<td><button class="glyphicon glyphicon-download" v-on:click="download(doc.id)" /></td>-->
@@ -21,7 +21,7 @@
         <div class="row col-md-6">
         <table class="col-md-12">
             <tr><th>Fichier</th><th>Description</th></tr>
-            <tr v-for="f in files">
+            <tr v-for="f in files" v-bind:key="'fic'+f.obj.name">
                 <td>{{f.obj.name}}</td>
                 <td><input type="text" size="40" v-model="f.description"/></td>
             </tr>
@@ -160,7 +160,7 @@ export default {
             data.append("docs",JSON.stringify(this.documents));
             var self=this;
             this.uploading=true;
-            api.postDocUpdate(data).then(response=>{
+            api.postDocUpdate(data).then(()=>{
                 self.refresh();
             }).catch(()=>{self.refresh();});
             
