@@ -59,7 +59,7 @@ class dtoAddCreneau {
         foreach($json as $key => $value) {
             $valuesck=htmlentities($value);
             if (array_key_exists($key,$vars)) {
-                $this->$key=$valuesck;
+                $this->key=$valuesck;
             }
         }
     }

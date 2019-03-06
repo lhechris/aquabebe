@@ -32,13 +32,13 @@
     <div class="form-group  monform">  
       <div class="row">        
         <label for="agemin" class="col-md-2">Age de</label>
-        <input type="number" class="form-control col-md-1" v-model="agemin" v-on:change="agechange" />  
+        <input type="number" class="form-control col-md-2" v-model="agemin" v-on:change="agechange" />  
         <select v-model="ageminunit" class="form-control col-md-2" v-on:change="agechange">
           <option values="mois">mois</option>
           <option values="ans">ans</option>
         </select>
         <span class="col-md-2">à</span>
-        <input type="number" class="form-control col-md-1" v-model="agemax" v-on:change="agechange"/>  
+        <input type="number" class="form-control col-md-2" v-model="agemax" v-on:change="agechange"/>  
         <select v-model="agemaxunit" class="form-control col-md-2" v-on:change="agechange">
           <option values="mois">mois</option>
           <option values="ans">ans</option>
@@ -140,20 +140,28 @@ export default {
 
             //calculate age min
             var annee=parseInt(this.saison.substring(0,4));
-            var nmin=moment([annee,8,1]) ;
-            var mmin=moment(response.min,"YYYY-MM-DD");
+            var nmin=moment([annee,9,1]) ;
+            var mmin=moment(response.max,"YYYY-MM-DD");
             self.agemin=nmin.diff(mmin,"month");
+            if (self.agemin>24) {
+              self.agemin=self.agemin/12;
+              self.ageminunit="ans";
+            }
 
             //calculate age max
             var nmax=moment([annee,9,1]) ;
-            var mmax=moment(response.max,"YYYY-MM-DD");
+            var mmax=moment(response.min,"YYYY-MM-DD");
             self.agemax=nmax.diff(mmax,"month");
+            if (self.agemax>24) {
+              self.agemax=self.agemax/12;
+              self.agemaxunit="ans";
+            }
 
             self.agechange();
           })
         }
-
       },
+
       ajouter: function() {
         var api = new restapi();
         var data = new FormData();

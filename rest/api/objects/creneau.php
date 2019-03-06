@@ -6,7 +6,7 @@ class Creneau {
     private $jour;
     private $heure;
     private $age;
-    private $pour_fratri;
+    private $pour_fratrie;
     private $naissance_min;
     private $naissance_max;
     private $nb_mois_mini;
@@ -37,8 +37,8 @@ class Creneau {
     public function getAge() { return $this->age;}
     public function setAge($age) { $this->age=$age;}
 
-    public function getPourFratri() { return $this->pour_fratri;}
-    public function setPourFratri($pour_fratri) { $this->pour_fratri=$pour_fratri;}
+    public function getPourFratrie() { return $this->pour_fratrie;}
+    public function setPourFratrie($pour_fratrie) { $this->pour_fratrie=$pour_fratrie;}
 
     public function getNaissanceMin() { return $this->naissance_min;}
     public function setNaissanceMin($naissance_min) { $this->naissance_min=$naissance_min;}

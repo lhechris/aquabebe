@@ -7,6 +7,8 @@ include_once("dao/daoInscription.php");
 include_once("dao/daoEnfant.php");
 include_once("dao/daoFacture.php");
 include_once("config.php");
+include_once("dto/dtoPostEnfant.php");
+include_once("transformer/transformerEnfant.php");
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -36,33 +38,21 @@ class RestEnfant {
             $json = $request->getParsedBody();
             trace_info("POST enfant");
             trace_info(print_r($json,true));
-            $paiement=new Paiement();
-            $enfant=new Personne();
             $creneauselected=-1;
 
-            foreach($json as $key => $value) {
-                //$valuesck=htmlentities($value);
-                $valuesck=$value;
-                if ($key=="id") { $enfant->setId($valuesck);}
-                if ($key=="prenom") { $enfant->setPrenom($valuesck);}
-                if ($key=="nom") { $enfant->setNom($valuesck);}
-                if ($key=="naissance") { $enfant->setNaissance($valuesck);}
-                if ($key=="adresse") { $enfant->setAdresse($valuesck);}
-                if ($key=="commune") { $enfant->setCommune($valuesck);}
-                if ($key=="cp") { $enfant->setCp($valuesck);}
+            //Read inputs
+            $dtopostenfant=new dtoPostEnfant();
+            $dtopostenfant->fromArray($json);
 
-                if ($key=="paiementid") { $paiement->setId($valuesck);}
-                if ($key=="payeur") { $paiement->setPayeur($valuesck);}
-                if ($key=="montant") { $paiement->setMontant($valuesck);}
-                if ($key=="moyen") { $paiement->setMoyen($valuesck);}
-                if ($key=="mois") { $paiement->setMois($valuesck);}
-                if ($key=="remarques") { $paiement->setRemarques($valuesck);}
+            //convert DTO 
+            $enfant=convertDtoPostEnfantToPersonne($dtopostenfant);
+            $paiement=convertDtoPostEnfantToPaiement($dtopostenfant);
+            $creneauselected=$dtopostenfant->getCreneauSelected();
 
-                if ($key=="creneauselected") { $creneauselected=$valuesck;}
-
-            }
+            //Store
+            trace_info("store ".$enfant->getId());
             $daopers=new daoPersonne();
-            $oldenfant = $daopers->getById($enfant->getId());
+            $oldenfant = $daopers->getById($dtopostenfant->getId());
             $daopers->update($oldenfant["enfant"],$enfant);
 
             $daopaiement=new daoPaiement();

@@ -4,7 +4,13 @@
     <div v-if="waiting==true"> Chargement....</div>
     <div v-else>
         <div class="row mt-3">
-            <label class="col-md-2">Accueil</label>
+            <span class="col-md-5"></span>
+            <select v-model="page" v-on:change="refresh()" class="col-md-2" >
+                <option v-for="p in pages" v-bind:key="p" v-bind:value="p">{{p}}</option>
+            </select>
+            <span class="col-md-5"></span>
+        </div>
+        <div class="row mt-3">
             <textarea class="form-control col-md-10" rows="20"  v-model="texte"></textarea>
         </div>
         <div class="row mt-3">
@@ -30,6 +36,8 @@ export default {
       waiting : true,
       texte: "",
       origtexte:"",
+      page:"",
+      pages:[]
     }
   },
 
@@ -41,17 +49,28 @@ export default {
         get: function (){
             var api = new restapi();
             var self=this;
-            api.getPage("accueil").then(response=>{
+            api.getListPages().then(response=>{
+                self.pages=response;
+                self.page=self.pages[0];
+                self.refresh();
+            })
+        },
+
+        refresh: function() {
+            var api = new restapi();
+            var self=this;
+            self.waiting=true;
+            api.getPage(this.page).then(response=>{
                 self.texte=response;
                 self.origtexte=response;
                 self.waiting=false;
-            })
+            })            
         },
 
         sauver: function() {
             var api = new restapi();
             var data = new FormData();
-            data.append("name","accueil");
+            data.append("name",this.page);
             data.append("texte",this.texte);
             self=this;
             api.postPageUpdate(data).then(response=>{
@@ -61,7 +80,7 @@ export default {
 
         annuler: function() {
             this.texte=this.origtexte;
-        }
+        },
 
     }
 

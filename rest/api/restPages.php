@@ -12,11 +12,20 @@ class RestPages {
     public function __construct($app)
     {
 
-        $app->get('/pages/{name}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+        $app->get('/pages/name={name}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             $daopages=new daoPages();
             $page=$daopages->get($args["name"]);
 
             $newResponse = $response->write($page);
+            return $newResponse;
+
+        });
+
+        $app->get('/pages/list', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            $daopages=new daoPages();
+            $pages=$daopages->list();
+
+            $newResponse = $response->withJson($pages);
             return $newResponse;
 
         });

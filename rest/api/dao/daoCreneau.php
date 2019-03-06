@@ -100,6 +100,48 @@ class daoCreneau extends daoClass {
         return $creneaux;
     }
 
+    public function getById($creneauid)
+    {
+        //TODO check ID
+        $creneauid=htmlentities($creneauid);
+
+        try {
+            $stmt=$this->pdo->query("SELECT creneau.id,".             /* 0 */
+                                            "creneau.lieu,".          /* 1 */
+                                            "creneau.heure,".         /* 2 */
+                                            "creneau.jour,".          /* 3 */
+                                            "creneau.age,".           /* 4 */
+                                            "creneau.pour_fratrie,".  /* 5 */
+                                            "creneau.capacite,".      /* 6 */
+                                            "creneau.naissance_min,". /* 7 */
+                                            "creneau.naissance_max,". /* 8 */
+                                            "creneau.nb_mois_mini,".  /* 9 */
+                                            "creneau.saison ".        /* 10*/
+                                    "FROM creneau ".
+                                    "WHERE creneau.id=".$creneauid);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+        }
+        $creneau=new Creneau();
+        foreach($liste as $r)
+        {
+            $creneau->setId($r[0]);
+            $creneau->setLieu($r[1]);
+            $creneau->setHeure($r[2]);
+            $creneau->setJour($r[3]);
+            $creneau->setAge($r[4]);
+            $creneau->setPourFratrie($r[5]);
+            $creneau->setCapacite($r[6]);
+            $creneau->setNaissanceMin($r[7]);
+            $creneau->setNaissanceMax($r[8]);
+            $creneau->setNbMoisMini($r[9]);
+            $creneau->setSaison($r[10]);
+        }
+        return $creneau;
+    }
+
     /**
      * Retourne la liste des creneaux
      */
@@ -183,19 +225,11 @@ class daoCreneau extends daoClass {
             ")";
     
             $stmt=$this->pdo->query($query);
-            $liste=$stmt->fetchAll();
+
         }catch(PDOException  $e ){
             trace_info("Error $e");
             trace_error("Error ".$query."\n  ".$e);
-            return array();            
         }
-
-
     }
-
-
-
 }
-
-
 ?>

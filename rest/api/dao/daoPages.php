@@ -22,6 +22,10 @@ class daoPages {
         }
     }
 
+    public function list() {
+        return array_slice($this->pages,1);
+    }
+
     public function update($name,$texte)
     {
         if (in_array($name,$this->pages)) {

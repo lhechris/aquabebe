@@ -8,7 +8,7 @@ export class restapi {
 
     getPage(name) {
       
-     return axios.get(this.baseurl+'/pages/'+name).then(response =>{        
+     return axios.get(this.baseurl+'/pages/name='+name).then(response =>{        
         return response.data;      
      })
     }

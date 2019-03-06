@@ -1,6 +1,7 @@
 <template>
 <div class="container">
-  <div v-if="loading" >Loading...</div>
+  <p v-if="error!=''">{{error}}</p>
+  <p v-else-if="loading==true"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Chargement...</p>
   <div v-else>
     <div class="encadre row col-md-12">
       <div class="encadretitre row col-md-12"><span class="col-md-12">Identité</span></div>
@@ -130,6 +131,7 @@ export default {
       edit:false,
       editreservation:false,
       loading:true,
+      error:''
     }
   },
 
@@ -142,6 +144,8 @@ export default {
       get: function (){
         var api = new restapi();
         var self=this;
+        this.loading=true;
+        this.error='';
         api.getEnfant(this.id).then(response=>{
           self.enfant=response;
           self.creneauselected=-1;
@@ -150,7 +154,10 @@ export default {
               self.creneauselected=self.enfant.preinscriptions[i].creneauid;
             }
           }
-          this.loading=false;
+          self.loading=false;
+        }).catch(reason=>{
+          self.error=reason.response.data.message;
+          self.loading=false;
         })
         api.getSaison().then(response=>{
           self.saison=response;

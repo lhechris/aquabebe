@@ -98,6 +98,25 @@ class RestCreneaux {
             return $newResponse;
         });
 
+        $app->get('/creneaux/id={id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            $daocreneaux=new daoCreneau();
+            $creneau=$daocreneaux->getById($args['id']);
+            $data=array("id"=>$creneau->getId(),
+                    "jour"=>$creneau->getJour(),
+                    "heure"=>$creneau->getHeure(),
+                    "lieu"=>$creneau->getLieu(),
+                    "age"=>$creneau->getAge(),
+                    "capacite"=>$creneau->getCapacite(),
+                    "min" =>$creneau->getNaissanceMin(),
+                    "max" =>$creneau->getNaissanceMax(),
+                    "saison" =>$creneau->getSaison(),
+                    "pour_fratrie" =>$creneau->getPourFratrie(),
+                    "nbmoismini" =>$creneau->getNbMoisMini()
+                );
+            //$data = file_get_contents("api/creneauxall.json");   
+            $newResponse = $response->withJson($data);
+            return $newResponse;
+        });
 
         $app->get("/creneaux/list",function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             $daocreneaux=new daoCreneau();
@@ -147,13 +166,32 @@ class RestCreneaux {
         });
         $app->post('/creneaux/add', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
            
-            trace_info("add crenaux");
+            trace_info("add crenaux");            
             $json = $request->getParsedBody();
             trace_info(print_r($json,true));
             $addcreneau = new addCreneau();
             $addcreneau->fromArray($json);
+
+            $daocreneaux = new $daoCreneaux();
+
+            $creneaux = $daocreneaux->getList();
+            $toupdate=False;
+            foreach($creneaux as $creneau) {
+                if ($creneau->getLieu()==$addcreneau->getLieu() && 
+                    $creneau->getJour()==$addcreneau->getJour() &&
+                    $creneau->getHeure()==$addcreneau->getHeure()
+                ) {
+                    //Le creneau existe dejà on le modifie
+                    $toupdate=True;
+                }
+            }
+            if ($toupdate) {
+                $daocreneaux->update($addcreneau);
+            } else {
+                $daocreneaux->add($addcreneau);
+            }
+
         });
     }
-
 }
 ?>

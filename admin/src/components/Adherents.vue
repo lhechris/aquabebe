@@ -5,7 +5,8 @@
      <option v-for="s in saisons" v-bind:key="s" v-bind:value="s">{{s}}</option>
   </select>
 </div>
-<table class="table table-responsive  table-striped">
+<p v-if="error!=''">{{error}}</p>
+<table v-else class="table table-responsive  table-striped">
   <thead>
   <tr><th>prénom</th><th>nom</th><th>naissance</th><th>creneau</th><th>Certificat</th><th>Vaccins</th><th>Facture</th></tr>
   </thead>
@@ -25,6 +26,7 @@
   </tr>
   </tbody>
 </table>
+<p v-if="waiting==true"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Chargement...</p>
 </div>
 </template>
 
@@ -39,7 +41,9 @@ export default {
     return {
       adherents: {},
       saisons: ["2014-2015","2015-2016","2016-2017","2017-2018","2018-2019"],
-      saison:""
+      saison:"",
+      waiting:true,
+      error:""
     }
   },
 
@@ -60,8 +64,14 @@ export default {
       get: function (){
         var api = new restapi();
         var self=this;
+        this.waiting=true;
+        this.error="";
         api.getAdherents(this.saison).then(response=>{
-          self.adherents=response;
+          self.adherents=response;         
+          self.waiting=false;
+        }).catch(reason => {
+          self.error=reason.response.data.message;
+          self.waiting=false;
         })
     },
 

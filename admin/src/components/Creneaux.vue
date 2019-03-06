@@ -1,9 +1,8 @@
 <template>
 <div class="container" >
   <div class="row">    
-    <p v-if="loading"> loading...</p>
     <p v-if="error!=''"> {{error}}</p>
-    <div class="col-md-6">
+    <div v-else class="col-md-6">
       <div v-for="lieu of creneaux" v-bind:key="lieu.name"><h2>{{lieu.name}}</h2>
         <div v-for="jour of lieu.jours" v-bind:key="jour.name">
           <h3>{{jour.name}}</h3>
@@ -18,6 +17,7 @@
             </table>
         </div>
       </div>
+      <p v-if="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Chargement...</p>
     </div>
     <div class="col-md-6">
       <transition-group name="list" tag="p">      
@@ -86,7 +86,7 @@ export default {
           }
         }).catch((error) => {
             self.loading=false;
-            self.error=error;
+            self.error=error.response.data.message;
           });
     }
   }
