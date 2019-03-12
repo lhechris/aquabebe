@@ -3,17 +3,17 @@
   <form>
     <p v-if="creneauid==0">Nouveau creneau</p>
     <p v-else>Creneau {{creneauid}}</p>
-    <div class="form-group monform">        
+    <div class="form-group abform">        
       <label for="saison">Saison:</label>
       <input type="text" class="form-control" v-model="saison" v-on:change="saisonchange"/>  
     </div>
-    <div class="form-group monform">
+    <div class="form-group abform">
         <label for="lieu">Lieu:</label>
         <select v-model="lieu" class="form-control">
           <option v-for="l in lieux" v-bind:value="l" v-bind:key="l">{{l}}</option>
         </select>
     </div>
-    <div class="monform">
+    <div class="abform">
       <div class="form-group">  
         <label for="jour">Jour:</label>
         <select v-model="jour" class="form-control">
@@ -25,11 +25,11 @@
         <input type="text" class="form-control" v-model="heure" />
       </div>
     </div>
-    <div class="form-group  monform">  
+    <div class="form-group  abform">  
       <label >Capacité:</label>
       <input class="form-control" type="number" v-model="capacite" />  
     </div>
-    <div class="form-group  monform">  
+    <div class="form-group  abform">  
       <div class="row">        
         <label for="agemin" class="col-md-2">Age de</label>
         <input type="number" class="form-control col-md-2" v-model="agemin" v-on:change="agechange" />  
@@ -46,7 +46,7 @@
       </div>        
       <p>Enfants nés entre le {{naissance_max_p}} et le {{naissance_min_p}}</p>
     </div>
-    <div class="form-group  monform row">
+    <div class="form-group  abform row">
       <label for="fratrie" class="col-md-3">Fratrie</label>
       <input type="radio" class="form-control col-md-1" v-model="fratrie" name="fratrie" value="0"/><span class="col-md-1">Non</span>
       <input type="radio" class="form-control col-md-1" v-model="fratrie" name="fratrie" value="1"/><span class="col-md-1">Oui</span>
@@ -191,13 +191,6 @@ export default {
 </script>
 
 <style scoped>
-.monform {
-  background : linear-gradient( to right,rgba(113,183,244,0.8), rgba(255,128,128,0.3));
-  border-radius : 10px;
-  margin:5px;
-  padding : 5px;
-
-}
 
 .mytable {
   background : linear-gradient( to right,rgba(255,128,128,0.8), rgba(255,128,128,0.3));

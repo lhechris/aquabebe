@@ -74,7 +74,7 @@ export default {
         get: function (){
             var api = new restapi();
             var self=this;
-            api.getListCreneaux("").then(response=>{
+            api.getListCreneaux("current").then(response=>{
                 self.creneaux=response;
             });
         },

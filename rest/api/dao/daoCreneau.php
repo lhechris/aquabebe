@@ -11,7 +11,7 @@ class daoCreneau extends daoClass {
     {
         //TODO check saison
         $saison=htmlentities($saison);
-        if ($saison=="") {$saison=CURRENT_SAISON;}
+        if (($saison=="")|| ($saison=="current")) {$saison=CURRENT_SAISON;}
 
         $query="select creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,personne.prenom,personne.naissance,personne.id,preinscription.choix,preinscription.reservation ".
         "from creneau,inscription,personne,preinscription ".
@@ -150,7 +150,7 @@ class daoCreneau extends daoClass {
      * Retourne la liste des creneaux
      */
     function getList($saison) {
-        if ($saison=="") { $saison=CURRENT_SAISON;}
+        if (($saison=="")||($saison=="current")) { $saison=CURRENT_SAISON;}
         
         //TODO check saison
         $saison=htmlentities($saison);

@@ -4,7 +4,6 @@
       <p>Bienvenue sur la page d'administration</p>
     </div>
     <div v-else>
-      {{isregister}}
       <div class="loginmodal-container">
         <h1>Login to Your Account</h1><br>
         <div class="form-group">

@@ -14,7 +14,7 @@ export class restapi {
     }
     
     getCreneaux(){
-        return axios.get(this.baseurl+'/creneaux/all').then(response =>{        
+        return axios.get(this.baseurl+'/creneaux/all/current').then(response =>{        
            return response.data;      
         })
     }   
@@ -32,6 +32,11 @@ export class restapi {
             return response.data;      
          })
      }
+     getLockInscription() {
+        return axios.get(this.baseurl+'/inscription/lock').then(response => {
+            return response.data;
+        })
+    }
 
     postAdmin(){
         return axios.post(this.baseurl+'/token').then(response=>{
@@ -39,6 +44,11 @@ export class restapi {
             console.log("token:"+this.token);
         })
     }
+    getSaison(){
+        return axios.get(this.baseurl+'/saison/current').then(response =>{        
+           return response.data;      
+        })
+    }  
     getHello(){
         const AuthStr = 'Bearer '.concat(this.token); 
         console.log("getHello");

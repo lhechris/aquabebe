@@ -1,5 +1,6 @@
 <template>
 <div class="container" >
+<div v-if="islock==false">
 <p class="row">
   <form>
     <transition name="slide"  mode="out-in">
@@ -34,7 +35,7 @@
     <p><strong><br>Que ce soit pour l'inscription ou pour toute communication en cours d'année, l'E-mail est la solution que l'association Aqua-Bébé utilise de manière privilégiée.</strong></p>
     </div>    
     <div v-if="etape==0" key="etape0">
-      <h2>Inscription 2017-2018 </h2>
+      <h2>Inscription {{saison}} </h2>
       <ul>
         <!--<li>Nous sommes complets pour la saison. La page créneaux vous indiquera si des places se libèrent.</li>-->
         <li><strong>Inscription en ligne : <button class="btn-info" v-on:click="suivantclick">DEMARRER</button></strong>
@@ -64,12 +65,12 @@
         <div class="form-group forminscription col-md-4">
           <label for="nomenfant">Nom de l'enfant :</label>
           <span class="obligatoire" v-if="nomenfant==''">Champ obligatoire</span>
-          <input name="nomenfant" type="text" class="form-control" v-model="nomenfant" ></input>
+          <input name="nomenfant" type="text" class="form-control" v-model="nomenfant" />
         </div>
         <div class="form-group forminscription col-md-4">
           <label for="prenomenfant" >Prénom de l'enfant :</label>
           <span class="obligatoire" v-if="prenomenfant==''">Champ obligatoire</span>
-          <input name="prenomenfant" type="text" class="form-control" v-model="prenomenfant"></input>
+          <input name="prenomenfant" type="text" class="form-control" v-model="prenomenfant" />
         </div>
         <div class="form-group forminscription col-md-2" >
           <label for="naissance" >Date de naissance</label>
@@ -117,35 +118,35 @@
     </div>
     <div v-if="etape==2" key="etape2">
       <h2>etape 2 : Parents </h2>
-      <div class="form-group ">
+      <div class="form-group forminscription ">
         <label for="nomparent1" >Nom du parent 1</label>
         <span class="obligatoire" v-if="nomparent1==''">Champ obligatoire</span>
-        <div><input type="text" class="form-control" name="nomparent1" v-model="nomparent1" ></input></div>
-      </div><div class="form-group">
+        <div><input type="text" class="form-control" name="nomparent1" v-model="nomparent1" /></div>
+      </div><div class="form-group forminscription">
         <label for="prenomparent1" >Prénom parent 1</label>
         <span class="obligatoire" v-if="prenomparent1==''">Champ obligatoire</span>
-        <div><input type="text"  class="form-control" name="prenomparent1" v-model="prenomparent1"></input></div>
-      </div><div class="form-group">
+        <div><input type="text"  class="form-control" name="prenomparent1" v-model="prenomparent1" /></div>
+      </div><div class="form-group forminscription">
           <label for="sexeparent1" >Sexe</label>
           <span class="obligatoire" v-if="sexeparent1==-1">Champ obligatoire</span>
           <div><input type="radio" name="sexeparent1" value="1" v-model="sexeparent1"/>&nbsp;M&nbsp;<input type="radio" name="sexeparent1" value="0" v-model="sexeparent1"/>&nbsp;F</div>
-      </div><div class="form-group">
+      </div><div class="form-group forminscription">
         <label for="telparent1" >Téléphone 1</label>
         <span class="obligatoire" v-if="telparent1==''">Champ obligatoire</span>
-        <div ><input type="text"  class="form-control" name="telparent1" v-model="telparent1"></input></div>
-      </div><div class="form-group">
+        <div ><input type="text"  class="form-control" name="telparent1" v-model="telparent1"/></div>
+      </div><div class="form-group forminscription">
         <label for="nomparent2" >Nom du parent 2</label>
-        <div><input type="text"  class="form-control" name="nomparent2" v-model="nomparent2"></input></div>
-      </div><div class="form-group">
+        <div><input type="text"  class="form-control" name="nomparent2" v-model="nomparent2"/></div>
+      </div><div class="form-group forminscription">
         <label for="prenomparent2" >Prénom parent 2</label>
-        <div><input type="text"  class="form-control" name="prenomparent2" v-model="prenomparent2"></input></div>
-      </div><div class="form-group">
+        <div><input type="text"  class="form-control" name="prenomparent2" v-model="prenomparent2" /></div>
+      </div><div class="form-group forminscription">
           <label for="sexeparent2" >Sexe</label>
           <span class="obligatoire" v-if="sexeparent2==-1">Champ obligatoire</span>
           <div><input type="radio" name="sexeparent2" value="1" v-model="sexeparent2"/>&nbsp;M&nbsp;<input type="radio" name="sexeparent2" value="0" v-model="sexeparent2"/>&nbsp;F</div>
-      </div><div class="form-group">
+      </div><div class="form-group forminscription">
         <label for="telparent2" >Téléphone 2</label>
-        <div><input type="text"  class="form-control" name="telparent2" v-model="telparent2"></input></div>
+        <div><input type="text"  class="form-control" name="telparent2" v-model="telparent2"/></div>
       </div>
     </div>
     <div v-if="etape==3" key="etape3">
@@ -155,7 +156,7 @@
       <p>Vous avez donc 7 jours au maximum pour nous faire parvenir votre règlement et confirmer votre inscription.</p>
       <p>Si votre créneau préféré comporte uniquement des places en attente de validation de paiement (en jaune), nous attendrons la fin du délai de 7 jours (attente max du paiement par autrui). Si au terme de ce délai, le règlement de l'autre personne ne nous est pas parvenu, vous remonterez dans la liste d'attente et la place pourra éventuellement vous être attribuée. En attendant, une place sur votre 2ème, 3ème... choix est réservée. </p>
       <p class="obligatoire" v-if="creneauok==false">Vous devez choisir au moins un creneau (1 dans une des case)</p>
-      <div class="row forminscription" v-for="creneau of creneaux">
+      <div class="row forminscription" v-for="creneau of creneaux" v-bind:key="'creneau'+creneau.id">
         <div class="col-md-4"><input type="number" size="1" v-bind:name="creneau.inputname" v-model="creneau.inputval" /></div>
         <div class="col-md-4">{{creneau.name}} - {{creneau.lieu}}</div>
         <div class="col-md-4">({{creneau.inscrits}} inscrits sur {{creneau.capacite}})</div>
@@ -215,9 +216,9 @@
 										à la pratique de la baignade pour l'enfant ainsi que le justificatif précisant que l'enfant est 
 										à jour de ses vaccins <u>sont obligatoires dès le premier bain.</u></b><br><br>L'enfant et son accompagnateur déclaré s'engagent à respecter le Règlement Intérieur 
                                  de la piscine du centre dont notamment :<br>- le port par l'enfant d'une couche (s'il n'est pas totalement propre) ou d'un maillot étanche spécial piscine; <br>- le port d'un maillot de bain par l'accompagnant (éviter le short de bain pour les Messieurs);<br>- le passage sous la douche avant la baignade;<br>- n'abandonner ni couches, ni cotons, ni lingettes ou tout autre chose usagée dans les 
-                                  locaux mais utiliser les poubelles mises à disposition;<br>- se déchausser avant l'accès aux vestiaires.<br><br>L'enfant et son accompagnateur déclaré <u>s'engagent à prendre part</u> à la vie de l'association (participation à l'accueil, passage de la raclette, rangement des cabines, 
+                                  locaux mais utiliser les poubelles mises à disposition;<br>- se déchausser avant l'accès aux vestiaires.<br><br>L'enfant et son accompagnateur déclaré <u>s'engagent à prendre part</u> à la vie de l'association (participation à l'accueil, passage de la raclette, rangement des cabines, 
 									rangement des jeux à disposition des enfants...).</p><br><h3>Horaires</h3><p>Le jour et l'horaire de l'activité sont attribués pour l'année lors de l'inscription. L'enfant et son accompagnateur 
-                                  s'engagent à respecter le créneau attitré. Un planning des séances sur la saison est établi et affiché. L'association s'engage sur 30 séances par créneau pour une année complète.<br><br>L'enfant et son accompagnateur déclaré  <u>s'engagent à prévenir</u> le maître-nageur sauveteur (MNS) de leur absence via l'e-mail spécifique  à son maitre-nageur fourni en bas du planning.</p><h3>Communication</h3><p>L'association Aqua bébé communique par mail sauf en cas d'urgence par SMS. Elle décline toute responsabilité en cas de non réception des messages.</p><h3>Arrêt d'activité</h3><p>Un remboursement de la cotisation pourra être considéré en cas d'arrêt d'activité 
+                                  s'engagent à respecter le créneau attitré. Un planning des séances sur la saison est établi et affiché. L'association s'engage sur 30 séances par créneau pour une année complète.<br><br>L'enfant et son accompagnateur déclaré  <u>s'engagent à prévenir</u> le maître-nageur sauveteur (MNS) de leur absence via l'e-mail spécifique  à son maitre-nageur fourni en bas du planning.</p><h3>Communication</h3><p>L'association Aqua bébé communique par mail sauf en cas d'urgence par SMS. Elle décline toute responsabilité en cas de non réception des messages.</p><h3>Arrêt d'activité</h3><p>Un remboursement de la cotisation pourra être considéré en cas d'arrêt d'activité 
                                 sur présentation d'un justificatif (problème de santé de l'enfant, changement de situation 
                                 familiale, mutation...). Les demandes seront étudiées par le Conseil d'Administration qui 
                                 s'engage à les traiter confidentiellement.</p>
@@ -235,7 +236,7 @@
       <div class="row">
         <div class="col-md-2">Choix du paiement :&nbsp;*</div>
         <div class="col-md-10">
-            <input name="paiement_moyen" value="1" type="radio" v-model="paiement"></input>
+            <input name="paiement_moyen" value="1" type="radio" v-model="paiement"/>
             <span><strong>Je choisis de payer par chèque.</strong><br>
 										Après avoir validé ce formulaire, le paiement intégral (participation + adhésion) devra parvenir 
 										à l'association dans les 7 jours pour confirmer l'inscription de lulu. 
@@ -263,11 +264,16 @@
     </div>
 
   </form>
-</p>
+  </p>
   <button v-if="etape>1 && etape<7" class="btn-info" v-on:click="precedentclick">Précédent</button>
   <button v-if="etape>0 && etape<6" class="btn-info" v-on:click="suivantclick">Suivant</button>
   <button v-if="etape==6" class="btn-info" v-on:click="validerclick">Valider</button>
 </div>
+<div v-else>
+  <p>Désolé les inscriptions ne sont pas ouvertes !</p>
+</div>
+</div>
+
 </template>
 
 <script>
@@ -283,7 +289,8 @@ export default {
   },
   data () {
     return {
-      etape:2,
+      etape:0,
+      saison:"",
       creneaux:{},
       nomenfant:"coucou",
       prenomenfant:"petit",
@@ -307,10 +314,19 @@ export default {
       imagediffusion:0,
       reglement:false,
       paiement:-1,
+      islock:false,
     }
   },
   created: function() {
       moment.locale('fr');
+      var api = new restapi();
+      var self=this;
+      api.getSaison().then(response=>{
+        self.saison=response;
+      });
+      api.getLockInscription().then(response=>{
+        self.islock=response;        
+      });
   },
    methods:{
       suivantclick: function(event) {

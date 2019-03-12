@@ -145,6 +145,17 @@ export class restapi {
         })
     }
 
+    getLockInscription() {
+        return axios.get(this.baseurl+'/inscription/lock').then(response => {
+            return response.data;
+        })
+    }
+    postLockInscription(data) {
+        return axios.post(this.baseurl+'/inscription/lock',data).then(response => {
+            return response.data;
+        })
+    }
+
 
 }
 

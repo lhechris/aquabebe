@@ -14,7 +14,7 @@
         </label>
     </div>
     <div class="row">
-        <div v-for="(file, key) in value" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div v-for="(file, key) in value" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" v-bind:key="key">
         <div class="row">
         <span class="col-xs-3 col-sm-3 col-md-3 col-lg-3">{{ file.name }}</span>
         <button class="col-xs-1 col-sm-1 col-md-1 col-lg-1 glyphicon glyphicon-trash btn" v-on:click="removeFile( key )"></button>

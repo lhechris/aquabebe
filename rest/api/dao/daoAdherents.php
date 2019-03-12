@@ -10,7 +10,7 @@ class daoAdherents extends daoClass {
      */
     public function get($saison) {
 
-        if (strlen($saison)!=9) {
+        if ((strlen($saison)!=9) && (strlen($saison)!=4)){
             trace_error("daoAdherents::get bad saison length expected 9");
             return false;
         }
