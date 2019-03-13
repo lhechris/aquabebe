@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export class restapi {
-    baseurl= 'http://localhost/rest';
-    //baseurl='/rest';
+    //baseurl= 'http://localhost/rest';
+    baseurl='/rest';
     token = "";    
 
     getAdherents(saison){
@@ -75,13 +75,18 @@ export class restapi {
     }
 
      isRegister() {
-        return axios.get(this.baseurl+'/test.php/register',{withCredentials: true}).then(response =>{        
+        return axios.get(this.baseurl+'/register/is',{withCredentials: true}).then(response =>{        
             return response.data;      
          })
      }
 
      postLogin(login) {
-        return axios.post(this.baseurl+'/test.php/register',login,{withCredentials: true}).then(response =>{        
+        return axios.post(this.baseurl+'/register',login,{withCredentials: true}).then(response =>{        
+            return response.data;      
+         })
+     }
+     postLogout() {
+        return axios.post(this.baseurl+'/unregister',).then(response =>{        
             return response.data;      
          })
      }

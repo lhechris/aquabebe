@@ -41,16 +41,6 @@ $app = new \Slim\App($settings);
 
 $creneaux = new RestCreneaux($app);
 
-
-// Define app routes
-$app->get('/hello', function () {
-    echo "Hello, I'm Slim";
-});
-
-$app->get('/hello/{name}', function ($request, $response, $args) {
-    return $response->write("Hello " . $args['name']);
-});
-
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -95,7 +85,7 @@ try {
     if ($_SERVER["REQUEST_METHOD"]=="GET") {
         $uri=$_SERVER["REQUEST_URI"];
         $turi=explode("/",$uri);
-        trace_info("uri ".print_r($turi,true));
+        //trace_info("uri ".print_r($turi,true));
         if ((count($turi)>=2) && ($turi[1]=="rest")) {
             
             if ((count($turi)>=3) && ($turi[2]=="doc")) {

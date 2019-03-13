@@ -4,6 +4,7 @@ include_once("dao/daoCreneau.php");
 include_once("mailcreneau.php");
 include_once("api/dto/dtoAddcreneau.php");
 include_once("config.php");
+include_once("utils.php");
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -136,65 +137,66 @@ class RestCreneaux {
 
         /**
          * METHOD POST enfant
-         */
+         */        
         $app->post('/creneaux/mail', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
-           
-            $json = $request->getParsedBody();
-            trace_info("POST creneaux email");
-            trace_info(print_r($json,true));
+            if (isregister()) {
+                $json = $request->getParsedBody();
+                trace_info("POST creneaux email");
+                trace_info(print_r($json,true));
 
-            $uploadedFiles = $request->getUploadedFiles();
-            $directory=__DIR__ . DIRECTORY_SEPARATOR . 'uploads';
-            if (array_key_exists("files",$uploadedFiles)) {
-                foreach($uploadedFiles['files'] as $uploadedFile) {
+                $uploadedFiles = $request->getUploadedFiles();
+                $directory=__DIR__ . DIRECTORY_SEPARATOR . 'uploads';
+                if (array_key_exists("files",$uploadedFiles)) {
+                    foreach($uploadedFiles['files'] as $uploadedFile) {
 
-                    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-                    $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
-                    $filename = sprintf('%s.%0.8s', $basename, $extension);
-                    trace_info($directory . DIRECTORY_SEPARATOR . $filename);
-                    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+                        $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+                        $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+                        $filename = sprintf('%s.%0.8s', $basename, $extension);
+                        trace_info($directory . DIRECTORY_SEPARATOR . $filename);
+                        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+                    }
                 }
-            }
 
-            //recherche tous les emails d'un creneau
-            $daocreneaux=new daoCreneau();
-            $emails=$creneaux=$daocreneaux->getEmails($json["creneau"]);
+                //recherche tous les emails d'un creneau
+                $daocreneaux=new daoCreneau();
+                $emails=$creneaux=$daocreneaux->getEmails($json["creneau"]);
 
-            mailcreneau($emails,$json['texte'],$json['sujet'],array());
+                mailcreneau($emails,$json['texte'],$json['sujet'],array());
 
-            //$newResponse = $response->write("Pas encore implementé");
-            $newResponse = $response->withJson($emails);
+                //$newResponse = $response->write("Pas encore implementé");
+                $newResponse = $response->withJson($emails);
 
 
-            return $newResponse;  
+                return $newResponse; 
+            } 
         });
         $app->post('/creneaux/add', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
-           
-            trace_info("add crenaux");            
-            $json = $request->getParsedBody();
-            trace_info(print_r($json,true));
-            $addcreneau = new addCreneau();
-            $addcreneau->fromArray($json);
+            if (isregister()) {
+                trace_info("add crenaux");            
+                $json = $request->getParsedBody();
+                trace_info(print_r($json,true));
+                $addcreneau = new addCreneau();
+                $addcreneau->fromArray($json);
 
-            $daocreneaux = new $daoCreneaux();
+                $daocreneaux = new $daoCreneaux();
 
-            $creneaux = $daocreneaux->getList(CURRENT_SAISON);
-            $toupdate=False;
-            foreach($creneaux as $creneau) {
-                if ($creneau->getLieu()==$addcreneau->getLieu() && 
-                    $creneau->getJour()==$addcreneau->getJour() &&
-                    $creneau->getHeure()==$addcreneau->getHeure()
-                ) {
-                    //Le creneau existe dejà on le modifie
-                    $toupdate=True;
+                $creneaux = $daocreneaux->getList(CURRENT_SAISON);
+                $toupdate=False;
+                foreach($creneaux as $creneau) {
+                    if ($creneau->getLieu()==$addcreneau->getLieu() && 
+                        $creneau->getJour()==$addcreneau->getJour() &&
+                        $creneau->getHeure()==$addcreneau->getHeure()
+                    ) {
+                        //Le creneau existe dejà on le modifie
+                        $toupdate=True;
+                    }
+                }
+                if ($toupdate) {
+                    $daocreneaux->update($addcreneau);
+                } else {
+                    $daocreneaux->add($addcreneau);
                 }
             }
-            if ($toupdate) {
-                $daocreneaux->update($addcreneau);
-            } else {
-                $daocreneaux->add($addcreneau);
-            }
-
         });
     }
 }

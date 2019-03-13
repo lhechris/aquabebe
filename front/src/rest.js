@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse, Ax
 import moment from 'moment'
 
 export class restapi {
-    baseurl= 'http://localhost/rest';
+    baseurl= '/rest';
     //baseurl='/rest';
     token = "";    
 

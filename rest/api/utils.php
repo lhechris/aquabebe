@@ -104,5 +104,15 @@ function formatDate($date)
             return chiffre2lettre((int)($v/1000)).' '.chiffre2lettre(1000).' '.chiffre2lettre($v%1000); 
         } 
         
-    }    
+    }  
+    
+    function isregister() {
+        if (array_key_exists("register",$_SESSION)) {
+            return $_SESSION["register"]=="oui";
+        }else {
+            return false;
+        }
+
+    }
+
 ?>

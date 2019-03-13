@@ -10,7 +10,7 @@
                 <td v-if="edit"><input type="text" v-model="doc.description"></td><td v-else>{{doc.description}}</td>
                 <!--<td><button class="glyphicon glyphicon-download" v-on:click="download(doc.id)" /></td>-->
                 <td v-if="edit"><button class="glyphicon glyphicon-trash" v-on:click="supprimer(doc.id)"></button></td>
-                <td v-else><a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'http://localhost/rest/doc/getfichier/'+doc.id" /></td>
+                <td v-else><a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'/rest/doc/getfichier/'+doc.id" /></td>
             </tr>
         </table>
     </div>

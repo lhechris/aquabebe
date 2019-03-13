@@ -1,6 +1,7 @@
 <?php
 include_once("log.php");
 include_once("dao/daoPages.php");
+include_once("utils.php");
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -31,6 +32,8 @@ class RestPages {
         });
 
         $app->post('/pages/update', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            if (!isregister()){return;};
+
             trace_info("POST page update");
             $data = $request->getParsedBody();
             $daopages=new daoPages();

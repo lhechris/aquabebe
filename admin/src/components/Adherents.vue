@@ -19,7 +19,7 @@
     <td><button class="btn btn-primary" v-on:click="certificat(pers.inscriptionid)" v-if="pers.certificat!=1">Déposer certificat</button><span v-else>Déposé</span></td>
     <td><button class="btn btn-primary" v-on:click="vaccins(pers.inscriptionid)" v-if="pers.vaccins!=1">Valider vaccins</button><span v-else>Validés</span></td>
     <td>
-      <a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'http://localhost/rest/facture/'+pers.id" />
+      <a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'/rest/facture/'+pers.id" />
       <button class="btn btn-primary" v-on:click="facture(pers.inscriptionid)" v-if="pers.facture!=1">Remettre facture</button>
       <span v-else>Remise</span>
     </td>

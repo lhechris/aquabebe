@@ -55,7 +55,7 @@
         <span class="col-md-2"><button class="btn btn-primary" v-on:click="certificat(enfant.inscriptionid)" v-if="enfant.certificat_medical!=1">Déposer certificat</button><span v-else>Déposé</span></span>
         <span class="col-md-2"><button class="btn btn-primary" v-on:click="vaccins(enfant.inscriptionid)" v-if="enfant.vaccins!=1">Valider vaccins</button><span v-else>Validés</span></span>
         <span class="col-md-2">
-          <a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'http://localhost/rest/facture/'+enfant.id" />
+          <a class="glyphicon glyphicon-download" target="_blank" v-bind:href="'/rest/facture/'+enfant.id" />
           <button class="btn btn-primary" v-on:click="facture(enfant.inscriptionid)" v-if="enfant.facture_remise!=1">Remettre facture</button><span v-else>Remise</span>
         </span>
       </div>

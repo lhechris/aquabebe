@@ -6,6 +6,7 @@ include_once("dao/daoCreneau.php");
 include_once("dao/daoConfig.php");
 
 include_once("mailInscription.php");
+include_once("utils.php");
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -145,6 +146,8 @@ class RestInscription {
          * Lock/Unlock Inscription
          */
         $app->post('/inscription/lock', function(ServerRequestInterface $request, ResponseInterface $response) {
+            if (!isregister()){return;};
+
             $json = $request->getParsedBody();
             $islock=$json["islock"];
 
@@ -158,6 +161,8 @@ class RestInscription {
         });
 
         $app->get('/inscription/lock', function(ServerRequestInterface $request, ResponseInterface $response) {
+            if (!isregister()){return;};
+
             $dao = new daoConfig();
             $conf=$dao->get();            
             $newResponse = $response->write($conf["blockinscription"]);
@@ -168,6 +173,8 @@ class RestInscription {
          * TEST
          */
         $app->get("/inscription/test",function(ServerRequestInterface $request, ResponseInterface $response) {
+            if (!isregister()){return;};
+
             $daoPersonne=new daoPersonne();
             $obj=new Personne();
             $obj->setNom("NomTest");
