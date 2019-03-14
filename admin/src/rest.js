@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export class restapi {
-    //baseurl= 'http://localhost/rest';
-    baseurl='/rest';
+    baseurl= 'http://localhost/rest';
+    //baseurl='/rest';
     token = "";    
 
     getAdherents(saison){
@@ -158,7 +158,13 @@ export class restapi {
     postLockInscription(data) {
         return axios.post(this.baseurl+'/inscription/lock',data).then(response => {
             return response.data;
-        })
+        })        
+    }
+
+    getReservations() {
+        return axios.get(this.baseurl+'/inscription/reservations').then(response => {
+            return response.data;
+        })        
     }
 
 

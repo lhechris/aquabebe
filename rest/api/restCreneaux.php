@@ -40,7 +40,10 @@ class RestCreneaux {
                              "jour"=>$creneau->getJour(),
                              "heure"=>$creneau->getHeure(),
                              "description"=>$creneau->getAge(),
-                             "enfants"=>array());                               
+                             "enfants"=>array(),
+                             "remain" => intval($creneau->getCapacite())-count($creneau->getEnfants())
+                            );
+
                     foreach($creneau->getEnfants() as $enfant)
                     {
                         $e=array("name"=>$enfant->getPrenom(),"age"=>$enfant->getNaissance(),"id"=>$enfant->getId());

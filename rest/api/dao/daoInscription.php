@@ -5,6 +5,7 @@ include_once('api/objects/preinscription.php');
 include_once('api/objects/personne.php');
 include_once("api/mailcertificat.php");
 include_once("api/mailvaccins.php");
+include_once("config.php");
 
 class daoInscription extends daoClass {
 
@@ -70,6 +71,110 @@ class daoInscription extends daoClass {
             $inscription->setReglementInterieurSignature($r[15]);
         }  
         return $inscription;
+
+    }
+
+    public function getReservations() {
+        $query ="select  inscription.ID,".                       /* 0 */
+                        "inscription.ID_enfant,".                /* 1 */
+                        "inscription.ID_creneau,".               /* 2 */
+                        "inscription.date_max,".                 /* 3 */
+                        "inscription.paiement,".                 /* 4 */
+                        "inscription.paiement_date,".            /* 5 */
+                        "inscription.certificat_medical,".       /* 6 */
+                        "inscription.vaccins,".                  /* 7 */
+                        "inscription.facture_remise,".           /* 8 */
+                        "inscription.diffusion_image,".          /* 9 */
+                        "inscription.diffusion_image_date,".     /* 10 */
+                        "inscription.diffusion_image_lieu,".     /* 11 */
+                        "inscription.diffusion_image_signature,"./* 12 */
+                        "inscription.reglement_interieur_date,". /* 13 */
+                        "inscription.reglement_interieur_lieu,".      /* 14 */
+                        "inscription.reglement_interieur_signature,". /* 15 */
+                        "creneau.saison,".                            /* 16 */
+                        "creneau.lieu,".                              /* 17 */
+                        "creneau.jour,".                              /* 18 */
+                        "creneau.heure,".                             /* 19 */
+                        "creneau.age,".                               /* 20 */
+                        "creneau.pour_fratrie,".                      /* 21 */
+                        "creneau.naissance_min,".                     /* 22 */
+                        "creneau.naissance_max,".                     /* 23 */
+                        "creneau.nb_mois_mini,".                      /* 24 */
+                        "creneau.capacite,".                          /* 25 */
+                        "creneau.ID,".                                /* 26 */
+                        "personne.nom,".                              /* 27 */
+                        "personne.prenom,".                           /* 28 */
+                        "personne.sexe,".                             /* 29 */
+                        "personne.naissance,".                        /* 30 */
+                        "preinscription.choix,".                      /* 31 */
+                        "preinscription.reservation ".                /* 32 */
+                "from personne, inscription,preinscription,creneau ".
+                "where inscription.ID_enfant=personne.ID and ".
+                "preinscription.id_inscription=inscription.ID and ".
+                "creneau.ID=preinscription.ID_creneau and ".
+                "creneau.saison='".CURRENT_SAISON."' ".
+                "order by personne.ID";
+
+        trace_debug($query);
+        
+        try {
+            $stmt=$this->pdo->query($query);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+            return false;
+        }
+        $preinscriptions=array();
+
+        foreach($liste as $r)
+        {
+            $inscription=new Inscription();
+            $inscription->setId($r[0]);
+            $inscription->setDateMax($r[3]);
+            $inscription->setPaiement($r[4]);
+            $inscription->setPaiementDate($r[5]);
+            $inscription->setCertificatMedical($r[6]);
+            $inscription->setVaccins($r[7]);
+            $inscription->setFactureRemise($r[8]);
+            $inscription->setDiffusionImage($r[9]);
+            $inscription->setDiffusionImageDate($r[10]);
+            $inscription->setDiffusionImageLieu($r[11]);
+            $inscription->setDiffusionImageSignature($r[12]);
+            $inscription->setReglementInterieurDate($r[13]);
+            $inscription->setReglementInterieurLieu($r[14]);
+            $inscription->setReglementInterieurSignature($r[15]);
+            $creneau=new Creneau();
+            $creneau->setId($r[26]);
+            $creneau->setSaison($r[16]);
+            $creneau->setLieu($r[17]);
+            $creneau->setJour($r[18]);
+            $creneau->setHeure($r[19]);
+            $creneau->setAge($r[20]);
+            $creneau->setPourFratrie($r[21]);
+            $creneau->setNaissanceMin($r[22]);
+            $creneau->setNaissanceMax($r[23]);
+            $creneau->setNbMoisMini($r[24]);
+            $creneau->setCapacite($r[25]);
+            $enfant=new Personne();
+            $enfant->setId($r[1]);
+            $enfant->setPrenom($r[27]);
+            $enfant->setNom($r[28]);
+            $enfant->setSexe($r[29]);
+            $enfant->setNaissance($r[30]);
+
+            $inscription->setEnfant($enfant);
+            $inscription->setCreneau($creneau);
+
+            $preinscription=new PreInscription();
+            $preinscription->setInscription($inscription);
+            $preinscription->setCreneau($creneau);
+            $preinscription->setChoix($r[31]);
+            $preinscription->setReservation($r[32]);
+
+            array_push($preinscriptions,$preinscription);
+        }  
+        return $preinscriptions;
 
     }
 

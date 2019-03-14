@@ -9,6 +9,7 @@ import Mailing from '@/components/Mailing'
 import Documentation from '@/components/Documentation'
 import Page from '@/components/Page'
 import Parametres from '@/components/Parametres'
+import Reservations from '@/components/Reservations'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/Creneaux',
       name: 'Creneaux',
       component: Creneaux
+    },
+    {
+      path: '/Reservations',
+      name: 'Reservations',
+      component: Reservations
     },
     {
       path: '/EditCreneaux',

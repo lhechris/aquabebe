@@ -4,6 +4,7 @@ include_once("dao/daoInscription.php");
 include_once("dao/daoPersonne.php");
 include_once("dao/daoCreneau.php");
 include_once("dao/daoConfig.php");
+include_once("dto/dtoReservation.php");
 
 include_once("mailInscription.php");
 include_once("utils.php");
@@ -168,6 +169,73 @@ class RestInscription {
             $newResponse = $response->write($conf["blockinscription"]);
             return $newResponse;
         });
+
+        $app->get('/inscription/reservations', function(ServerRequestInterface $request, ResponseInterface $response) {
+            if (!isregister()){return;};
+
+            $dao = new daoInscription();
+            $preinscriptions=$dao->getReservations();
+            $dtos=array();
+            foreach($preinscriptions as $preinscription) {
+                $dto=null;
+                $insc=$preinscription->getInscription();
+                $enf=$insc->getEnfant();
+                $cren=$preinscription->getCreneau();
+                
+                if (array_key_exists($enf->getId(),$dtos)) {
+                    $dto=$dtos[$enf->getId()];
+                } else {
+                    $dto = new dtoReservation();
+                    $dto->setNom($enf->getNom());
+                    $dto->setPrenom($enf->getPrenom());
+                    $dto->setPaiementDate($insc->getPaiementDate());
+                    $dto->setAge($enf->getNaissance());
+                    $dtos[$enf->getId()]=$dto;
+                }
+
+                $dtop = new dtoReservationPreinsc();
+                $dtop->setChoix($preinscription->getChoix());
+                $dtop->setReservation($preinscription->getReservation());
+                $dtop->setCreneauId($cren->getId());
+                $dtop->setCreneauLieu($cren->getLieu());
+                $dtop->setCreneauJour($cren->getJour());
+                $dtop->setCreneauHeure($cren->getHeure());
+
+                if ($insc->getPaiement()==0) {
+                    $dtop->setStatus("A Payer");
+                
+                }else if ($preinscription->getReservation()==0) {
+                    $dtop->setStatus("A Valider");
+                }else {
+                    $dtop->setStatus("Valide");
+                }  
+                $dto->addPreinscription($dtop);
+            }
+            
+            //Rearrange pour classer en 3
+            $valide=array();
+            $avalider=array();
+            $apayer=array();
+            foreach ($dtos as $key=>$dto) {
+                $found=false;
+                foreach($dto->getPreinscriptions() as $p) {
+                    if ($p->getStatus()=="Valide") {
+                        array_push($valide,$dto->toArray());
+                        $found=true;
+                    } else if ($p->getStatus()=="A Payer") {
+                        array_push($apayer,$dto->toArray());
+                        $found=true;
+                    }
+                }
+                if (! $found) {
+                    array_push($avalider,$dto->toArray());
+                }            
+            }
+            $resp=array("apayer" => $apayer, "avalider" => $avalider, "valide" => $valide);
+            $newResponse = $response->withJson($resp);
+            return $newResponse;
+        });
+
 
         /**
          * TEST

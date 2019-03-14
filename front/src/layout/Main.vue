@@ -22,16 +22,9 @@
       <li class="nav-item">
         <router-link class="nav-link" to="/page/faq">FAQ</router-link>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Espace Abonné
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <router-link class="dropdown-item" to="/Inscription">Inscrire un enfant</router-link>
-          <a class="dropdown-item" href="#">Planning</a>
-          <a class="dropdown-item" href="#">Réservé Administration</a>
-        </div>
-      </li>      
+      <li class="nav-item">
+        <router-link class="nav-link" to="/Inscription">Inscrire un enfant</router-link>
+      </li>
     </ul>
   </div>
 </nav>

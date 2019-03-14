@@ -13,10 +13,9 @@ class RestRegister {
 
         $app->get('/register/is', function(ServerRequestInterface $request, ResponseInterface $response) {
 
-            trace_info("isregister session is ".print_r($_SESSION,true));
-
-            if (key_exists("register",$_SESSION)) {
-                $newResponse = $response->write($_SESSION["register"]);
+            trace_info("isregister ".strval(isregister()));
+            if (isregister()) {
+                $newResponse = $response->write("oui");
             } else {
                 $newResponse = $response->write("non");
             }

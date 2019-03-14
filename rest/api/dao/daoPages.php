@@ -29,7 +29,7 @@ class daoPages {
     public function update($name,$texte)
     {
         if (in_array($name,$this->pages)) {
-            $filename=$this->repertoire.DIRECTORY_SEPARATOR.$name;
+            $filename=$this->repertoire.DIRECTORY_SEPARATOR.$name.".html";
             //verify qu'il y a des modif
             if (file_get_contents($filename)==$texte) {
                 trace_info("pas de modification pour $name, on ne fait rien");
@@ -48,8 +48,8 @@ class daoPages {
     private function history($name) {
 
         $histdir=$this->repertoire.DIRECTORY_SEPARATOR.'.history';
-        $histfile=$histdir.DIRECTORY_SEPARATOR.$name."_".date("Ymdhis");
-        $oldfilename=$this->repertoire.DIRECTORY_SEPARATOR.$name;
+        $histfile=$histdir.DIRECTORY_SEPARATOR.$name."_".date("Ymdhis").".html";
+        $oldfilename=$this->repertoire.DIRECTORY_SEPARATOR.$name.".html";
         if (!file_exists($histdir)) {
             if (mkdir($histdir)==false) {
                 trace_error("on n'arrive pas a creer le repertoire .history");

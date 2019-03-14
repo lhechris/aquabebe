@@ -1,25 +1,30 @@
 <template>
 <div class="container" >
+  <p v-if="waiting==true"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Chargement...</p>
   <div class="row">    
-    <p v-if="Object.keys(creneaux).length==0"> loading...</p>
-    <div class="col-md-6">
-      <div v-for="lieu of creneaux" ><h2>{{lieu.name}}</h2>
-        <div v-for="jour of lieu.jours" >
-          <h3>{{jour.name}}</h3>
-            <table class="mytable">
-              <tr v-for="creneau of jour.creneaux" v-on:click="actionclick(creneau.enfants)" v-bind:class="{selectionner:creneau.enfants==enfants}">          
-                <td>{{creneau.heure}}</td>
-                <td>{{creneau.description}}</td>
-                <td v-if="creneau.iscomplet" class="avertissement">Complet !</td>
-                <td><button class="glyphicon glyphicon-th"></button></td>
-              </tr>
-            </table>
+    <div class="col-md-9" >
+      <div v-for="lieu of creneaux" v-bind:key="lieu.name"><h2>{{lieu.name}}</h2>
+        <div v-for="jour of lieu.jours" v-bind:key="jour" >
+          <h3 >{{jour.name}}</h3>
+          <div class="row">
+          <table class="mytable col-md-12">
+            <tr v-for="creneau of jour.creneaux" v-on:click="actionclick(creneau.enfants)" v-bind:class="{selectionner:creneau.enfants==enfants}" v-bind:key="'creneau'+creneau.id">
+              <td>{{creneau.heure}}</td>
+              <td>{{creneau.description}}</td>
+              <td>
+                <span v-if="creneau.remain==0" class="avertissement">Complet!</span>
+                <span v-else>{{creneau.remain}} places restante</span>
+              </td>
+              <td><button class="glyphicon glyphicon-th"></button></td>
+            </tr>
+          </table>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-3">
       <transition-group name="list" tag="p">
-        <p class="mytable" v-for="enfant of enfants" v-bind:key="enfant.id">{{enfant.name}} <span v-if="enfant.age!=''">({{enfant.age}})</span></p>
+        <p class="mytable" v-for="enfant of enfants" v-bind:key="enfant.id">{{enfant.name}}</p>
       </transition-group>
     </div>
 
@@ -39,7 +44,8 @@ export default {
   data () {
     return {
       creneaux: {},
-      enfants:{}
+      enfants:{},
+      waiting:true
     }
   },
   created: function() {
@@ -57,14 +63,16 @@ export default {
       },
       get: function (){
         var api = new restapi();
+        this.waiting=true;
         var self=this;
         api.getCreneaux().then(response=>{
           self.creneaux=response;
+          self.waiting=false;
           var i;
           for (i in self.creneaux) {
             self.creneaux[i]["show"]=false;
           }
-        })
+        }).catch(()=>{self.waiting=false;})
     }
   }
 
@@ -73,7 +81,7 @@ export default {
 
 <style scoped>
 .mytable {
-  background : linear-gradient( to right,rgba(255,128,128,0.8), rgba(255,128,128,0.3));
+  background : linear-gradient( to right,rgba(255, 200, 200, 0.8), rgba(255,128,128,0.3));
   border-radius : 10px;
   margin:5px;
   padding : 5px;
