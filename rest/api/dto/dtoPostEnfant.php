@@ -83,9 +83,10 @@ class dtoPostEnfant{
     public function fromArray($json) {
         $vars = get_object_vars($this);
         foreach($json as $key => $value) {
-            $valuesck=htmlentities($value);
+            //$valuesck=htmlentities($value);
+            $valuesck=$value;
             if (array_key_exists($key,$vars)) {
-                $this->key=$valuesck;
+                $this->$key=$valuesck;
             }
         }
     }

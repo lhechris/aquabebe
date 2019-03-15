@@ -60,24 +60,29 @@
         </span>
       </div>
     </div>
-    <div class="row encadre col-md-12">
+    <div class="row encadre col-md-12" v-if="enfant.payeur!=null">
       <div class="row encadretitre col-md-12" v:if="enfant">
         <span class="col-md-2">payeur</span><span class="col-md-2">montant</span><span class="col-md-2">mois</span><span class="col-md-2">moyen</span><span class="col-md-4">remarques</span>
-      </div>
-      <div v-if="edit" class="row encadrebody col-md-12 form-group">            
+      </div>      
+      <div v-if="edit" class="encadrebody row col-md-12 form-group">            
               <span class="col-md-2"><input type="text" class="form-control" name="payeur" v-model="enfant.payeur" ></span>  
               <span class="col-md-2"><input type="text" class="form-control" name="montant" v-model="enfant.montant" ></span>  
               <span class="col-md-2"><input type="text" class="form-control" name="mois" v-model="enfant.mois" ></span>  
               <span class="col-md-2"><input type="text" class="form-control" name="moyen" v-model="enfant.moyen" ></span>  
               <span class="col-md-4"><input type="text" class="form-control" name="remarques" v-model="enfant.remarques"></span>  
       </div>
-      <div v-else class="row encadrebody col-md-12">
+      <div v-else class="encadrebody col-md-12 row">
               <span class="col-md-2">{{enfant.payeur}}</span>  
               <span class="col-md-2">{{enfant.montant}}</span>  
               <span class="col-md-2">{{enfant.mois}}</span>  
               <span class="col-md-2">{{enfant.moyen}}</span>  
               <span class="col-md-4">{{enfant.remarques}}</span>  
       </div>
+    </div>
+    <div v-else class="row encadretitre col-md-12" style="padding:10px">
+          <div class="col-md-5" />
+          <button  class="btn btn-primary col-md-2" v-on:click="validerpaiement()" >Valider Paiement</button>
+          <div class="col-md-5" />
     </div>
     <div class="row">
         <div v-if="edit" class="col-md-12 row">
@@ -108,7 +113,7 @@
   background : linear-gradient( to right,rgba(113,183,244,0.8), rgba(255,128,128,0.3));
   /*border-radius : 10px;*/
   margin:auto;
-  padding : 0px;
+  padding : 10px;
 }
 .encadretitre {
   font-weight: bold;
@@ -166,6 +171,11 @@ export default {
 
       editable: function(v) {
         this.edit=v;
+        this.editreservation=this.creneauselected==-1;
+      },
+      validerpaiement: function() {
+        this.edit=true;
+        this.enfant.payeur="";
         this.editreservation=this.creneauselected==-1;
       },
 

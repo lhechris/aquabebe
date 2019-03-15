@@ -57,11 +57,11 @@ class daoPaiement extends daoClass {
         foreach($liste as $r)
         {
             $paiement->setId($r[0]);
-            $paiement->setPayeur($r[1]);
-            $paiement->setMontant($r[2]);
-            $paiement->setMoyen($r[3]);
-            $paiement->setMois($r[4]);
-            $paiement->setRemarques($r[5]);
+            $paiement->setPayeur(html_entity_decode($r[1]));
+            $paiement->setMontant(html_entity_decode($r[2]));
+            $paiement->setMoyen(html_entity_decode($r[3]));
+            $paiement->setMois(html_entity_decode($r[4]));
+            $paiement->setRemarques(html_entity_decode($r[5]));
         }
 
         return $paiement;

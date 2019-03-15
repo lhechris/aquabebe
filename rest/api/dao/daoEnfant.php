@@ -64,13 +64,13 @@ class daoEnfant extends daoClass {
         foreach($liste as $r)
         {
             $enfant->setId($r[0]);
-            $enfant->setPrenom($r[1]);
-            $enfant->setNom($r[2]);
+            $enfant->setPrenom(html_entity_decode($r[1]));
+            $enfant->setNom(html_entity_decode($r[2]));
             $enfant->setNaissance($r[3]);
             $enfant->setTelephone($r[4]);
-            $enfant->setAdresse($r[5]);
+            $enfant->setAdresse(html_entity_decode($r[5]));
             $enfant->setCp($r[6]);
-            $enfant->setCommune($r[7]);
+            $enfant->setCommune(html_entity_decode($r[7]));
             $enfant->setHandicap($r[8]);
 
             $preinsc=new dtoPreinscription();
@@ -132,8 +132,8 @@ class daoEnfant extends daoClass {
         {
             $parent=new dtoParent();
             $parent->setId($r[0]);
-            $parent->setPrenom($r[1]);
-            $parent->setNom($r[2]);
+            $parent->setPrenom(html_entity_decode($r[1]));
+            $parent->setNom(html_entity_decode($r[2]));
             $parent->setTelephone($r[4]);
             array_push($parents,$parent);
         }

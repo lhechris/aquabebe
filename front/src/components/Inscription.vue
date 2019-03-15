@@ -128,7 +128,6 @@
         <div><input type="text"  class="form-control" name="prenomparent1" v-model="prenomparent1" /></div>
       </div><div class="form-group forminscription">
           <label for="sexeparent1" >Sexe</label>
-          <span class="obligatoire" v-if="sexeparent1==-1">Champ obligatoire</span>
           <div><input type="radio" name="sexeparent1" value="1" v-model="sexeparent1"/>&nbsp;M&nbsp;<input type="radio" name="sexeparent1" value="0" v-model="sexeparent1"/>&nbsp;F</div>
       </div><div class="form-group forminscription">
         <label for="telparent1" >Téléphone 1</label>
@@ -142,7 +141,6 @@
         <div><input type="text"  class="form-control" name="prenomparent2" v-model="prenomparent2" /></div>
       </div><div class="form-group forminscription">
           <label for="sexeparent2" >Sexe</label>
-          <span class="obligatoire" v-if="sexeparent2==-1">Champ obligatoire</span>
           <div><input type="radio" name="sexeparent2" value="1" v-model="sexeparent2"/>&nbsp;M&nbsp;<input type="radio" name="sexeparent2" value="0" v-model="sexeparent2"/>&nbsp;F</div>
       </div><div class="form-group forminscription">
         <label for="telparent2" >Téléphone 2</label>

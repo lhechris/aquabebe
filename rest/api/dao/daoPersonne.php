@@ -225,17 +225,17 @@ class daoPersonne extends daoClass {
         foreach($liste as $r)
         {
             $enfant->setId($r[0]);
-            $enfant->setPrenom($r[1]);
-            $enfant->setNom($r[2]);
+            $enfant->setPrenom(html_entity_decode($r[1]));
+            $enfant->setNom(html_entity_decode($r[2]));
             $enfant->setNaissance($r[3]);
             $enfant->setTel($r[4]);
-            $enfant->setAdresse($r[5]);
+            $enfant->setAdresse(html_entity_decode($r[5]));
             $enfant->setCp($r[6]);
-            $enfant->setCommune($r[7]);
+            $enfant->setCommune(html_entity_decode($r[7]));
 
             $creneau=new Creneau();
             $creneau->setId($r[8]);
-            $creneau->setLieu($r[9]);
+            $creneau->setLieu(html_entity_decode($r[9]));
             $creneau->setJour($r[10]);
             $creneau->setHeure($r[11]);
 
@@ -288,13 +288,13 @@ class daoPersonne extends daoClass {
         {
             $parent=new Personne();
             $parent->setId($r[0]);
-            $parent->setPrenom($r[1]);
-            $parent->setNom($r[2]);
+            $parent->setPrenom(html_entity_decode($r[1]));
+            $parent->setNom(html_entity_decode($r[2]));
             $parent->setNaissance($r[3]);
             $parent->setTel($r[4]);
-            $parent->setAdresse($r[5]);
+            $parent->setAdresse(html_entity_decode($r[5]));
             $parent->setCp($r[6]);
-            $parent->setCommune($r[7]);
+            $parent->setCommune(html_entity_decode($r[7]));
             array_push($parents,$parent);
         }
 

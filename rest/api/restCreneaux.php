@@ -126,7 +126,7 @@ class RestCreneaux {
         $app->get("/creneaux/list/{saison}",function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             $daocreneaux=new daoCreneau();
             //TODO check saison
-            $saison=htmlentities($args["saison"]);
+            $saison=$args["saison"];
             
             $creneaux=$daocreneaux->getList($saison);
             $data=array();

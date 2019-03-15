@@ -14,7 +14,7 @@
         <div v-for="jour of lieu.jours" v-bind:key="jour.name">
           <h3>{{jour.name}}</h3>
             <table class="mytable">
-              <tr v-for="creneau of jour.creneaux"  v-bind:class="{selectionner:creneau.enfants==enfants}" v-bind:key="creneau.id">          
+              <tr v-for="creneau of jour.creneaux"  v-bind:class="{selectionner:creneau.enfants==enfants||creneau.id==editcreneau}" v-bind:key="creneau.id">          
                 <td>{{creneau.heure}}</td>
                 <td>{{creneau.description}}</td>
                 <td v-if="creneau.iscomplet" class="avertissement">Complet !</td>
@@ -118,7 +118,7 @@ export default {
 
 <style scoped>
 .mytable {
-  background : linear-gradient( to right,rgba(255,128,128,0.8), rgba(255,128,128,0.3));
+  background : linear-gradient( to right,rgba(219, 240, 252, 0.8), rgba(128, 143, 155, 0.3));
   border-radius : 10px;
   margin:5px;
   padding : 5px;

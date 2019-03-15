@@ -147,7 +147,7 @@ class daoInscription extends daoClass {
             $creneau=new Creneau();
             $creneau->setId($r[26]);
             $creneau->setSaison($r[16]);
-            $creneau->setLieu($r[17]);
+            $creneau->setLieu(html_entity_decode($r[17]));
             $creneau->setJour($r[18]);
             $creneau->setHeure($r[19]);
             $creneau->setAge($r[20]);
@@ -158,8 +158,8 @@ class daoInscription extends daoClass {
             $creneau->setCapacite($r[25]);
             $enfant=new Personne();
             $enfant->setId($r[1]);
-            $enfant->setPrenom($r[27]);
-            $enfant->setNom($r[28]);
+            $enfant->setPrenom(html_entity_decode($r[28]));
+            $enfant->setNom(html_entity_decode($r[27]));
             $enfant->setSexe($r[29]);
             $enfant->setNaissance($r[30]);
 
@@ -175,7 +175,6 @@ class daoInscription extends daoClass {
             array_push($preinscriptions,$preinscription);
         }  
         return $preinscriptions;
-
     }
 
 

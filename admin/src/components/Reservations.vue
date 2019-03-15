@@ -6,10 +6,10 @@
         </tr></thead>
         <tbody> 
         <tr v-for="avalide of avalider" v-bind:key="avalide.id">
-            <td></td>
-            <td>{{avalide.prenom}}</td>
-            <td>{{avalide.nom}}</td>
             <td>{{avalide.paiement_date}}</td>
+            <td><router-link class="nav-link" v-bind:to="'/enfant/'+avalide.id">{{avalide.prenom}}</router-link></td>
+            <td>{{avalide.nom}}</td>
+            <td>{{avalide.paiement}}</td>
             <td>
                     <p v-for="p of avalide.preinscriptions" v-bind:key="p.creneauid">
                     {{p.creneaujour}} {{p.creneauheure}} a {{p.creneaulieu}}
@@ -19,7 +19,7 @@
         </tr>
         </tbody>
     </table>
-    <div class="row">Liste des inscriptions</div>
+    <div class="row" style="padding:30px 10px 20px 0px">Liste des inscriptions dont les dates sont dépassées</div>
     <table class="table table-responsive  table-striped row">
         <thead><tr>
             <th>Date</th><th>Prénom</th><th>Nom</th><th>Paiement</th><th>Creneau</th>
@@ -27,7 +27,7 @@
         <tbody>
         <tr v-for="enf of apayer" v-bind:key="enf.id">
             <td></td>
-            <td>{{enf.prenom}}</td>
+            <td><router-link class="nav-link" v-bind:to="'/enfant/'+enf.id">{{enf.prenom}}</router-link></td>
             <td>{{enf.nom}}</td>
             <td>{{enf.paiement_date}}</td>
             <td>

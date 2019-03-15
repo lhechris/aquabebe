@@ -11,7 +11,7 @@
             <span class="col-md-5"></span>
         </div>
         <div class="row mt-3">
-            <textarea class="form-control col-md-10" rows="20"  v-model="texte"></textarea>
+            <textarea class="form-control col-md-10" rows="20"  v-model="texte" style="font-size:14px"></textarea>
         </div>
         <div class="row mt-3">
             <span class="col-md-4"></span>

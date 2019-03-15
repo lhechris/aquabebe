@@ -10,7 +10,7 @@ class daoCreneau extends daoClass {
     public function getAll($saison)
     {
         //TODO check saison
-        $saison=htmlentities($saison);
+        $saison=$saison;
         if (($saison=="")|| ($saison=="current")) {$saison=CURRENT_SAISON;}
 
         $query="select creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,personne.prenom,personne.naissance,personne.id,preinscription.choix,preinscription.reservation ".
@@ -67,7 +67,7 @@ class daoCreneau extends daoClass {
     public function getByNaissance($naissance)
     {
         //check date format YYYY-MM-DD
-        $naissance=htmlentities($naissance);
+        $naissance=$naissance;
         list($y,$m,$d)=sscanf($naissance,"%d-%d-%d");
         if (($y<2001) || ($m<1) || ($m>12) || ($d<1) || ($d>31)) { return array();}
 

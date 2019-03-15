@@ -38,15 +38,20 @@ class dtoReservationPreinsc {
 }
 
 class dtoReservation {
+    private $id;
     private $prenom;
     private $nom;
     private $paiement_date;
     private $age;
     private $preinscriptions;
+    private $datemax;
 
     public function __construct() {
       $this->preinscriptions=array();
     }
+
+    public function getId() { return $this->id;  }
+    public function setId($id)  {  $this->id = $id; }
 
     public function getPrenom() { return $this->prenom;  }
     public function setPrenom($prenom)  {  $this->prenom = $prenom; }
@@ -62,6 +67,9 @@ class dtoReservation {
 
     public function addPreinscription($preinscription)  {  array_push($this->preinscriptions,$preinscription); }
     public function getPreinscriptions() { return $this->preinscriptions;  }
+
+    public function getDateMax() { return $this->datemax;  }
+    public function setDateMax($datemax)  {  $this->datemax = $datemax; }
 
     public function toArray() {
       $vars = get_object_vars($this);

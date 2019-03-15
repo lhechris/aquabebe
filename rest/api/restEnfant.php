@@ -66,24 +66,21 @@ class RestEnfant {
             $oldpaiement=$daopaiement->get($paiement->getId());
             if ($oldpaiement==null) {
                 $daopaiement->insert($paiement);
-                //Ajoute ce paiement a l'inscription
+                //Ajoute ce paiement a toute les preinscription
                 $preinscs=$oldenfant["preinscriptions"];
-                //recherche l'inscription qui va bien
                 foreach($preinscs as $preinsc) {
                     trace_debug("reservation=".$preinsc->getReservation()." id=".$preinsc->getInscription()->getId()." ");
-                    if (($preinsc->getReservation()==1) || ($preinsc->getCreneau()->getId()==$creneauselected)) {
 
-                        $inscr=$preinsc->getInscription();
-                        $inscr->setPaiement($paiement->getId());
-                        $daoinscription=new daoInscription();
-                        //Ajoute le paiement
-                        $daoinscription->addPaiement($inscr);
+                    $inscr=$preinsc->getInscription();
+                    $inscr->setPaiement($paiement->getId());
+                    $daoinscription=new daoInscription();
+                    //Ajoute le paiement
+                    $daoinscription->addPaiement($inscr);
 
-                        //Cree la reservation
-                        $inscr->setCreneauid($creneauselected);
-                        $daoinscription->updateCreneau($inscr);
+                    //Cree la reservation
+                    //$inscr->setCreneauid($creneauselected);
+                    //$daoinscription->updateCreneau($inscr);
                         
-                    }
                 }
             } else {
                 $daopaiement->update($oldpaiement,$paiement);                

@@ -81,7 +81,7 @@ export default {
 
 <style scoped>
 .mytable {
-  background : linear-gradient( to right,rgba(255, 200, 200, 0.8), rgba(255,128,128,0.3));
+  background : linear-gradient( to right,rgba(219, 240, 252, 0.8), rgba(128, 143, 155, 0.3));
   border-radius : 10px;
   margin:5px;
   padding : 5px;
