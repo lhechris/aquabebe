@@ -3,6 +3,7 @@ include_once("log.php");
 include_once("dao/daoCreneau.php");
 include_once("mailcreneau.php");
 include_once("api/dto/dtoAddcreneau.php");
+include_once("api/dto/dtoCreneau.php");
 include_once("config.php");
 include_once("utils.php");
 
@@ -77,6 +78,77 @@ class RestCreneaux {
             //$newResponse = $response->write($data);
             return $newResponse;
         });
+
+        $app->get('/creneaux/listwithpreinscrit/{saison}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            $daocreneaux=new daoCreneau();
+            $creneaux=$daocreneaux->listWithPreInscrits($args["saison"]);
+            //trie par lieu et jour
+            $data=array();
+            $lieux=array();
+            foreach($creneaux as $creneau)
+            {
+                trace_info("creneau:".$creneau->getId());                
+                if ($creneau->getCapacite()>0) {
+                    $dtocreneau=new dtoCreneau();
+                    $dtocreneau->setId($creneau->getId());
+                    $dtocreneau->setJour($creneau->getJour());
+                    $dtocreneau->setHeure($creneau->getHeure());
+                    $dtocreneau->setAge($creneau->getAge());
+                    $dtocreneau->setLieu($creneau->getLieu());
+                    $dtocreneau->setPourFratrie($creneau->getPourFratrie());
+                    $dtocreneau->setCapacite($creneau->getCapacite());
+
+                    foreach($creneau->getPreinscriptions() as $preinscriptions)
+                    {
+                        $dtocreneaup=new dtoCreneauPreinscrit();
+                        $dtocreneaup->setNom($preinscriptions->getInscription()->getEnfant()->getNom());
+                        $dtocreneaup->setPrenom($preinscriptions->getInscription()->getEnfant()->getPrenom());
+                        $dtocreneaup->setNaissance($preinscriptions->getInscription()->getEnfant()->getNaissance());
+                        $naissance=$preinscriptions->getInscription()->getEnfant()->getNaissance();
+                        $dt=DateTime::createFromFormat("Y-m-d",$naissance);
+                        if ($dt!==FALSE) {
+                            $now=new DateTime();
+                            $interv=$now->diff($dt);
+                            $dtocreneaup->setAge($interv->m+$interv->y*12);
+                        }
+                        $dtocreneaup->setId($preinscriptions->getInscription()->getEnfant()->getId());
+                        $dtocreneaup->setChoix($preinscriptions->getChoix());
+                        $dtocreneaup->setValidation($preinscriptions->getReservation());
+                        $dtocreneau->addPreinscrit($dtocreneaup);
+                    }
+                    $restant=intval($creneau->getCapacite())-count($creneau->getPreinscriptions());
+                    $dtocreneau->setRemain($restant);
+                    $dtocreneau->setIsComplet($restant<=0);
+                    if (!array_key_exists($dtocreneau->getLieu(),$lieux)) {
+                        $lieux[$dtocreneau->getLieu()]=array();
+                    }
+                    if (!array_key_exists($dtocreneau->getJour(),$lieux[$dtocreneau->getLieu()])) {
+                        $lieux[$dtocreneau->getLieu()][$dtocreneau->getJour()]=array();
+                    }
+                    array_push($lieux[$dtocreneau->getLieu()][$dtocreneau->getJour()],$dtocreneau->toArray());
+                }
+        }
+
+            //result must be a list
+            foreach ($lieux as $keyl=>$valuel) {
+                trace_info($keyl);
+                $datal=array();
+                foreach($valuel as $keyj=>$valuej) {
+                    trace_info("   ".$keyj);
+                    foreach($valuej as $d) {trace_info("        ".$d["id"]." ".$d["heure"]);}
+                    array_push($datal,array("name"=>$keyj,"creneaux"=>$valuej));
+                }
+                array_push($data,array("name" => $keyl,"jours" => $datal));
+
+            }
+            
+            //$data = file_get_contents("api/creneauxall.json");   
+            $newResponse = $response->withJson($data);
+            //$newResponse = $response->write($data);
+            return $newResponse;
+        });
+
+
 
         $app->get('/creneaux/naissance={naissance}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             $daocreneaux=new daoCreneau();
@@ -175,29 +247,31 @@ class RestCreneaux {
         });
         $app->post('/creneaux/add', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             if (isregister()) {
-                trace_info("add crenaux");            
+                trace_info("add creneaux");            
                 $json = $request->getParsedBody();
                 trace_info(print_r($json,true));
-                $addcreneau = new addCreneau();
+                $addcreneau = new dtoAddCreneau();
                 $addcreneau->fromArray($json);
 
-                $daocreneaux = new $daoCreneaux();
+                $daocreneau = new daoCreneau();
 
-                $creneaux = $daocreneaux->getList(CURRENT_SAISON);
-                $toupdate=False;
+                $creneaux = $daocreneau->getList($addcreneau->getSaison());
+                $oldcreneau=null;
+                $newcreneau=convertDtoAddCreneau($addcreneau);
                 foreach($creneaux as $creneau) {
                     if ($creneau->getLieu()==$addcreneau->getLieu() && 
                         $creneau->getJour()==$addcreneau->getJour() &&
                         $creneau->getHeure()==$addcreneau->getHeure()
                     ) {
                         //Le creneau existe dejà on le modifie
-                        $toupdate=True;
+                        $oldcreneau=$creneau;
+                        $newcreneau->setId($creneau->getId());
                     }
                 }
-                if ($toupdate) {
-                    $daocreneaux->update($addcreneau);
+                if ($oldcreneau!=null) {
+                    $daocreneau->update($oldcreneau,$newcreneau);
                 } else {
-                    $daocreneaux->add($addcreneau);
+                    $daocreneau->insert($newcreneau);
                 }
             }
         });

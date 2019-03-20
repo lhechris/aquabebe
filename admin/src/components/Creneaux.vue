@@ -14,11 +14,12 @@
         <div v-for="jour of lieu.jours" v-bind:key="jour.name">
           <h3>{{jour.name}}</h3>
             <table class="mytable">
-              <tr v-for="creneau of jour.creneaux"  v-bind:class="{selectionner:creneau.enfants==enfants||creneau.id==editcreneau}" v-bind:key="creneau.id">          
+              <tr v-for="creneau of jour.creneaux"  v-bind:class="{selectionner:creneau.enfants==enfants||creneau.id==editcreneau}" v-bind:key="'cren'+creneau.id">          
                 <td>{{creneau.heure}}</td>
-                <td>{{creneau.description}}</td>
+                <td>{{creneau.age}}</td>
                 <td v-if="creneau.iscomplet" class="avertissement">Complet !</td>
-                <td><button class="glyphicon glyphicon-th" v-on:click="actionclick(creneau.enfants)"></button></td>
+                <td v-else >{{creneau.remain}} places restante</td>
+                <td><button class="glyphicon glyphicon-th" v-on:click="actionclick(creneau.preinscrits)"></button></td>
                 <td><button class="glyphicon glyphicon-cog" v-on:click="editclick(creneau.id)"></button></td>
               </tr>
             </table>
@@ -28,7 +29,13 @@
     </div>
     <div class="col-md-6">
       <transition-group name="list" tag="p">      
-        <p class="mytable" v-for="enfant of enfants" v-bind:key="enfant.id"><router-link class="nav-link" v-bind:to="'/enfant/'+enfant.id">{{enfant.name}} <span v-if="enfant.age!=''">({{enfant.age}})</span></router-link></p>
+        <p class="mytable" v-for="enfant of enfants" v-bind:key="'enf'+enfant.id">
+          <router-link class="nav-link" v-bind:to="'/enfant/'+enfant.id">
+            <span>{{enfant.prenom}}</span>
+            <span v-if="enfant.age!=''">({{enfant.age}} mois)</span>
+            <span v-if="enfant.validation==0">A VALIDER</span>
+          </router-link>
+        </p>
       </transition-group>
       <div v-for="lieu of creneaux" v-bind:key="'e'+lieu.name">
         <div v-for="jour of lieu.jours" v-bind:key="'e'+lieu.name+jour.name">
@@ -74,10 +81,13 @@ export default {
         var api = new restapi();
         var self=this;
         api.getSaison().then(response=>{
-          self.saison=response;
+          self.saison=response;          
         });
         api.getAllSaison().then(response=>{
           self.saisons=response;
+          //var last=self.saisons[self.saisons.length -1];
+          //var next=String(parseInt(last.substring(0,4))+1)+"-"+String(parseInt(last.substring(5,9))+1);
+          //self.saisons.push(next);
           self.get();
         });
   },
@@ -101,7 +111,7 @@ export default {
           var i;
           for (i in self.creneaux) {
             self.creneaux[i]["show"]=false;
-          }
+          }          
         }).catch((error) => {
             self.loading=false;
             self.error=error.response.data.message;

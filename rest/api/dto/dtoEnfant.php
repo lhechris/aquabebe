@@ -9,6 +9,7 @@ class dtoEnfant{
     private $sexe;
     private $naissance;
     private $handicap;
+    private $mel;
     private $adresse;
     private $cp;
     private $commune;
@@ -131,6 +132,13 @@ class dtoEnfant{
     public function getReglementInterieurSignature() { return $this->reglement_interieur_signature;  }
     public function setReglementInterieurSignature($reglement_interieur_signature)  {  $this->reglement_interieur_signature = $reglement_interieur_signature; }
 
+    public function getInscriptionid() { return $this->inscriptionid;  }
+    public function setInscriptionid($inscriptionid)  {  $this->inscriptionid = $inscriptionid; }
+
+    public function getMel() { return $this->mel;  }
+    public function setMel($mel)  {  $this->mel = $mel; }
+
+
     public function toArray() {
         $vars = get_object_vars($this);
          if ($this->preinscriptions!=null) {
@@ -148,8 +156,6 @@ class dtoEnfant{
         return $vars;
     }
 
-    public function getInscriptionid() { return $this->inscriptionid;  }
-    public function setInscriptionid($inscriptionid)  {  $this->inscriptionid = $inscriptionid; }
 }
 
 ?>

@@ -13,14 +13,23 @@ class daoCreneau extends daoClass {
         $saison=$saison;
         if (($saison=="")|| ($saison=="current")) {$saison=CURRENT_SAISON;}
 
-        $query="select creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,personne.prenom,personne.naissance,personne.id,preinscription.choix,preinscription.reservation ".
-        "from creneau,inscription,personne,preinscription ".
-        "where creneau.id=inscription.id_creneau ".
-          "and inscription.ID_enfant=personne.id ".
-          "and creneau.saison='".$saison."' ".
-          "and personne.type='enfant' ".
-          "and preinscription.id_inscription=inscription.id ".
-        "order by creneau.id";
+        $query="select creneau.id,".                 /* 0 */
+                      "creneau.lieu,".               /* 1 */
+                      "creneau.heure,".              /* 2 */
+                      "creneau.jour,".               /* 3 */
+                      "creneau.age,".                /* 4 */
+                      "creneau.capacite,".           /* 5 */
+                      "personne.prenom,".            /* 6 */
+                      "personne.naissance,".         /* 7 */
+                      "personne.id,".                /* 8 */
+                      "preinscription.choix,".       /* 9 */
+                      "preinscription.reservation ". /* 10 */
+                      "from creneau ".
+                      "left join inscription on creneau.id=inscription.id_creneau ".
+                      "left join personne on inscription.ID_enfant=personne.id and personne.type='enfant' ".
+                      "left join preinscription on preinscription.id_inscription=inscription.id and preinscription.id_creneau=creneau.id ".
+                      "where creneau.saison='".$saison."' ".
+                      "order by creneau.id ";
         trace_debug($query);
 
         try {
@@ -39,8 +48,8 @@ class daoCreneau extends daoClass {
                 {
                     $creneau=new Creneau();
                     $creneau->setId($r[0]);
-                    $creneau->setHeure($r[2]);
                     $creneau->setlieu($r[1]);
+                    $creneau->setHeure($r[2]);
                     $creneau->setJour($r[3]);
                     $creneau->setAge($r[4]);
                     $creneau->setCapacite($r[5]);
@@ -59,6 +68,76 @@ class daoCreneau extends daoClass {
                     $enfant->setNaissance("");
                 }*/
                 $creneaux[sizeof($creneaux)-1]->addEnfant($enfant);
+            }
+        }
+        return $creneaux;
+    }
+
+    public function listWithPreInscrits($saison)
+    {
+        //TODO check saison
+        $saison=$saison;
+        if (($saison=="")|| ($saison=="current")) {$saison=CURRENT_SAISON;}
+
+        $query="select creneau.id,".                 /* 0 */
+                      "creneau.lieu,".               /* 1 */
+                      "creneau.heure,".              /* 2 */
+                      "creneau.jour,".               /* 3 */
+                      "creneau.age,".                /* 4 */
+                      "creneau.capacite,".           /* 5 */
+                      "personne.prenom,".            /* 6 */
+                      "personne.naissance,".         /* 7 */
+                      "personne.id,".                /* 8 */
+                      "preinscription.choix,".       /* 9 */
+                      "preinscription.reservation,". /* 10*/
+                      "inscription.id ".             /* 11*/
+                      "from creneau ".
+                      "left join inscription on creneau.id=inscription.id_creneau ".
+                      "left join personne on inscription.ID_enfant=personne.id and personne.type='enfant' ".
+                      "left join preinscription on preinscription.id_inscription=inscription.id and preinscription.id_creneau=creneau.id ".
+                      "where creneau.saison='".$saison."' ".
+                      "order by creneau.id,inscription.id ";
+        trace_debug($query);
+
+        try {
+            $stmt=$this->pdo->query($query);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+        }
+        $creneaux=array();
+        
+        foreach($liste as $r)
+        {
+            trace_info("creneau:".$r[0]." pers:".$r[8]." insc:".$r[11]);        
+            $creneau=null;
+            if ((sizeof($creneaux)==0) || ($creneaux[sizeof($creneaux)-1]->getId()!=$r[0]))
+            {
+                $creneau=new Creneau();
+                $creneau->setId($r[0]);
+                $creneau->setlieu(html_entity_decode($r[1]));
+                $creneau->setHeure(html_entity_decode($r[2]));
+                $creneau->setJour($r[3]);
+                $creneau->setAge($r[4]);
+                $creneau->setCapacite($r[5]);
+                array_push($creneaux,$creneau);
+            } else {
+                $creneau=$creneaux[sizeof($creneaux)-1];
+            }              
+            if ($r[9]!=null) {
+                $inscription=new Inscription();
+                $inscription->setId($r[11]);
+                $preinscription=new Preinscription();
+                $preinscription->setChoix($r[9]);
+                $preinscription->setReservation($r[10]);
+                $enfant=new Personne();
+                $enfant->setPrenom(html_entity_decode($r[6]));
+                $enfant->setNaissance($r[7]);
+                $enfant->setId($r[8]);
+                $inscription->setEnfant($enfant);
+                $preinscription->setInscription($inscription);
+                $creneau->addPreinscription($preinscription);
             }
         }
         return $creneaux;
@@ -90,8 +169,8 @@ class daoCreneau extends daoClass {
         {
             $creneau=new Creneau();
             $creneau->setId($r[0]);
-            $creneau->setHeure($r[2]);
-            $creneau->setLieu($r[1]);
+            $creneau->setHeure(html_entity_decode($r[2]));
+            $creneau->setLieu(html_entity_decode($r[1]));
             $creneau->setJour($r[3]);
             $creneau->setAge($r[4]);
             $creneau->setCapacite($r[5]);
@@ -132,8 +211,8 @@ class daoCreneau extends daoClass {
         foreach($liste as $r)
         {
             $creneau->setId($r[0]);
-            $creneau->setLieu($r[1]);
-            $creneau->setHeure($r[2]);
+            $creneau->setLieu(html_entity_decode($r[1]));
+            $creneau->setHeure(html_entity_decode($r[2]));
             $creneau->setJour($r[3]);
             $creneau->setAge($r[4]);
             $creneau->setPourFratrie($r[5]);
@@ -216,28 +295,66 @@ class daoCreneau extends daoClass {
     /**
      * 
      */
-    function add($creneau) {
-        try {
-            $query="INSERT INTO creneau(saison,lieu,jour,heure,age,pour_fratrie,naissance_min,naissance_max,nb_mois_mini,capacite) ".
-            "VALUES('.".
-            "'".$creneau->getSaison()."'".
-            "'".$creneau->getLieu()."'".
-            "'".$creneau->getJour()."'".
-            "'".$creneau->getHeure()."'".
-            "'".$creneau->getAge()."'".
-            $creneau->getPourFratrie().
-            "'".$creneau->getNaissanceMin()."'".
-            "'".$creneau->getNaissanceMax()."'".
-            $creneau->getNbMoisMini().
-            $creneau->getCapacite().
-            ")";
-    
-            $stmt=$this->pdo->query($query);
+    function insert($creneau) {
+        $values=array(
+            "saison"        => $this->pdo->quote($creneau->getSaison()),
+            "lieu"          => $this->pdo->quote($creneau->getLieu()),
+            "jour"          => $this->pdo->quote($creneau->getJour()),
+            "heure"         => $this->pdo->quote($creneau->getHeure()),
+            "age"           => $this->pdo->quote($creneau->getAge()),
+            "pour_fratrie"  => intval($creneau->getPourFratrie()),
+            "naissance_min" => $this->pdo->quote($creneau->getNaissanceMin()),
+            "naissance_max" => $this->pdo->quote($creneau->getNaissanceMax()),
+            "nb_mois_mini"  => intval($creneau->getNbMoisMini()),
+            "capacite"      => intval($creneau->getCapacite())
+        );
 
-        }catch(PDOException  $e ){
-            trace_info("Error $e");
-            trace_error("Error ".$query."\n  ".$e);
-        }
+        $identifiant=$this->doInsert("creneau",$values);
+        $creneau->setId($identifiant);
     }
+
+    /**
+     * Modifie le creneau 
+     */
+    public function update($oldcreneau,$newcreneau) {
+        
+        $values=array();
+        if ($oldcreneau->getSaison()!=$oldcreneau->getSaison()) {
+            array_push($values,"saison=".$this->pdo->quote($newpaiement->getSaison()));
+        }
+        if ($oldcreneau->getLieu()!=$oldcreneau->getLieu()) {
+            array_push($values,"lieu=".$this->pdo->quote($newpaiement->getLieu()));
+        }
+        if ($oldcreneau->getJour()!=$oldcreneau->getJour()) {
+            array_push($values,"jour=".$this->pdo->quote($newpaiement->getJour()));
+        }
+        if ($oldcreneau->getHeure()!=$oldcreneau->getHeure()) {
+            array_push($values,"heure=".$this->pdo->quote($newpaiement->getHeure()));
+        }
+        if ($oldcreneau->getAge()!=$oldcreneau->getAge()) {
+            array_push($values,"age=".$this->pdo->quote($newpaiement->getAge()));
+        }
+        if ($oldcreneau->getPourFratrie()!=$oldcreneau->getPourFratrie()) {
+            array_push($values,"pour_fratrie=".string(intval($newpaiement->getPourFratrie())));
+        }
+        if ($oldcreneau->getNaissanceMin()!=$oldcreneau->getNaissanceMin()) {
+            array_push($values,"naissance_min=".$this->pdo->quote($newpaiement->getNaissanceMin()));
+        }
+        if ($oldcreneau->getNaissanceMax()!=$oldcreneau->getNaissanceMax()) {
+            array_push($values,"naissance_max=".$this->pdo->quote($newpaiement->getNaissanceMax()));
+        }
+        if ($oldcreneau->getNbMoisMini()!=$oldcreneau->getNbMoisMini()) {
+            array_push($values,"nb_mois_mini=".string(intval($newpaiement->getNbMoisMini())));
+        }
+        if ($oldcreneau->getCapacite()!=$oldcreneau->getCapacite()) {
+            array_push($values,"capacite=".string(intval($newpaiement->getCapacite())));
+        }
+
+        $this->doUpdate("creneau",$oldpaiement->getId(),$values);
+
+
+    }
+
+
 }
 ?>

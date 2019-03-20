@@ -6,20 +6,31 @@
     <div class="encadre row col-md-12">
       <div class="encadretitre row col-md-12"><span class="col-md-12">Identité</span></div>
       <div v-if="edit" class="form-group row encadrebody col-md-12">
-          <input type="text" class="form-control col-md-1" name="prenom" v-model="enfant.prenom" >
-          <input type="text" class="form-control col-md-1" name="nom" v-model="enfant.nom" >
-          <input type="text" class="form-control col-md-1" name="naissance" v-model="enfant.naissance" >
-          <span class="col-md-1">Téléphone:</span>
-          <input type="text" class="form-control col-md-1" name="telephone" v-model="enfant.telephone" >
-          <span class="col-md-1">Adresse:</span>
-          <input type="text" class="form-control col-md-2" name="adresse" v-model="enfant.adresse" >
-          <input type="text" class="form-control col-md-1" name="cp" v-model="enfant.cp" >
-          <input type="text" class="form-control col-md-2" name="commune" v-model="enfant.commune" >
+          <div class="col-md-3">
+            <input type="text" class="form-control" name="prenom" v-model="enfant.prenom" >
+            <input type="text" class="form-control" name="nom" v-model="enfant.nom" >
+            <input type="text" class="form-control" name="naissance" v-model="enfant.naissance" >
+          </div>
+          <div class="col-md-3">
+            <span>Téléphone:</span>
+            <input type="text" class="form-control" name="telephone" v-model="enfant.telephone" >
+          </div>
+          <div class="col-md-3">
+            <span>Adresse:</span>
+            <input type="text" class="form-control" name="adresse" v-model="enfant.adresse" >
+            <input type="text" class="form-control" name="cp" v-model="enfant.cp" >
+            <input type="text" class="form-control" name="commune" v-model="enfant.commune" >
+          </div>
+          <div class="col-md-3">
+            <span>Email:</span>
+            <input type="text" class="form-control" name="email" v-model="enfant.mel" >
+          </div>
       </div>
       <div v-else class="form-group row encadrebody col-md-12">
         <span class="col-md-4">{{enfant.prenom}} {{enfant.nom}} né le {{enfant.naissance}}</span>
         <span class="col-md-2">Téléphone:{{enfant.telephone}}</span>
-        <span class="col-md-6">Adresse:{{enfant.adresse}} {{enfant.cp}} {{enfant.commune}}</span>
+        <span class="col-md-4">Adresse:{{enfant.adresse}} {{enfant.cp}} {{enfant.commune}}</span>
+        <span class="col-md-2">{{enfant.mel}}</span>
       </div>
     </div>
     <div class="row encadre col-md-12">
@@ -197,6 +208,7 @@ export default {
         data.append("telephone",this.enfant.telephone);
         data.append("cp",this.enfant.cp);
         data.append("commune",this.enfant.commune);
+        data.append("mel",this.enfant.mel);
         data.append("paiementid",this.enfant.paiementid);
         data.append("payeur",this.enfant.payeur);
         data.append("montant",this.enfant.montant);

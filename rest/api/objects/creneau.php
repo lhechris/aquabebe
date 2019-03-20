@@ -11,12 +11,15 @@ class Creneau {
     private $naissance_max;
     private $nb_mois_mini;
     private $capacite;
+    //not in db
     private $nb_inscrit;
     private $enfants;
+    private $preinscriptions;
 
     public function __construct()
     {
         $this->enfants=array();
+        $this->preinscriptions=array();
     }
 
     public function getId() { return $this->id;}
@@ -52,11 +55,15 @@ class Creneau {
     public function getCapacite() { return $this->capacite;}
     public function setCapacite($capacite) { $this->capacite=$capacite;}
 
+    // Not in DB
     public function getNbInscrit() { return $this->nb_inscrit;}
     public function setNbInscrit($value) { $this->nb_inscrit=$value;}
 
     public function getEnfants() { return $this->enfants;}
     public function addEnfant($enfant) { array_push($this->enfants,$enfant);}
+
+    public function getPreinscriptions() { return $this->preinscriptions;  }
+    public function addPreinscription($preinscription)  {  array_push($this->preinscriptions,$preinscription); }
 
     /*public function jsonSerialize() {
 		$vars = get_object_vars($this);

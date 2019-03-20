@@ -7,8 +7,7 @@ class dtoReservationPreinsc {
   private $creneaulieu;
   private $creneaujour;
   private $creneauheure;
-  private $status;
-  
+    
   public function getChoix() { return $this->choix;  }
   public function setChoix($choix)  {  $this->choix = $choix; }
 
@@ -27,9 +26,6 @@ class dtoReservationPreinsc {
   public function getCreneauHeure() { return $this->creneauheure;  }
   public function setCreneauHeure($creneauheure)  {  $this->creneauheure = $creneauheure; }
 
-  public function getStatus() { return $this->status;  }
-  public function setStatus($status)  {  $this->status = $status; }
-
   public function toArray() {
     $vars = get_object_vars($this);
     return $vars;
@@ -41,10 +37,12 @@ class dtoReservation {
     private $id;
     private $prenom;
     private $nom;
+    private $paiementid;
     private $paiement_date;
     private $age;
     private $preinscriptions;
     private $datemax;
+    private $status;
 
     public function __construct() {
       $this->preinscriptions=array();
@@ -71,6 +69,12 @@ class dtoReservation {
     public function getDateMax() { return $this->datemax;  }
     public function setDateMax($datemax)  {  $this->datemax = $datemax; }
 
+    public function getStatus() { return $this->status;  }
+    public function setStatus($status)  {  $this->status = $status; }
+
+    public function getPaiementId() { return $this->paiement;  }
+    public function setPaiementId($paiement)  {  $this->paiement = $paiement; }
+
     public function toArray() {
       $vars = get_object_vars($this);
       if ($this->preinscriptions!=null) {
@@ -81,6 +85,8 @@ class dtoReservation {
     }
       return $vars;
     }
+
+
 
 }
 

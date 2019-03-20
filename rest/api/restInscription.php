@@ -28,7 +28,8 @@ class RestInscription {
             $parent2=new Personne();
             $listcreneaux=array();
             foreach($json as $key => $value) {
-                $valuesck=htmlentities($value);
+                //TODO check value
+                $valuesck=$value;
                 if ($key=="nomenfant") { $enfant->setNom($valuesck);}
                 if ($key=="prenomenfant") { $enfant->setPrenom($valuesck);}
                 if ($key=="adresse") { $enfant->setAdresse($valuesck);}
@@ -170,25 +171,32 @@ class RestInscription {
             return $newResponse;
         });
 
+        /**
+         * Retourne la liste des reservation de la saison courante
+         */
         $app->get('/inscription/reservations', function(ServerRequestInterface $request, ResponseInterface $response) {
             if (!isregister()){return;};
 
+            //recupere la liste des inscriptions
             $dao = new daoInscription();
             $preinscriptions=$dao->getReservations();
             $dtos=array();
+
             foreach($preinscriptions as $preinscription) {
                 $dto=null;
                 $insc=$preinscription->getInscription();
                 $enf=$insc->getEnfant();
                 $cren=$preinscription->getCreneau();
-                
                 if (array_key_exists($enf->getId(),$dtos)) {
                     $dto=$dtos[$enf->getId()];
                 } else {
                     $dto = new dtoReservation();
+                    $dto->setId($enf->getId());
                     $dto->setNom($enf->getNom());
                     $dto->setPrenom($enf->getPrenom());
+                    $dto->setPaiementId($insc->getPaiement());
                     $dto->setPaiementDate($insc->getPaiementDate());
+                    $dto->setDateMax($insc->getDateMax());
                     $dto->setAge($enf->getNaissance());
                     $dtos[$enf->getId()]=$dto;
                 }
@@ -201,38 +209,44 @@ class RestInscription {
                 $dtop->setCreneauJour($cren->getJour());
                 $dtop->setCreneauHeure($cren->getHeure());
 
-                if ($insc->getPaiement()==0) {
-                    $dtop->setStatus("A Payer");
-                
-                }else if ($preinscription->getReservation()==0) {
-                    $dtop->setStatus("A Valider");
-                }else {
-                    $dtop->setStatus("Valide");
-                }  
                 $dto->addPreinscription($dtop);
             }
             
-            //Rearrange pour classer en 3
+            //Rearrange pour classer dans 3 listes
+            $reservs=array();
+            $depasse=array();
             $valide=array();
-            $avalider=array();
-            $apayer=array();
             foreach ($dtos as $key=>$dto) {
                 $found=false;
                 foreach($dto->getPreinscriptions() as $p) {
-                    if ($p->getStatus()=="Valide") {
+                    if (($dto->getPaiementId()==null) || ($dto->getPaiementId()==0)){
+                        $dt=DateTime::createFromFormat("Y-m-d H:i:s",$dto->getDateMax());
+                        $now=new DateTime();
+                        if ($dt < $now ) {
+                            $dto->setStatus("Depasse");
+                            $found=true;
+                            array_push($depasse,$dto->toArray());
+                            break;
+                            } else {
+                            $dto->setStatus("A Payer");
+                            $found=true;
+                            array_push($reservs,$dto->toArray());
+                            break;
+                            }
+                    
+                    }else if ($p->getReservation()!=0) {
+                        $dto->setStatus("Valide");
+                        $found=true;
                         array_push($valide,$dto->toArray());
-                        $found=true;
-                    } else if ($p->getStatus()=="A Payer") {
-                        array_push($apayer,$dto->toArray());
-                        $found=true;
-                    }
+                        break;
+                    }  
                 }
                 if (! $found) {
-                    array_push($avalider,$dto->toArray());
+                    $dto->setStatus("A Valider");
+                    array_push($reservs,$dto->toArray());
                 }            
             }
-            $resp=array("apayer" => $apayer, "avalider" => $avalider, "valide" => $valide);
-            $newResponse = $response->withJson($resp);
+            $newResponse = $response->withJson(array($reservs,$depasse,$valide));
             return $newResponse;
         });
 

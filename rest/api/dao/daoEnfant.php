@@ -21,27 +21,29 @@ class daoEnfant extends daoClass {
                        "personne.cp,".                /* 6 */
                        "personne.commune,".           /* 7 */
                        "personne.handicap,".          /* 8 */
-                       "creneau.id, ".                /* 9 */
-                       "creneau.lieu, ".              /* 10 */
-                       "creneau.jour, ".              /* 11 */
-                       "creneau.heure, ".             /* 12 */
-                       "inscription.id, ".            /* 13 */
-                       "inscription.date_max, ".      /* 14 */
-                       "inscription.paiement, ".      /* 15 */
-                       "inscription.paiement_date, ".                /* 16 */
-                       "inscription.certificat_medical, ".           /* 17 */
-                       "inscription.vaccins, ".                      /* 18 */
-                       "inscription.facture_remise, ".               /* 19 */
-                       "inscription.diffusion_image, ".              /* 20 */
-                       "inscription.diffusion_image_date, ".         /* 21 */
-                       "inscription.diffusion_image_lieu, ".         /* 22 */
-                       "inscription.diffusion_image_signature, ".    /* 23 */
-                       "inscription.reglement_interieur_date, ".     /* 24 */
-                       "inscription.reglement_interieur_lieu, ".     /* 25 */
-                       "inscription.reglement_interieur_signature, "./* 26 */
-                       "inscription.id_creneau,".                    /* 27 */
-                       "preinscription.choix, ".                     /* 28 */
-                       "preinscription.reservation ".                /* 29 */
+                       "personne.mel,".               /* 9 */
+                       "personne.sexe,".              /* 10 */
+                       "creneau.id, ".                /* 11 */
+                       "creneau.lieu, ".              /* 12 */
+                       "creneau.jour, ".              /* 13 */
+                       "creneau.heure, ".             /* 14 */
+                       "inscription.id, ".            /* 15 */
+                       "inscription.date_max, ".      /* 16 */
+                       "inscription.paiement, ".      /* 17 */
+                       "inscription.paiement_date, ".                /* 18 */
+                       "inscription.certificat_medical, ".           /* 19 */
+                       "inscription.vaccins, ".                      /* 20 */
+                       "inscription.facture_remise, ".               /* 21 */
+                       "inscription.diffusion_image, ".              /* 22 */
+                       "inscription.diffusion_image_date, ".         /* 23 */
+                       "inscription.diffusion_image_lieu, ".         /* 24 */
+                       "inscription.diffusion_image_signature, ".    /* 25 */
+                       "inscription.reglement_interieur_date, ".     /* 26 */
+                       "inscription.reglement_interieur_lieu, ".     /* 27 */
+                       "inscription.reglement_interieur_signature, "./* 28 */
+                       "inscription.id_creneau,".                    /* 29 */
+                       "preinscription.choix, ".                     /* 30 */
+                       "preinscription.reservation ".                /* 31 */
         "from creneau,inscription,personne,preinscription ".
         "where creneau.id=preinscription.id_creneau ".
           "and inscription.ID_enfant=personne.id ".
@@ -72,29 +74,31 @@ class daoEnfant extends daoClass {
             $enfant->setCp($r[6]);
             $enfant->setCommune(html_entity_decode($r[7]));
             $enfant->setHandicap($r[8]);
+            $enfant->setMel($r[9]);
+            $enfant->setSexe($r[10]);
 
             $preinsc=new dtoPreinscription();
-            $preinsc->setCreneauid($r[9]);
-            $preinsc->setCreneau($r[10]." ".$r[11]." ".$r[12]);
-            $preinsc->setInscriptionid($r[13]);
-            $preinsc->setChoix($r[28]);
-            $preinsc->setReservation($r[29]);
+            $preinsc->setCreneauid($r[11]);
+            $preinsc->setCreneau($r[12]." ".$r[13]." ".$r[14]);
+            $preinsc->setInscriptionid($r[15]);
+            $preinsc->setChoix($r[30]);
+            $preinsc->setReservation($r[31]);
             
-            $enfant->setInscriptionid($r[13]);
+            $enfant->setInscriptionid($r[15]);
 
-            $enfant->setDateMax($r[14]);
-            $enfant->setPaiementid($r[15]);
-            $enfant->setPaiementdate($r[16]);
-            $enfant->setCertificatMedical($r[17]);
-            $enfant->setVaccins($r[18]);
-            $enfant->setFactureRemise($r[19]);
-            $enfant->setDiffusionImage($r[20]);
-            $enfant->setDiffusionImageDate($r[21]);
-            $enfant->setDiffusionImageLieu($r[22]);
-            $enfant->setDiffusionImageSignature($r[23]);
-            $enfant->setReglementInterieurDate($r[24]);
-            $enfant->setReglementInterieurLieu($r[25]);
-            $enfant->setReglementInterieurSignature($r[26]);
+            $enfant->setDateMax($r[16]);
+            $enfant->setPaiementid($r[17]);
+            $enfant->setPaiementdate($r[18]);
+            $enfant->setCertificatMedical($r[19]);
+            $enfant->setVaccins($r[20]);
+            $enfant->setFactureRemise($r[21]);
+            $enfant->setDiffusionImage($r[22]);
+            $enfant->setDiffusionImageDate($r[23]);
+            $enfant->setDiffusionImageLieu($r[24]);
+            $enfant->setDiffusionImageSignature($r[25]);
+            $enfant->setReglementInterieurDate($r[26]);
+            $enfant->setReglementInterieurLieu($r[27]);
+            $enfant->setReglementInterieurSignature($r[28]);
 
             array_push($preinscriptions,$preinsc);
         }

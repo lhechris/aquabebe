@@ -20,6 +20,7 @@ class dtoPostEnfant{
     private $paiementid;
     private $paiementdate;
     private $creneauselected;
+    private $mel;
 
     public function getId() { return $this->id;  }
     public function setId($id)  {  $this->id = $id; }
@@ -74,6 +75,9 @@ class dtoPostEnfant{
 
     public function getCreneauselected() { return $this->creneauselected;  }
     public function setCreneauselected($creneauselected)  {  $this->creneauselected = $creneauselected; }
+
+    public function getMel() { return $this->mel;  }
+    public function setMel($mel)  {  $this->mel = $mel; }
 
     public function toArray() {
         $vars = get_object_vars($this);

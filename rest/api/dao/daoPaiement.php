@@ -2,6 +2,7 @@
 
 include_once('daoClass.php');
 include_once('api/objects/paiement.php');
+include_once("api/transformer/transformerCreneau.php");
 include_once("config.php");
 
 class daoPaiement extends daoClass {
@@ -78,7 +79,7 @@ class daoPaiement extends daoClass {
             array_push($values,"payeur=".$this->pdo->quote($newpaiement->getPayeur()));
         }
         if ($oldpaiement->getMontant()!=$newpaiement->getMontant()) {
-            array_push($values,"montant=".$this->pdo->quote($newpaiement->getMontant()));
+            array_push($values,"montant=".string(intval($newpaiement->getMontant())));
         }
         if ($oldpaiement->getMoyen()!=$newpaiement->getMoyen()) {
             array_push($values,"moyen=".$this->pdo->quote($newpaiement->getMoyen()));

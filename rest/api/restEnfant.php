@@ -61,31 +61,31 @@ class RestEnfant {
             $daopers=new daoPersonne();
             $oldenfant = $daopers->getById($dtopostenfant->getId());
             $daopers->update($oldenfant["enfant"],$enfant);
+            
+            if (($paiement->getMontant()!=null)&&(strtolower($paiement->getMontant())!="null")) {
+                $daopaiement=new daoPaiement();
+                $oldpaiement=$daopaiement->get($paiement->getId());
+                if ($oldpaiement==null) {
+                    $daopaiement->insert($paiement);
+                    //Ajoute ce paiement a toute les preinscription
+                    $preinscs=$oldenfant["preinscriptions"];
+                    foreach($preinscs as $preinsc) {
+                        trace_debug("reservation=".$preinsc->getReservation()." id=".$preinsc->getInscription()->getId()." ");
 
-            $daopaiement=new daoPaiement();
-            $oldpaiement=$daopaiement->get($paiement->getId());
-            if ($oldpaiement==null) {
-                $daopaiement->insert($paiement);
-                //Ajoute ce paiement a toute les preinscription
-                $preinscs=$oldenfant["preinscriptions"];
-                foreach($preinscs as $preinsc) {
-                    trace_debug("reservation=".$preinsc->getReservation()." id=".$preinsc->getInscription()->getId()." ");
+                        $inscr=$preinsc->getInscription();
+                        $inscr->setPaiement($paiement->getId());
+                        $daoinscription=new daoInscription();
+                        //Ajoute le paiement
+                        $daoinscription->addPaiement($inscr);
 
-                    $inscr=$preinsc->getInscription();
-                    $inscr->setPaiement($paiement->getId());
-                    $daoinscription=new daoInscription();
-                    //Ajoute le paiement
-                    $daoinscription->addPaiement($inscr);
-
-                    //Cree la reservation
-                    //$inscr->setCreneauid($creneauselected);
-                    //$daoinscription->updateCreneau($inscr);
-                        
+                        //Cree la reservation
+                        //$inscr->setCreneauid($creneauselected);
+                        //$daoinscription->updateCreneau($inscr);                        
+                    }
+                } else {
+                    $daopaiement->update($oldpaiement,$paiement);                
                 }
-            } else {
-                $daopaiement->update($oldpaiement,$paiement);                
             }
-
             $newResponse = $response->write("Paiement modifié");
             return $newResponse;            
         });

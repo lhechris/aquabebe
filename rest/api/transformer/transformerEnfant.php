@@ -15,6 +15,7 @@ function convertDtoPostEnfantToPersonne($dtoPostEnfant) {
     $enfant->setCommune($dtoPostEnfant->getCommune());
     $enfant->setTel($dtoPostEnfant->getTelephone());
     $enfant->setTel2($dtoPostEnfant->getTelephone2());
+    $enfant->setMel($dtoPostEnfant->getMel());
     return $enfant;
 }
 

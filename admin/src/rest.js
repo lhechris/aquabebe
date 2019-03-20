@@ -40,7 +40,7 @@ export class restapi {
     }
 
     getCreneaux(saison){
-        return axios.get(this.baseurl+'/creneaux/all/'+saison).then(response =>{        
+        return axios.get(this.baseurl+'/creneaux/listwithpreinscrit/'+saison).then(response =>{        
            return response.data;      
         })
     }   
