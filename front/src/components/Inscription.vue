@@ -5,116 +5,31 @@
   <form>
     <transition name="slide"  mode="out-in">
     <div v-if="etape==-1" key="etapeq">
-    <h2>Vous souhaitez vous inscrire?</h2>
-    <p><strong>Pour prendre en compte votre inscription il vous est demandé&nbsp;:</strong></p>
-    <ul>
-      <li>De remplir le formulaire d'inscription en ligne (ou le fomulaire papier à télécharger et nous renvoyer);
-      </li>
-      <li>De choisir les créneaux désirés dans l'ordre de préférence (<router-link to="/creneaux">voir les créneaux proposés</router-link>)</li>
-      <li>De nous faire parvenir, sous une semaine, les documents administratifs signés ainsi que les chèques de cotisation.</li>
-    </ul>
-    <p><strong>Certificat médical :</strong></p>
-    <p>Un certificat médical <strong>de moins de 3 mois </strong>indiquant que votre enfant peut pratiquer cette activité doit être fourni lors du <strong>premier accès </strong>au bassin.</p>
-    <p><strong>Vaccinations :</strong></p>
-    <p>Votre enfant doit être à jour de ses vaccinations. Une présentation du carnet de santé ou une photocopie des pages de vaccination sera nécessaire pour le <strong>premier accès </strong>au bassin.</p>
-    <p><strong>Information sur les créneaux :</strong></p>
-    <p>Lors de votre inscription, vous aurez à sélectionner les créneaux par ordre de préférence. Une place vous est automatiquement réservée dans le premier créneau préféré ayant une place libre. Cette affectation vous est réservée pendant 7 jours et sera confirmée lors de la réception du paiement. <br>Vous êtes également en liste d'atente sur les crénaux complets ayant une préférence plus élevée et, si une place se libère, vous serez repositionnés sur celui-ci.</p>
-    <p><strong>Information sur les tarifs :</strong></p>
-    <p>Si vous avez plusieurs enfants inscrits, le <router-link to="/tarifs">tarif est dégressif</router-link>. 
-        N'ayant pas automatisé ce système, nous vous proposons de faire l'inscription de chaque enfant indépendamment et 
-        de choisir le paiement par chèque. Vous ferez donc un chèque du montant approprié avec le nom de tous les enfants 
-        au dos et l'enverrez comme indiqué dans la procédure. <br>En cas de doute sur le montant, vous pouvez nous contacter par 
-        E-mail <img src="/images/contact-head.jpg" alt="adresse à recopier"><br>
-        Calendrier de l'encaissement des chèques : voir <router-link to="/tarifs">ici</router-link>.
-    </p> 
-    <h2>Inscription : <button class="btn-info" v-on:click="suivantclick">S'INSCRIRE</button></h2>
-    <h2>Une question ? Un problème ?</h2>
-    <ul>
-      <li>Pour toute autre question, vous pouvez nous joindre : <img src="/images/contact-head.jpg" alt="adresse à recopier"></li>
-    </ul>
-    <p><strong><br>Que ce soit pour l'inscription ou pour toute communication en cours d'année, l'E-mail est la solution que l'association Aqua-Bébé utilise de manière privilégiée.</strong></p>
+      <inscription-intro v-on:suivant="suivantclick"/>
     </div>    
     <div v-if="etape==0" key="etape0">
-      <h2>Inscription {{saison}} </h2>
-      <ul>
-        <!--<li>Nous sommes complets pour la saison. La page créneaux vous indiquera si des places se libèrent.</li>-->
-        <li><strong>Inscription en ligne : <button class="btn-info" v-on:click="suivantclick">DEMARRER</button></strong>
-          <br><strong>Créneaux fratrie</strong>: Ces créneaux sont réservés aux fratries. Ne peuvent s'y inscrire que 2 (ou plus) enfants étant frères et/ou soeurs. Dans ce cas il faut être 2 (ou plus) accompagnants dans l'eau (un par enfant).
-          <br><strong>Attention, vous devez faire indépendamment l'inscription pour chaque enfant de la fratrie.</strong>
-            <br> Note : A la fin de l'inscription, vous recevez un e-mail indiquant que votre inscription a été prise en compte.
-        </li>      
-        <li>Inscription par courrier : Contactez Aqua-Bébé        
-        <!--<li>Inscription par courrier : Imprimez et complétez
-            <a href="dossier_inscription_2013-2014.pdf" onclick="javascript:window.open(this.href);return(false);">le formulaire d'inscription</a>
-            et renvoyez-le-nous accompagné du règlement complet à l'adresse indiquée.</li>-->            
-      </li></ul>
-      <h2>Une question ? Un problème ?</h2>
-      <ul>
-        <li>Pour tout problème technique lors de l'inscription :<br>
-          * contactez <img src="/images/contact-head.jpg" alt="adresse à recopier"> et<br>
-          * envoyez en parallèle votre dossier d'inscription par la poste avec votre règlement.
-        </li>
-          <li>Pour toute autre question, vous pouvez nous joindre à : <img src="/images/contact-head.jpg" alt="adresse à recopier"></li>
-      </ul>
-      <p><strong><br>Que ce soit pour l'inscription ou pour toute communication en cours d'année, l'E-mail est la solution 
-                que l'association Aqua-Bébé utilise de manière privilégiée.</strong></p>    
+      <inscription-e0 v-on:suivant="suivantclick" v-bind:saison="saison" />
     </div>    
     <div v-if="etape==1" key="etape1">      
-      <h2 >etape 1 : Enfant</h2>
-      <div class="row">      
-        <div class="form-group forminscription col-md-4">
-          <label for="nomenfant">Nom de l'enfant :</label>
-          <span class="obligatoire" v-if="nomenfant==''">Champ obligatoire</span>
-          <input name="nomenfant" type="text" class="form-control" v-model="nomenfant" />
-        </div>
-        <div class="form-group forminscription col-md-4">
-          <label for="prenomenfant" >Prénom de l'enfant :</label>
-          <span class="obligatoire" v-if="prenomenfant==''">Champ obligatoire</span>
-          <input name="prenomenfant" type="text" class="form-control" v-model="prenomenfant" />
-        </div>
-        <div class="form-group forminscription col-md-2" >
-          <label for="naissance" >Date de naissance</label>
-          <span class="obligatoire" v-if="naissance==''">*</span>
-          <input type="date" class="form-control" v-model="naissance" >
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group forminscription col-md-4">
-          <label for="adresse" >Adresse</label>
-          <span class="obligatoire" v-if="adresse==''">Champ obligatoire</span>
-          <textarea name="adresse" class="form-control" v-model="adresse"/>
-        </div>
-        <div class="form-group forminscription col-md-3">
-          <label for="codepostal" >Code Postal</label>
-          <span class="obligatoire" v-if="codepostal==''">Champ obligatoire</span>
-          <input name="codepostal" type="text" class="form-control" v-model="codepostal" />
-        </div>
-        <div class="form-group forminscription col-md-3">
-          <label for="ville" >Ville</label>
-          <span class="obligatoire" v-if="ville==''">Champ obligatoire</span>
-          <input name="ville" type="text" class="form-control" v-model="ville" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group forminscription">
-          <label for="email" >Email</label>
-          <span class="obligatoire" v-if="email==''">Champ obligatoire</span>
-          <input name="email" type="email" class="form-control" v-model="email" id="email"/>        
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group forminscription">
-          <label for="sexe" >Sexe</label>
-          <span class="obligatoire" v-if="sexe==-1">Champ obligatoire</span>
-          <div><input type="radio" name="sexe" value="1" v-model="sexe"/>&nbsp;M&nbsp;<input type="radio" name="sexe" value="0" v-model="sexe"/>&nbsp;F</div>
-        </div>
-        <div class="form-group forminscription">
-          <label for="handicap" >Votre enfant présente t'il un handicap</label>
-          <span class="obligatoire" v-if="handicap==-1">Champ obligatoire</span>
-          <div><input type="radio" name="handicap" value="1" v-model="handicap"/>&nbsp;Oui&nbsp;<input type="radio" name="handicap" value="0" v-model="handicap"/>&nbsp;Non</div>
-        </div>
-      </div>
-
+      <inscription-e1 v-bind="{nomenfant:nomenfant,
+                               prenomenfant:prenomenfant,
+                               naissance:naissance,
+                               sexe:sexe,
+                               email:email,
+                               adresse:adresse,
+                               codepostal:codepostal,
+                               ville:ville,
+                               handicap:handicap
+                               }"
+                      v-on:nomenfant="nomenfant=$event"
+                      v-on:prenomenfant="prenomenfant=$event"
+                      v-on:naissance="naissance=$event"
+                      v-on:sexe="sexe=$event"
+                      v-on:email="email=$event"
+                      v-on:adresse="adresse=$event"
+                      v-on:codepostal="codepostal=$event"
+                      v-on:ville="ville=$event"
+                      v-on:handicap="handicap=$event"/>
     </div>
     <div v-if="etape==2" key="etape2">
       <h2>etape 2 : Parents </h2>
@@ -269,6 +184,11 @@
 </div>
 <div v-else>
   <p>Désolé les inscriptions ne sont pas ouvertes !</p>
+  <div class="row form-group">
+    <input type="password" class="form-control col-md-2" v-model="inscriptionpass" placeholder="Code de déblocage" />
+    <input type="submit"  name="login" class="form-control login loginmodal-submit col-md-2" value="Login" v-on:click="login()">
+    <div class="col-md-8"></div>
+  </div>
 </div>
 </div>
 
@@ -280,25 +200,32 @@ import MainLayout from '../layout/Main.vue'
 import moment from 'moment';
 import 'moment/locale/fr';
 
+import InscriptionIntro from './InscriptionIntro.vue';
+import InscriptionE0 from './InscriptionE0.vue';
+import InscriptionE1 from './InscriptionE1.vue';
+
 export default {
   name: 'Inscription',
   components: {
       MainLayout,
+      InscriptionIntro,
+      InscriptionE0,
+      InscriptionE1
   },
   data () {
     return {
-      etape:0,
+      etape:-1,
       saison:"",
       creneaux:{},
-      nomenfant:"",
-      prenomenfant:"",
+      nomenfant:"coucou",
+      prenomenfant:"truc",
       adresse:"",
       codepostal:"",
       ville:"",
       email:"",
-      sexe:1,
+      sexe:-1,
       naissance:"",
-      handicap:0,
+      handicap:-1,
       nomparent1:"",
       prenomparent1:"",
       sexeparent1:-1,
@@ -313,6 +240,7 @@ export default {
       reglement:false,
       paiement:-1,
       islock:false,
+      inscriptionpass:""
     }
   },
   created: function() {
@@ -426,6 +354,18 @@ export default {
       getNow: function() {
         moment.locale('fr');
         return moment().format('DD MMMM YYYY');
+      },
+
+      login:function() {
+        var api = new restapi();
+        var self=this;
+        var pass=new FormData();
+        pass.append("pass", this.inscriptionpass);
+        api.unlockInscription(pass).then(response=>{            
+            if (response=="success") {
+              self.islock=false;
+            }
+        })
       }
 
     }

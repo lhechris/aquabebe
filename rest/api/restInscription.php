@@ -18,11 +18,16 @@ class RestInscription {
     {
 
         $app->post('/inscription', function(ServerRequestInterface $request, ResponseInterface $response) {
+            
+            if (isinscriptionlocked()) { 
+                trace_info("Les inscriptions sont blockées");
+                return;
+            }
+
             $daoinscription=new daoInscription();
                    
             $json = $request->getParsedBody();
-            trace_info("POST inscription");
-            trace_info(print_r($json,true));
+            trace_params("POST inscription",$json,array_keys($json));
             $enfant=new Personne();
             $parent1=new Personne();
             $parent2=new Personne();
@@ -152,11 +157,13 @@ class RestInscription {
 
             $json = $request->getParsedBody();
             $islock=$json["islock"];
+            $pass=$json["pass"];
 
-            trace_info("POST inscription Lock ".$islock);
+            trace_info("POST inscription Lock ".$islock." pass:".$pass);
             $dao = new daoConfig();
             $conf=$dao->get();
             $conf["blockinscription"]=$islock;
+            $conf["inscriptionpass"]=$pass;
             $dao->save($conf);
             $newResponse = $response->write("Successfull");
             return $newResponse;
@@ -167,9 +174,32 @@ class RestInscription {
 
             $dao = new daoConfig();
             $conf=$dao->get();            
-            $newResponse = $response->write($conf["blockinscription"]);
+            $json=array("passwd"=>$conf["inscriptionpass"],"islock"=>$conf["blockinscription"]);
+            $newResponse = $response->withJson($json);
             return $newResponse;
         });
+
+        $app->post('/inscription/login', function(ServerRequestInterface $request, ResponseInterface $response) {
+
+            $json = $request->getParsedBody();
+            $pass=$json["pass"];
+            //TODO check is a value passed to fopen could infect fwrite....
+            trace_info("POST login inscription ".$pass);
+            $dao = new daoConfig();
+            if ($dao->checkInscriptionPass($pass)) {
+                $_SESSION["inscription"]="oui";
+                $newResponse = $response->write("success");
+            } else {
+                if (key_exists("inscription",$_SESSION)) {
+                    unset($_SESSION["inscription"]);
+                }
+                $newResponse = $response->write("error: mot de passe incorrecte");
+            }
+            
+            return $newResponse;
+        });
+
+        
 
         /**
          * Retourne la liste des reservation de la saison courante

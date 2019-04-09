@@ -44,9 +44,33 @@ class daoConfig {
             $json["blockinscription"]="false";
         }
 
+        if (array_key_exists("inscriptionpass",$input)) {
+            $json["inscriptionpass"]=$input["inscriptionpass"];
+        } else {
+            $json["inscriptionpass"]="";
+        }
+        
         fwrite($hdl,json_encode($json,JSON_PRETTY_PRINT));
         fclose($hdl);
 
+    }
+
+    public function getBlockInscription() {
+        $conf=$this->get();
+        if (array_key_exists("blockinscription",$conf)) {
+            return $conf["blockinscription"];
+        } else {
+            return "false";
+        }
+    }
+
+    public function checkInscriptionPass($pass) {
+        $conf=$this->get();
+        if (array_key_exists("inscriptionpass",$conf)) {
+            return ($pass==$conf["inscriptionpass"]);
+        } else {
+            return false;
+        }
     }
 
 

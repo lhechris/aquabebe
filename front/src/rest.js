@@ -37,6 +37,11 @@ export class restapi {
             return response.data;
         })
     }
+    unlockInscription(data) {
+        return axios.post(this.baseurl+'/inscription/login',data).then(response => {
+            return response.data;
+        })
+    }
 
     postAdmin(){
         return axios.post(this.baseurl+'/token').then(response=>{

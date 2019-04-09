@@ -12,6 +12,18 @@ function _writefile($hdl,$string)
     }
 }
 
+function trace_params($string,$json,$keys) {
+    $txt=$string;
+    if (is_array($json)) {
+        foreach ($keys as $key) {
+            if (key_exists($key,$json)) {
+                $txt.=" ".$key."=".$json[$key];
+            }
+        }
+    }
+    trace_info($txt);
+}
+
 function trace_info($string)
 {
     $hdl=fopen("log/info.log","a");

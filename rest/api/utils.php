@@ -116,4 +116,21 @@ function formatDate($date)
 
     }
 
+    include_once("dao/daoConfig.php");
+
+    function isinscriptionlocked() {
+        $dao = new daoConfig();
+        $ret=$dao->getBlockInscription();
+        $lock=in_array(strtolower($ret),array("true","yes","oui","1","t","y","o",true,1));
+        if ($lock) {
+            if ((key_exists("inscription",$_SESSION)) && ($_SESSION["inscription"]=="oui")) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
 ?>

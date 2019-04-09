@@ -25,7 +25,8 @@ class RestRegister {
         $app->post('/register', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
            
             $json = $request->getParsedBody();
-            trace_info("register ".print_r($json,true));
+            trace_params("register ",$json,array_keys($json));
+            
             if (($json["login"]=="admin") && ($json["pass"]=="admin")) {
                 trace_info("registration ok");
                 $_SESSION["register"]="oui";

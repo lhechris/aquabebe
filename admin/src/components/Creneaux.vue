@@ -40,11 +40,11 @@
       <div v-for="lieu of creneaux" v-bind:key="'e'+lieu.name">
         <div v-for="jour of lieu.jours" v-bind:key="'e'+lieu.name+jour.name">
               <div v-for="creneau of jour.creneaux" v-bind:key="'e'+creneau.id">
-                <EditCreneaux v-if="editcreneau==creneau.id" v-bind:creneauid="creneau.id"></EditCreneaux>
+                <EditCreneaux v-if="editcreneau==creneau.id" v-bind:creneauid="creneau.id" v-on:validated="changeEditcreneau()"></EditCreneaux>
               </div>
         </div>
       </div>
-      <EditCreneaux v-if="editcreneau==0" v-bind:creneauid="0"></EditCreneaux>
+      <EditCreneaux v-if="editcreneau==0" v-bind:creneauid="0" v-bind:initsaison="saison" v-on:validated="changeEditcreneau()"></EditCreneaux>
     </div>
 
   </div>
@@ -120,7 +120,13 @@ export default {
 
     changeSaison:function() {
       this.get();
+    },
+
+    changeEditcreneau:function() {
+      this.editcreneau=-1;
+      this.get();
     }
+
   }
 
 }

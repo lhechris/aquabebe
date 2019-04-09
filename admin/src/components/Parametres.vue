@@ -23,6 +23,12 @@
           <td></td>
           <td></td>
         </tr>
+        <tr class="abform" v-if="lockInsc==true">
+          <td>Mot de passe de déblocage</td>          
+          <td><input type="text" v-model="passunlockinsc" ></td>
+          <td><div v-if="passwdsaved" class="glyphicon glyphicon-ok"></div></td>
+          <td><button class="btn btn-primary" v-on:click="updatePassUnlockInsc()">Modifier</button></td>
+        </tr>
       </tbody>
     </table>
   </form>
@@ -44,6 +50,8 @@ export default {
       saison:"",
       saisonsaved:false,
       lockInsc:false,
+      passunlockinsc:"",
+      passwdsaved:false,
     }
   },
 
@@ -59,7 +67,8 @@ export default {
           self.saison=response;
         }) 
         api.getLockInscription().then(response=>{
-          self.lockInsc=response;
+          self.lockInsc=response["islock"];
+          self.passunlockinsc=response["passwd"];
         })       
       },
 
@@ -76,7 +85,19 @@ export default {
         var api = new restapi();
         var data = new FormData();        
         data.append("islock",this.lockInsc);
+        data.append("passwd",this.passunlockinsc);
         api.postLockInscription(data);
+      },
+
+      updatePassUnlockInsc:function() {
+        var api = new restapi();
+        var self=this;
+        var data = new FormData();        
+        data.append("islock",this.lockInsc);
+        data.append("passwd",this.passunlockinsc);
+        api.postLockInscription(data).then(()=>{
+          self.passwdsaved=true;
+        });
       }
   }
 

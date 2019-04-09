@@ -45,6 +45,7 @@
         </select>
       </div>        
       <p>Enfants nés entre le {{naissance_max_p}} et le {{naissance_min_p}}</p>
+      <!--<input type="text" class="form-control" v-model="description" />-->
     </div>
     <div class="form-group  abform row">
       <label for="fratrie" class="col-md-3">Fratrie</label>
@@ -70,11 +71,11 @@ export default {
   components: {
       MainLayout
   },
-  props: ["creneauid"],
+  props: ["creneauid","initsaison"],
 
   data () {
     return {
-      saison: "",
+      saison: this.initsaison,
       lieux: ["Villeneuve Tolosane","Saint-Lys"],
       lieu:"Villeneuve Tolosane",
       jours:["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"],
@@ -89,11 +90,12 @@ export default {
       naissance_max:"",
       naissance_min_p:"",
       naissance_max_p:"",
+      description:"",
       fratrie:0,
       nbmoismini:0,
     }
   },
-  created: function() {
+  created: function() {      
       this.get();
   },
   
@@ -122,11 +124,14 @@ export default {
       get: function (){
         var api = new restapi();
         var self=this;
+        console.log("initsaison "+this.initsaison);
         if (this.creneauid==0) {
-          api.getSaison().then(response=>{
-            self.saison=response;
-            self.agechange();
-          }) 
+          if (this.initsaison===undefined) { 
+            api.getSaison().then(response=>{
+              self.saison=response;
+              self.agechange();
+            }) 
+          }
         
         } else {
           api.getCreneau(this.creneauid).then(response=>{
@@ -178,9 +183,10 @@ export default {
         data.append("naissance_max",this.naissance_max);
         data.append("pour_fratrie",this.fratrie);
         data.append("nbmoismini",this.nbmoismini);
-
+        data.append("id",this.creneauid);
+        var self=this;
         api.postNewCreneau(data).then(()=> {
-          
+          self.$emit('validated');
         });        
       }
     

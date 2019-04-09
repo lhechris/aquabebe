@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Creneaux from '@/components/Creneaux'
-import Admin from '@/components/Admin'
 import Inscription from '@/components/Inscription'
 
 Vue.use(Router)
@@ -25,11 +24,6 @@ export default new Router({
       path: '/Creneaux',
       name: 'Creneaux',
       component: Creneaux
-    },
-    {
-      path: '/admin',
-      name: 'Admin',
-      component: Admin
     },
     {
       path: '/inscription',

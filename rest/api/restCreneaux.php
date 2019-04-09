@@ -87,7 +87,6 @@ class RestCreneaux {
             $lieux=array();
             foreach($creneaux as $creneau)
             {
-                trace_info("creneau:".$creneau->getId());                
                 if ($creneau->getCapacite()>0) {
                     $dtocreneau=new dtoCreneau();
                     $dtocreneau->setId($creneau->getId());
@@ -131,15 +130,11 @@ class RestCreneaux {
 
             //result must be a list
             foreach ($lieux as $keyl=>$valuel) {
-                trace_info($keyl);
                 $datal=array();
                 foreach($valuel as $keyj=>$valuej) {
-                    trace_info("   ".$keyj);
-                    foreach($valuej as $d) {trace_info("        ".$d["id"]." ".$d["heure"]);}
                     array_push($datal,array("name"=>$keyj,"creneaux"=>$valuej));
                 }
                 array_push($data,array("name" => $keyl,"jours" => $datal));
-
             }
             
             //$data = file_get_contents("api/creneauxall.json");   
@@ -216,8 +211,7 @@ class RestCreneaux {
         $app->post('/creneaux/mail', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             if (isregister()) {
                 $json = $request->getParsedBody();
-                trace_info("POST creneaux email");
-                trace_info(print_r($json,true));
+                trace_params("POST creneaux email ",$json,array_keys($json));                
 
                 $uploadedFiles = $request->getUploadedFiles();
                 $directory=__DIR__ . DIRECTORY_SEPARATOR . 'uploads';
@@ -247,25 +241,33 @@ class RestCreneaux {
         });
         $app->post('/creneaux/add', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             if (isregister()) {
-                trace_info("add creneaux");            
                 $json = $request->getParsedBody();
-                trace_info(print_r($json,true));
+                trace_params("add creneaux",$json,array_keys($json));            
+                
                 $addcreneau = new dtoAddCreneau();
                 $addcreneau->fromArray($json);
 
                 $daocreneau = new daoCreneau();
 
-                $creneaux = $daocreneau->getList($addcreneau->getSaison());
-                $oldcreneau=null;
                 $newcreneau=convertDtoAddCreneau($addcreneau);
-                foreach($creneaux as $creneau) {
-                    if ($creneau->getLieu()==$addcreneau->getLieu() && 
-                        $creneau->getJour()==$addcreneau->getJour() &&
-                        $creneau->getHeure()==$addcreneau->getHeure()
-                    ) {
-                        //Le creneau existe dejà on le modifie
-                        $oldcreneau=$creneau;
-                        $newcreneau->setId($creneau->getId());
+                
+                $oldcreneau=$daocreneau->getById($addcreneau->getId());
+
+                if ($oldcreneau->getId()>0) {
+                    //Le creneau existe on le modifie
+                } else {
+                    //le creneau n'existe pas, on verifie par rapport au jour et l'heure
+                    $creneaux = $daocreneau->getList($addcreneau->getSaison());
+                    $oldcreneau=null;
+                    foreach($creneaux as $creneau) {
+                        if ($creneau->getLieu()==$addcreneau->getLieu() && 
+                            $creneau->getJour()==$addcreneau->getJour() &&
+                            $creneau->getHeure()==$addcreneau->getHeure()
+                        ) {
+                            //Le creneau existe dejà on le modifie
+                            $oldcreneau=$creneau;
+                            $newcreneau->setId($creneau->getId());
+                        }
                     }
                 }
                 if ($oldcreneau!=null) {

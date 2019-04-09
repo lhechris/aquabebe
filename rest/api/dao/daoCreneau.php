@@ -110,7 +110,6 @@ class daoCreneau extends daoClass {
         
         foreach($liste as $r)
         {
-            trace_info("creneau:".$r[0]." pers:".$r[8]." insc:".$r[11]);        
             $creneau=null;
             if ((sizeof($creneaux)==0) || ($creneaux[sizeof($creneaux)-1]->getId()!=$r[0]))
             {
@@ -296,15 +295,23 @@ class daoCreneau extends daoClass {
      * 
      */
     function insert($creneau) {
-        $values=array(
+        
+        $ret=$this->doSelect("creneau",array("max(id)+1"),"");
+        if (count($ret)!=1) {
+            return;
+        }
+        $id=$ret[0][0];
+
+        $values=array( 
+            "id"            => $id,           
             "saison"        => $this->pdo->quote($creneau->getSaison()),
             "lieu"          => $this->pdo->quote($creneau->getLieu()),
             "jour"          => $this->pdo->quote($creneau->getJour()),
             "heure"         => $this->pdo->quote($creneau->getHeure()),
             "age"           => $this->pdo->quote($creneau->getAge()),
             "pour_fratrie"  => intval($creneau->getPourFratrie()),
-            "naissance_min" => $this->pdo->quote($creneau->getNaissanceMin()),
-            "naissance_max" => $this->pdo->quote($creneau->getNaissanceMax()),
+            "naissance_min" => 'str_to_date('.$this->pdo->quote($creneau->getNaissanceMin()).",'%d/%m/%Y')",
+            "naissance_max" => 'str_to_date('.$this->pdo->quote($creneau->getNaissanceMax()).",'%d/%m/%Y')",
             "nb_mois_mini"  => intval($creneau->getNbMoisMini()),
             "capacite"      => intval($creneau->getCapacite())
         );
@@ -319,38 +326,38 @@ class daoCreneau extends daoClass {
     public function update($oldcreneau,$newcreneau) {
         
         $values=array();
-        if ($oldcreneau->getSaison()!=$oldcreneau->getSaison()) {
-            array_push($values,"saison=".$this->pdo->quote($newpaiement->getSaison()));
+        if ($oldcreneau->getSaison()!=$newcreneau->getSaison()) {
+            array_push($values,"saison=".$this->pdo->quote($newcreneau->getSaison()));
         }
-        if ($oldcreneau->getLieu()!=$oldcreneau->getLieu()) {
-            array_push($values,"lieu=".$this->pdo->quote($newpaiement->getLieu()));
+        if ($oldcreneau->getLieu()!=$newcreneau->getLieu()) {
+            array_push($values,"lieu=".$this->pdo->quote($newcreneau->getLieu()));
         }
-        if ($oldcreneau->getJour()!=$oldcreneau->getJour()) {
-            array_push($values,"jour=".$this->pdo->quote($newpaiement->getJour()));
+        if ($oldcreneau->getJour()!=$newcreneau->getJour()) {
+            array_push($values,"jour=".$this->pdo->quote($newcreneau->getJour()));
         }
-        if ($oldcreneau->getHeure()!=$oldcreneau->getHeure()) {
-            array_push($values,"heure=".$this->pdo->quote($newpaiement->getHeure()));
+        if ($oldcreneau->getHeure()!=$newcreneau->getHeure()) {
+            array_push($values,"heure=".$this->pdo->quote($newcreneau->getHeure()));
         }
-        if ($oldcreneau->getAge()!=$oldcreneau->getAge()) {
-            array_push($values,"age=".$this->pdo->quote($newpaiement->getAge()));
+        if ($oldcreneau->getAge()!=$newcreneau->getAge()) {
+            array_push($values,"age=".$this->pdo->quote($newcreneau->getAge()));
         }
-        if ($oldcreneau->getPourFratrie()!=$oldcreneau->getPourFratrie()) {
-            array_push($values,"pour_fratrie=".string(intval($newpaiement->getPourFratrie())));
+        if ($oldcreneau->getPourFratrie()!=$newcreneau->getPourFratrie()) {
+            array_push($values,"pour_fratrie=".strval(intval($newcreneau->getPourFratrie())));
         }
-        if ($oldcreneau->getNaissanceMin()!=$oldcreneau->getNaissanceMin()) {
-            array_push($values,"naissance_min=".$this->pdo->quote($newpaiement->getNaissanceMin()));
+        if ($oldcreneau->getNaissanceMin()!=$newcreneau->getNaissanceMin()) {
+            array_push($values,"naissance_min=".$this->pdo->quote($newcreneau->getNaissanceMin()));
         }
-        if ($oldcreneau->getNaissanceMax()!=$oldcreneau->getNaissanceMax()) {
-            array_push($values,"naissance_max=".$this->pdo->quote($newpaiement->getNaissanceMax()));
+        if ($oldcreneau->getNaissanceMax()!=$newcreneau->getNaissanceMax()) {
+            array_push($values,"naissance_max=".$this->pdo->quote($newcreneau->getNaissanceMax()));
         }
-        if ($oldcreneau->getNbMoisMini()!=$oldcreneau->getNbMoisMini()) {
-            array_push($values,"nb_mois_mini=".string(intval($newpaiement->getNbMoisMini())));
+        if ($oldcreneau->getNbMoisMini()!=$newcreneau->getNbMoisMini()) {
+            array_push($values,"nb_mois_mini=".strval(intval($newcreneau->getNbMoisMini())));
         }
-        if ($oldcreneau->getCapacite()!=$oldcreneau->getCapacite()) {
-            array_push($values,"capacite=".string(intval($newpaiement->getCapacite())));
+        if ($oldcreneau->getCapacite()!=$newcreneau->getCapacite()) {
+            array_push($values,"capacite=".strval(intval($newcreneau->getCapacite())));
         }
 
-        $this->doUpdate("creneau",$oldpaiement->getId(),$values);
+        $this->doUpdate("creneau",$oldcreneau->getId(),$values);
 
 
     }

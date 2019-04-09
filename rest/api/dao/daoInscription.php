@@ -10,7 +10,7 @@ include_once("config.php");
 class daoInscription extends daoClass {
 
     /**
-     * Met a jour le certificat et envoi le mail
+     * Retourne l'inscription 
      */
     public function get($id) {
         $inscrid = intval($id);
@@ -74,6 +74,9 @@ class daoInscription extends daoClass {
 
     }
 
+    /**
+     * Retourne la liste des reseinscriptions de la saison courante
+     */
     public function getReservations() {
         $query ="select  inscription.ID,".                       /* 0 */
                         "inscription.ID_enfant,".                /* 1 */
@@ -178,6 +181,9 @@ class daoInscription extends daoClass {
     }
 
 
+    /**
+     * Ajoute une inscription
+     */
     public function insert($inscription)
     {
 
@@ -229,6 +235,10 @@ class daoInscription extends daoClass {
         return true;
     }
 
+
+    /**
+     * Ajoute une preinscription
+     */
     public function insertPreinscription($preinscription)
     {
 
@@ -253,6 +263,9 @@ class daoInscription extends daoClass {
         return true;
     }
 
+    /**
+     * Ajoute le paiement a l'inscription
+     */
     public function addPaiement($inscription) {
 
         trace_info("Ajoute le paiement ".$inscription->getPaiement()." a l'inscription ".$inscription->getId());
@@ -271,6 +284,9 @@ class daoInscription extends daoClass {
         return true;
     }
 
+    /**
+     * Met a jour le creneau
+     */
     public function updateCreneau($inscription) {
 
         trace_info("Defini le creneau ".$inscription->getCreneauid()." a l'inscription ".$inscription->getId());

@@ -38,13 +38,12 @@ class RestEnfant {
         /**
          * METHOD POST enfant
          */
-        $app->post('/enfant', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+        $app->post('/enfant/profile', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
            
             if (!isregister()){return;};
 
             $json = $request->getParsedBody();
-            trace_info("POST enfant");
-            trace_info(print_r($json,true));
+            trace_params("POST enfant profile",$json,array("id"));
             $creneauselected=-1;
 
             //Read inputs
@@ -90,12 +89,32 @@ class RestEnfant {
             return $newResponse;            
         });
 
+        /**
+         * METHOD POST enfant
+         */
+        $app->post('/enfant/creneau', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+           
+            if (!isregister()){return;};
+
+            $json = $request->getParsedBody();
+            trace_params("POST Valider creneau enfant",$json,array("id","creneau"));
+            //TODO recupere l'inscription en bdd pour savoir si elle existe
+            $inscr=new Inscription();
+            $inscr->setId($json["id"]);
+            $inscr->setCreneauid($json["creneau"]);
+            $dao=new daoInscription();
+            $dao->updateCreneau($inscr);
+
+            $newResponse = $response->write("Creneau validé");
+            return $newResponse;            
+        });
+
 
 
         /**
          * METHOD POST certificat
          */
-        $app->post('/certificat/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+        $app->post('/enfant/certificat/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             if (!isregister()){return;};
 
             trace_info("POST certificat/".$args["id"]);
@@ -104,7 +123,7 @@ class RestEnfant {
             $inscr = $daoinscr->get($args["id"]);
             $daoinscr->updateCertificat($inscr);
         });
-        $app->post('/vaccins/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+        $app->post('/enfant/vaccins/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             if (!isregister()){return;};
 
             trace_info("POST vaccins/".$args["id"]);
@@ -113,7 +132,7 @@ class RestEnfant {
             $inscr = $daoinscr->get($args["id"]);
             $daoinscr->updateVaccins($inscr);
         });
-        $app->post('/facture/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+        $app->post('/enfant/facture/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             if (!isregister()){return;};
 
             trace_info("POST facture/".$args["id"]);
@@ -123,7 +142,7 @@ class RestEnfant {
             $daoinscr->updateFacture($inscr);
         });
 
-        $app->get('/facture/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+        $app->get('/enfant/facture/{id}', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
             if (!isregister()){return;};
 
             trace_info("GET facture/".$args["id"]);

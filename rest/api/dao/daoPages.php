@@ -6,6 +6,7 @@ class daoPages {
     //private $metafile = __DIR__ . DIRECTORY_SEPARATOR . '..'.DIRECTORY_SEPARATOR."doc".DIRECTORY_SEPARATOR.'meta.json';
 
     private $pages=["","accueil","acces","tarifs","faq"];
+    private $pagesadmin=["coordonnees"];
 
     /**
      */
@@ -16,6 +17,12 @@ class daoPages {
             $file=$this->repertoire.DIRECTORY_SEPARATOR.$name.".html";
             $data = file_get_contents($file);
             return $data;
+        
+        } else if (isregister() && (in_array($name,$this->pagesadmin))) {
+            $file=$this->repertoire.DIRECTORY_SEPARATOR.$name.".html";
+            $data = file_get_contents($file);
+            return $data;
+
         } else {
             trace_info("La page demandee $name n'est pas autorisee");
             return "";
@@ -23,12 +30,14 @@ class daoPages {
     }
 
     public function list() {
-        return array_slice($this->pages,1);
+        $t=array_slice($this->pages,1);
+        return array_merge($t,$this->pagesadmin);
     }
 
     public function update($name,$texte)
     {
-        if (in_array($name,$this->pages)) {
+        //Normalement ici on est proteges en access dans restPages
+        if (in_array($name,$this->pages) || in_array($name,$this->pagesadmin)) {
             $filename=$this->repertoire.DIRECTORY_SEPARATOR.$name.".html";
             //verify qu'il y a des modif
             if (file_get_contents($filename)==$texte) {

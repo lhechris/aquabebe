@@ -26,7 +26,6 @@ class daoSaison extends daoClass {
         if (count($liste)==0) { return NULL;}
         $saisons=[];
 
-        trace_info(print_r($liste,true));
         foreach($liste as $r)
         {
             array_push($saisons,$r[0]);

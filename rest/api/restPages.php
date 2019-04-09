@@ -23,6 +23,8 @@ class RestPages {
         });
 
         $app->get('/pages/list', function(ServerRequestInterface $request, ResponseInterface $response,$args) {
+            if (!isregister()){return;};
+            
             $daopages=new daoPages();
             $pages=$daopages->list();
 

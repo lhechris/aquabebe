@@ -1,5 +1,6 @@
 <?php
 class dtoAddCreneau {
+    private $id;
     private $saison;
     private $lieu;
     private $jour;
@@ -14,6 +15,9 @@ class dtoAddCreneau {
     public function __construct()
     {
     }
+
+    public function getId() { return $this->id;  }
+    public function setId($id)  {  $this->id = $id; }
 
     public function getSaison() { return $this->saison;}
     public function setSaison($saison) { $this->saison=$saison;}
@@ -64,6 +68,5 @@ class dtoAddCreneau {
             }
         }
     }
-
 }
 ?>

@@ -35,15 +35,16 @@
     </div>
     <div class="row encadre col-md-12">
       <div class="row encadretitre col-md-12">
-        <span class="col-md-10">Creneau</span><span class="col-md-1">choix</span><span class="col-md-1">Reservation</span>
+        <span class="col-md-9">Creneau</span><span class="col-md-1">choix</span><span class="col-md-1">Reservation</span>
       </div>
       <div class="row encadrebody col-md-12">       
-          <div class="col-md-12 row" v-for="preinscr of enfant.preinscriptions" v-bind:key="preinscr.choix">
+          <div class="col-md-11 row" v-for="preinscr of enfant.preinscriptions" v-bind:key="preinscr.choix">
                 <span class="col-md-10">{{preinscr.creneau}}</span>
                 <span class="col-md-1">{{preinscr.choix}}</span>
-                <span class="col-md-1" v-if="editreservation"><input name="reservation" type="radio" v-bind:value="preinscr.creneauid" v-model="creneauselected" /></span>  
-                <span class="col-md-1" v-else>{{preinscr.reservation}}</span>  
+                <span class="col-md-1" v-if="editreservation"><input name="reservation" type="radio" v-bind:value="preinscr.creneauid" v-model="creneauselected" /></span>
+                <span class="col-md-1" v-else>{{preinscr.reservation}}</span>                  
           </div>
+          <button class="btn btn-primary col-md-1" v-on:click="validercreneau" v-if="editreservation">Valider Creneau</button>  
       </div>
     </div>
     <div class="row encadre col-md-12">
@@ -170,6 +171,7 @@ export default {
               self.creneauselected=self.enfant.preinscriptions[i].creneauid;
             }
           }
+          self.editreservation=self.creneauselected==-1;
           self.loading=false;
         }).catch(reason=>{
           self.error=reason.response.data.message;
@@ -182,22 +184,43 @@ export default {
 
       editable: function(v) {
         this.edit=v;
-        this.editreservation=this.creneauselected==-1;
+        this.editreservation=true;
       },
       validerpaiement: function() {
         this.edit=true;
         this.enfant.payeur="";
-        this.editreservation=this.creneauselected==-1;
+        this.editreservation=true;
+        this.error='';
+      },
+      validercreneau: function() {
+        var api = new restapi();
+        var data = new FormData();
+        this.editreservation=false;
+        this.error='';
+        var self=this;
+        data.append("id",this.enfant.inscriptionid);
+        data.append("creneau",this.creneauselected);
+        api.postValiderCreneau(data).then(()=> {
+          self.get();
+        }).catch(reason=> {
+          self.get();
+          self.error=reason.response.data.message;;
+        });
+
       },
 
       annuler : function() {
-        this.edit=false;        
+        this.edit=false;  
+        this.editreservation=false;   
         this.get();
+        this.error='';
+
       },
 
       sauver: function() {
         this.edit=false;
         this.editreservation=false;
+        this.error='';
         var api = new restapi();
         var data = new FormData();
         data.append("id",this.enfant.id);
@@ -218,7 +241,11 @@ export default {
         data.append("creneauselected",this.creneauselected);
         api.postEnfant(data).then(()=> {
           self.get();
+        }).catch(reason=> {
+          self.get();
+          self.error=reason.response.data.message;;
         });
+;
 
       },
       certificat: function(id) {

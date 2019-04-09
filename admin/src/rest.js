@@ -63,7 +63,13 @@ export class restapi {
     }   
 
     postEnfant(enfant) {
-        return axios.post(this.baseurl+'/enfant',enfant).then(response =>{        
+        return axios.post(this.baseurl+'/enfant/profile',enfant).then(response =>{        
+            return response.data;      
+         })
+     }
+
+     postValiderCreneau(data) {
+        return axios.post(this.baseurl+'/enfant/creneau',data).then(response =>{        
             return response.data;      
          })
      }
@@ -129,17 +135,17 @@ export class restapi {
     }
 
     postCertificat(data) {
-        return axios.post(this.baseurl+'/certificat/'+data).then(response =>{        
+        return axios.post(this.baseurl+'/enfant/certificat/'+data).then(response =>{        
             return response.data;      
          })
     }
     postVaccins(data) {
-        return axios.post(this.baseurl+'/vaccins/'+data).then(response =>{        
+        return axios.post(this.baseurl+'/enfant/vaccins/'+data).then(response =>{        
             return response.data;      
          })
     }
     postFacture(data) {
-        return axios.post(this.baseurl+'/facture/'+data).then(response =>{        
+        return axios.post(this.baseurl+'/enfant/facture/'+data).then(response =>{        
             return response.data;      
          })
     }

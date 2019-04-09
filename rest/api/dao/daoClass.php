@@ -46,7 +46,8 @@ class daoClass{
                     trace_info("Not need to update ".$table." ".$identifiant);
                     return true;
                 }
-                trace_info("Update ".$table." for id ".$identifiant. " with ".print_r($values,true));
+                
+                trace_info("Update ".$table." for id ".$identifiant);
 
                 //Build UPDATE query
                 $query="UPDATE ".$table." SET ".implode(",",$values)." ";
@@ -65,6 +66,32 @@ class daoClass{
         
                 return true;
     }
+
+    function doSelect($table,$cols,$where) {
+
+        if (count($cols)==0){
+            trace_info("Nothing to select for ".$table);
+            return "";
+        }
+
+        try {
+            $query="SELECT ".implode(",",$cols)." ";
+            $query.="FROM ".$table." ";
+            if (($where!=null) && ($where!="")) {
+                $query.="WHERE ".$where;
+            }
+
+            $stmt=$this->pdo->query($query);
+            $liste=$stmt->fetchAll();
+        }catch(PDOException  $e ){
+            trace_info("Error $e");
+            trace_error("Error ".$query."\n  ".$e);
+            return array();            
+        }
+
+        return $liste;
+    }
+
 }
 
 ?>
