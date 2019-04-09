@@ -11,9 +11,13 @@
             <span class="col-md-5"></span>
         </div>
         <div class="mt-3">
-            <!--<editor class="form-control" v-model="texte" api-key="n9zk1fj9jf7aqke6igai1s5fpvfvvhwwbdzgedph4wwcbrl7"></editor>-->
+            <editor rows="50" class="form-control" 
+                     v-model="texte" 
+                     api-key="n9zk1fj9jf7aqke6igai1s5fpvfvvhwwbdzgedph4wwcbrl7"
+                    :init="{toolbar: 'undo redo | formatselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'}">
+            </editor>
             <!--<editor width="950px" height="400px" @upload="showHtml" value="rien">bordel de cul</editor>-->
-            <textarea id="basic-example" class="form-control col-md-10" rows="20"  v-model="texte" style="font-size:14px"></textarea>
+            <!--<textarea id="basic-example" class="form-control col-md-10" rows="20"  v-model="texte" style="font-size:14px"></textarea>-->
         </div>
         <div class="row mt-3">
             <span class="col-md-4"></span>
@@ -28,7 +32,7 @@
 <script>
 
 import {restapi} from '../rest' 
-//import Editor from '@tinymce/tinymce-vue';
+import Editor from '@tinymce/tinymce-vue';
 //import VmEditor from 'vm-editor'
 /*import Icon from './Icon'
 import { Editor, EditorContent,EditorMenuBar } from 'tiptap'
@@ -54,6 +58,7 @@ import {
 export default {
   name: 'Page',
   //components :{EditorMenuBar,EditorContent,Icon},
+  components : { "editor" : Editor},
 
   data () {
     return {
