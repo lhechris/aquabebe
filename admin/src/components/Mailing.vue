@@ -65,21 +65,20 @@ export default {
       texte:"",
       sujet:"",
       reponse:null,
-      files:[]
+      files:[],
+      saison:"",
+      saisons:[]
     }
   },
 
   created: function() {
-                  var api = new restapi();
-            var self=this;
+        var api = new restapi();
+        var self=this;
         api.getSaison().then(response=>{
           self.saison=response;          
         });
         api.getAllSaison().then(response=>{
           self.saisons=response;
-          //var last=self.saisons[self.saisons.length -1];
-          //var next=String(parseInt(last.substring(0,4))+1)+"-"+String(parseInt(last.substring(5,9))+1);
-          //self.saisons.push(next);
           self.get();
         });
       
@@ -89,9 +88,13 @@ export default {
         get: function (){
             var api = new restapi();
             var self=this;
-            api.getListCreneaux("current").then(response=>{
+            api.getListCreneaux(this.saison).then(response=>{
                 self.creneaux=response;
             });
+        },
+
+        changeSaison:function() {
+            this.get();
         },
 
         envoyer: function() {
