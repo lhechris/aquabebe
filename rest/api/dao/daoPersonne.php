@@ -4,7 +4,6 @@ include_once('api/objects/personne.php');
 include_once('api/objects/inscription.php');
 include_once("api/objects/preinscription.php");
 include_once('api/objects/creneau.php');
-include_once("config.php");
 
 class daoPersonne extends daoClass {
 

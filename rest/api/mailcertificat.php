@@ -28,8 +28,8 @@ function mailcertificat($enfant)
                          "qui pourra désormais participer aux séances du créneau qui lui a été affecté à l'inscription.<br/>".
                          "\n\n\n\nAlors, à bientôt, les pieds dans l'eau !\nL'équipe Aqua-Bébé";
 
-        $mail->send();
         trace_mail($from,$enfant->getMel(),$mail->Subject,$mail->Body);
+        $mail->send();
 
     } catch (Exception $e) {
         trace_error("Erreur lors de l'envoi d'un message:". $e->getMessage());

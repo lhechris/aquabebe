@@ -250,8 +250,8 @@ export default {
       api.getSaison().then(response=>{
         self.saison=response;
       });
-      api.getLockInscription().then(response=>{
-        self.islock=response;        
+      api.getIsInscriptionLocked().then(response=>{
+        self.islock=response;
       });
   },
    methods:{

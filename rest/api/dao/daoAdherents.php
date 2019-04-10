@@ -1,7 +1,6 @@
 <?php
 include_once('daoClass.php');
 include_once('api/dto/dtoAdherent.php');
-include_once("config.php");
 
 class daoAdherents extends daoClass {
 

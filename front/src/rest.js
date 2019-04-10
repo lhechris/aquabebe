@@ -2,8 +2,8 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse, Ax
 import moment from 'moment'
 
 export class restapi {
-    //baseurl= '/rest';
-    baseurl='http://localhost/rest';
+    baseurl= '/rest';
+    //baseurl='http://localhost/rest';
     token = "";    
 
     getPage(name) {
@@ -32,8 +32,8 @@ export class restapi {
             return response.data;      
          })
      }
-     getLockInscription() {
-        return axios.get(this.baseurl+'/inscription/lock').then(response => {
+     getIsInscriptionLocked() {
+        return axios.get(this.baseurl+'/inscription/islock').then(response => {
             return response.data;
         })
     }

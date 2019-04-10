@@ -125,17 +125,20 @@ class RestInscription {
                 if (($creneau->getNbInscrit()<$creneau->getCapacite()) && 
                     (array_key_exists((string)($creneau->getId()),$listcreneaux))
                    ) 
-                {                           
+                {
                     $preinscr=new Preinscription();
                     $preinscr->setCreneau($creneau);
                     $preinscr->setInscription($inscr);
                     $preinscr->setChoix($listcreneaux[$creneau->getId()]);
                     $preinscr->setReservation(0);
-                    $daoinscription->insertPreinscription($preinscr);
-                    if ($ret==false) {
-                        trace_info("Can't add inscription, error while inserting preinscription");
-                        $newResponse = $response->write("Internal error: can't create inscription");
-                        return $newResponse;
+                    trace_info("getchoix []".$preinscr->getChoix()." is:".gettype($preinscr->getChoix()));
+                    if (is_numeric($preinscr->getChoix())) {
+                        $ret=$daoinscription->insertPreinscription($preinscr);
+                        if ($ret==false) {
+                            trace_info("Can't add inscription, error while inserting preinscription");
+                            $newResponse = $response->write("Internal error: can't create inscription");
+                            return $newResponse;
+                        }
                     }
                 }
             }
@@ -143,7 +146,7 @@ class RestInscription {
             //$newResponse = $response->withJson($json);
 
             //envoi le mail
-            mailinscription($enfant->getMel());
+            mailinscription($enfant);
 
             return $newResponse;
 
@@ -170,7 +173,7 @@ class RestInscription {
         });
 
         $app->get('/inscription/lock', function(ServerRequestInterface $request, ResponseInterface $response) {
-            //if (!isregister()){return;};
+            if (!isregister()){return;};
 
             $dao = new daoConfig();
             $conf=$dao->get();            
@@ -178,6 +181,16 @@ class RestInscription {
             $newResponse = $response->withJson($json);
             return $newResponse;
         });
+
+        $app->get('/inscription/islock', function(ServerRequestInterface $request, ResponseInterface $response) {
+
+            $dao = new daoConfig();
+            $conf=$dao->get();            
+            $ret=$conf["blockinscription"];
+            $newResponse = $response->write($ret);
+            return $newResponse;
+        });
+
 
         $app->post('/inscription/login', function(ServerRequestInterface $request, ResponseInterface $response) {
 

@@ -6,7 +6,6 @@ include_once("dao/daoPaiement.php");
 include_once("dao/daoInscription.php");
 include_once("dao/daoEnfant.php");
 include_once("dao/daoFacture.php");
-include_once("config.php");
 include_once("dto/dtoPostEnfant.php");
 include_once("transformer/transformerEnfant.php");
 include_once("utils.php");

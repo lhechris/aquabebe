@@ -3,7 +3,6 @@
 include_once('daoClass.php');
 include_once('api/objects/paiement.php');
 include_once("api/transformer/transformerCreneau.php");
-include_once("config.php");
 
 class daoPaiement extends daoClass {
 

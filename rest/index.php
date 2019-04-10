@@ -11,8 +11,6 @@ require 'api/restDocumentation.php';
 require 'api/restPages.php';
 require 'api/restSaison.php';
 
-include_once('config.php');
-
 session_start();
 
 // Instantiate the app

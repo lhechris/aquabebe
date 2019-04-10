@@ -4,7 +4,6 @@ include_once("dao/daoCreneau.php");
 include_once("mailcreneau.php");
 include_once("api/dto/dtoAddcreneau.php");
 include_once("api/dto/dtoCreneau.php");
-include_once("config.php");
 include_once("utils.php");
 
 use Psr\Http\Message\ServerRequestInterface;

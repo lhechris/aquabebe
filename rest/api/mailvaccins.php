@@ -28,8 +28,8 @@ function mailvaccins($enfant)
                          "\nCordialement,".
                          "\n\n\n\nL'équipe Aqua-Bébé";
 
-        $mail->send();
         trace_mail($from,$enfant->getMel(),$mail->Subject,$mail->Body);
+        $mail->send();        
 
     } catch (Exception $e) {
         trace_error("Erreur lors de l'envoi d'un message:". $e->getMessage());

@@ -3,7 +3,7 @@ include_once('daoClass.php');
 include_once('api/objects/creneau.php');
 include_once('api/objects/personne.php');
 
-include_once('config.php');
+include_once('daoConfig.php');
 
 class daoCreneau extends daoClass {
 
@@ -11,7 +11,10 @@ class daoCreneau extends daoClass {
     {
         //TODO check saison
         $saison=$saison;
-        if (($saison=="")|| ($saison=="current")) {$saison=CURRENT_SAISON;}
+        $daoconfig=new daoConfig();
+        $conf=$daoconfig->get();
+        
+        if (($saison=="")|| ($saison=="current")) {$saison=$conf["CURRENT_SAISON"];}
 
         $query="select creneau.id,".                 /* 0 */
                       "creneau.lieu,".               /* 1 */
@@ -43,7 +46,7 @@ class daoCreneau extends daoClass {
         foreach($liste as $r)
         {
             //Ne prend que les reservations primaire
-            if ((string)$r[9]=="1") {
+            if (((string)$r[9]=="1") || ($r[9]=="")){
                 if ((sizeof($creneaux)==0) || ($creneaux[sizeof($creneaux)-1]->getId()!=$r[0]))
                 {
                     $creneau=new Creneau();
@@ -54,20 +57,22 @@ class daoCreneau extends daoClass {
                     $creneau->setAge($r[4]);
                     $creneau->setCapacite($r[5]);
                     array_push($creneaux,$creneau);
-                }                
-                $enfant=new Personne();
-                $enfant->setId($r[8]);
-                if ((string)$r[10]=="1") 
-                {
-                    $enfant->setPrenom($r[6]);
-                    $enfant->setNaissance($r[7]);
                 }
-               /* else
-                {
-                    $enfant->setPrenom("?");
-                    $enfant->setNaissance("");
-                }*/
-                $creneaux[sizeof($creneaux)-1]->addEnfant($enfant);
+                if ($r[8]!=null) {              
+                    $enfant=new Personne();
+                    $enfant->setId($r[8]);
+                    if ((string)$r[10]=="1") 
+                    {
+                        $enfant->setPrenom($r[6]);
+                        $enfant->setNaissance($r[7]);
+                    }
+                /* else
+                    {
+                        $enfant->setPrenom("?");
+                        $enfant->setNaissance("");
+                    }*/
+                    $creneaux[sizeof($creneaux)-1]->addEnfant($enfant);
+                }
             }
         }
         return $creneaux;
@@ -77,7 +82,10 @@ class daoCreneau extends daoClass {
     {
         //TODO check saison
         $saison=$saison;
-        if (($saison=="")|| ($saison=="current")) {$saison=CURRENT_SAISON;}
+        $daoconfig=new daoConfig();
+        $conf=$daoconfig->get();
+        
+        if (($saison=="")|| ($saison=="current")) {$saison=$conf["CURRENT_SAISON"];}
 
         $query="select creneau.id,".                 /* 0 */
                       "creneau.lieu,".               /* 1 */
@@ -151,11 +159,14 @@ class daoCreneau extends daoClass {
 
         $naissance="$y-$m-$d";
 
+        $daoconfig=new daoConfig();
+        $conf=$daoconfig->get();
+
         try {
             $stmt=$this->pdo->query("SELECT creneau.id,creneau.lieu,creneau.heure,creneau.jour,creneau.age,creneau.capacite,count(*),creneau.naissance_min,creneau.naissance_max,creneau.nb_mois_mini ".
                                     "FROM creneau,inscription ".
                                     "WHERE creneau.id=inscription.id_creneau ".
-                                          "AND creneau.saison='".CURRENT_SAISON."' ".
+                                          "AND creneau.saison='".$conf["CURRENT_SAISON"]."' ".
                                           "AND date(creneau.naissance_min)<=date('$naissance') AND date(creneau.naissance_max)>=date('$naissance') ".
                                     "GROUP BY (creneau.id) ORDER BY creneau.lieu,creneau.jour,creneau.heure");
             $liste=$stmt->fetchAll();
@@ -228,7 +239,10 @@ class daoCreneau extends daoClass {
      * Retourne la liste des creneaux
      */
     function getList($saison) {
-        if (($saison=="")||($saison=="current")) { $saison=CURRENT_SAISON;}
+        $daoconfig=new daoConfig();
+        $conf=$daoconfig->get();
+        
+        if (($saison=="")|| ($saison=="current")) {$saison=$conf["CURRENT_SAISON"];}
         
         //TODO check saison
         $saison=htmlentities($saison);

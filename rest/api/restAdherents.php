@@ -1,7 +1,6 @@
 <?php
 include_once("log.php");
 include_once("dao/daoAdherents.php");
-include_once("config.php");
 include_once("utils.php");
 
 use Psr\Http\Message\ServerRequestInterface;

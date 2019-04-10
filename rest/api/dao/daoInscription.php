@@ -5,7 +5,7 @@ include_once('api/objects/preinscription.php');
 include_once('api/objects/personne.php');
 include_once("api/mailcertificat.php");
 include_once("api/mailvaccins.php");
-include_once("config.php");
+include_once("daoConfig.php");
 
 class daoInscription extends daoClass {
 
@@ -78,6 +78,9 @@ class daoInscription extends daoClass {
      * Retourne la liste des reseinscriptions de la saison courante
      */
     public function getReservations() {
+        $daoconfig=new daoConfig();
+        $conf=$daoconfig->get();
+
         $query ="select  inscription.ID,".                       /* 0 */
                         "inscription.ID_enfant,".                /* 1 */
                         "inscription.ID_creneau,".               /* 2 */
@@ -115,7 +118,7 @@ class daoInscription extends daoClass {
                 "where inscription.ID_enfant=personne.ID and ".
                 "preinscription.id_inscription=inscription.ID and ".
                 "creneau.ID=preinscription.ID_creneau and ".
-                "creneau.saison='".CURRENT_SAISON."' ".
+                "creneau.saison='".$conf["CURRENT_SAISON"]."' ".
                 "order by personne.ID";
 
         trace_debug($query);

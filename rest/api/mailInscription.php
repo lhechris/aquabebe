@@ -33,7 +33,8 @@ function mailinscription($enfant)
         //$mail->addBCC('bcc@example.com');
 
         //Attachments
-        $mail->addAttachment('AQUABEBE-Documents-inscription.pdf');         // Add attachments		
+      
+        $mail->addAttachment('./api/uploads/AQUABEBE-Documents-inscription.pdf','AQUABEBE-Documents-inscription.pdf');         // Add attachments		
         //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 
         //Content
@@ -68,8 +69,8 @@ function mailinscription($enfant)
 						"Le montant de l'adhésion (20€) est à acquitter via un chèque à part. La cotisation est à payer en 1 à 3 chèques. \nEn cas de doute vous pouvez consulter la page Tarifs et/ou joindre Aqua-Bebe (contact@aquabebe.fr). ".
 						"\n\n\n\nAlors, à bientôt, les pieds dans l'eau !\nL'équipe Aqua-Bébé";
 
-        $mail->send();
         trace_mail($from,$enfant->getMel(),$mail->Subject,$mail->Body);
+        $mail->send();
 
     } catch (Exception $e) {
         trace_error("Erreur lors de l'envoi d'un message:". $e->getMessage());

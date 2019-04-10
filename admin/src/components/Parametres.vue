@@ -67,7 +67,7 @@ export default {
           self.saison=response;
         }) 
         api.getLockInscription().then(response=>{
-          self.lockInsc=response["islock"];
+          self.lockInsc=response["islock"]=="true";
           self.passunlockinsc=response["passwd"];
         })       
       },

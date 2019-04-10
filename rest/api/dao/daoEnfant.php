@@ -4,7 +4,6 @@ include_once('api/dto/dtoEnfant.php');
 include_once('api/dto/dtoPreinscription.php');
 include_once('api/dto/dtoParent.php');
 include_once("daoPaiement.php");
-include_once("config.php");
 
 class daoEnfant extends daoClass {
 

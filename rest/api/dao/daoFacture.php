@@ -1,6 +1,6 @@
 <?php
 require('fpdf181/fpdf.php');
-include_once("config.php");
+include_once("daoConfig.php");
 include_once('daoClass.php');
 include_once('api/dto/dtoFacture.php');
 include_once("api/utils.php");
@@ -65,11 +65,14 @@ class daoFacture extends daoClass {
 
         $pdf->SetFont('Helvetica','',16);
 
+        $daoconfig=new daoConfig();
+        $conf=$daoconfig->get();
+        
         //Entete 
         $pdf->Cell(10,5,"",0,1);
         $pdf->Cell(100,5,"",0,0);
         $pdf->SetTextColor(42 ,83 ,150);
-        $pdf->MultiCell(80,5,utf8_decode("ATTESTATION D'ADHESION\nSaison ").CURRENT_SAISON,0,"C");
+        $pdf->MultiCell(80,5,utf8_decode("ATTESTATION D'ADHESION\nSaison ").$conf["CURRENT_SAISON"],0,"C");
         $pdf->Ln();
         $pdf->Cell(10,33,"",0,1);
         $pdf->Cell(100,5,"",0,0);
@@ -82,7 +85,7 @@ class daoFacture extends daoClass {
 
         $txt="Je soussignée Florent Lavail, Président de l'Association Aqua-Bébé,\n".
             "certifie que ".$fact->getPayeur()." a bien réglé le ".
-            "montant de la cotisation pour la saison ".CURRENT_SAISON." par chèque.\n".
+            "montant de la cotisation pour la saison ".$conf["CURRENT_SAISON"]." par chèque.\n".
             "La somme payée est de $montant_lettre euros (".$montant."&euro;) dont vingt euros\n".
             "(20&euro;) d'adhésion à l'association.\n\n\n".
             "Cette cotisation concerne l'enfant ".$fact->getPrenom()." ".$fact->getNom()." né le \n".

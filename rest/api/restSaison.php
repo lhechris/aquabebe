@@ -1,7 +1,7 @@
 <?php
 include_once("log.php");
 include_once("dao/daoSaison.php");
-include_once("config.php");
+include_once("dao/daoConfig.php");
 include_once("utils.php");
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,7 +16,10 @@ class RestSaison {
          */
         $app->get('/saison/current', function(ServerRequestInterface $request, ResponseInterface $response) {           
             
-            $newResponse = $response->write(CURRENT_SAISON);
+            $daoconfig=new daoConfig();
+            $conf=$daoconfig->get();
+
+            $newResponse = $response->write($conf["CURRENT_SAISON"]);
             return $newResponse;                    
         });
 
@@ -43,9 +46,10 @@ class RestSaison {
             $saison=$args["saison"];
             list($y1,$y2)=sscanf($saison,"%d-%d");
             if (($y1>2000) && ($y1<2100) && ($y2==($y1+1))){
-                $hdl=fopen("config.php","w");
-                fwrite($hdl,"<?php\ndefine('CURRENT_SAISON','$y1-$y2');\n?>\n");
-                fclose($hdl);
+                $daoconfig=new daoConfig();
+                $conf=$daoconfig->get();
+                $conf["CURRENT_SAISON"]=$saison;
+                $daoconfig->save($conf);
                 $newResponse =  $response->write("Successfull");
             } else {
                 $newResponse =  $response->write("bad saison $saison ($y1) ($y2)");
