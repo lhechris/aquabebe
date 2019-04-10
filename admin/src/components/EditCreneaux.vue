@@ -114,8 +114,13 @@ export default {
             agemaxmois*=12;
         }
         var annee=parseInt(this.saison.substring(0,4));
-        var nmin=moment([annee,8,1]).subtract(ageminmois,'months').endOf('month');
-        var nmax=moment([annee,9,1]).subtract(agemaxmois,'months');
+        var nmin=0;
+        if (ageminmois>3){
+          nmin=moment([annee,8,1]).subtract(ageminmois,'months').endOf('month');
+        } else {
+          nmin=moment([annee,8,1]).subtract(ageminmois,'months')
+        }
+        var nmax=moment([annee,8,1]).subtract(agemaxmois,'months');
         this.naissance_min_p=nmin.format("Do MMM YYYY");
         this.naissance_max_p=nmax.format("Do MMM YYYY");
         this.naissance_min=nmin.format("DD/MM/YYYY");

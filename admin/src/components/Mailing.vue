@@ -18,6 +18,9 @@
             <select class="form-control col-md-6" v-model="creneauid">
                 <option v-for="creneau of creneaux" v-bind:key="creneau.id" v-bind:value="creneau.id" >{{creneau.lieu}} - {{ creneau.jour}} - {{creneau.heure}}</option>
             </select>       
+            <select class="col-md-3" v-model="saison" v-on:change="changeSaison()" :disabled="loading">
+            <option v-for="s in saisons" v-bind:key="s" v-bind:value="s">{{s}}</option>
+            </select>
         </div>
         <div class="row mt-3">
             <label class="col-md-2">Sujet:</label>
@@ -67,7 +70,19 @@ export default {
   },
 
   created: function() {
-      this.get()
+                  var api = new restapi();
+            var self=this;
+        api.getSaison().then(response=>{
+          self.saison=response;          
+        });
+        api.getAllSaison().then(response=>{
+          self.saisons=response;
+          //var last=self.saisons[self.saisons.length -1];
+          //var next=String(parseInt(last.substring(0,4))+1)+"-"+String(parseInt(last.substring(5,9))+1);
+          //self.saisons.push(next);
+          self.get();
+        });
+      
   },
   
     methods:{

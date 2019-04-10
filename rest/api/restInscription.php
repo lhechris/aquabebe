@@ -157,7 +157,7 @@ class RestInscription {
 
             $json = $request->getParsedBody();
             $islock=$json["islock"];
-            $pass=$json["pass"];
+            $pass=$json["passwd"];
 
             trace_info("POST inscription Lock ".$islock." pass:".$pass);
             $dao = new daoConfig();
@@ -170,7 +170,7 @@ class RestInscription {
         });
 
         $app->get('/inscription/lock', function(ServerRequestInterface $request, ResponseInterface $response) {
-            if (!isregister()){return;};
+            //if (!isregister()){return;};
 
             $dao = new daoConfig();
             $conf=$dao->get();            
